@@ -1,0 +1,17 @@
+asgiref==3.3.1
+Django==3.1.4
+django-auth-ldap==2.2.0
+django-hashers-passlib==0.4
+django-rest-auth==0.9.5
+djangorestframework==3.12.2
+passlib==1.7.4
+pyasn1==0.4.8
+pyasn1-modules==0.2.8
+python-dotenv==0.15.0
+python-ldap==3.3.1
+python-mimeparse==1.6.0
+pytz==2020.4
+RestAuthCommon==0.7.0
+six==1.15.0
+South==1.0.2
+sqlparse==0.4.1
