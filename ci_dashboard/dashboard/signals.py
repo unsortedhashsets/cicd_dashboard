@@ -5,6 +5,9 @@ from dashboard.models import Profile
 
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
+    print("Created: ", created)
+    if instance.password != 'MaskedSha':
+        instance.password = 'MaskedSha'
+        instance.save()
     if created:
-        User.objects.update(password='MaskShaPas')
         Profile.objects.create(user=instance)
