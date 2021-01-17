@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
-    'rest_framework.authtoken',
 
     'rest_auth',
     
@@ -131,13 +130,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-LOGIN_REDIRECT_URL = '/api/profiles/'
+LOGIN_REDIRECT_URL = '/api/'
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = 5 * 60 
 
 AUTH_LDAP_SERVER_URI = "ldap://ldap.corp.redhat.com:389"
-
-logger = logging.getLogger('django_auth_ldap')
-logger.addHandler(logging.StreamHandler())
-logger.setLevel(logging.DEBUG)
 
 AUTH_LDAP_USER_SEARCH = LDAPSearch("DC=redhat,DC=com", ldap.SCOPE_SUBTREE, "(uid=%(user)s)")
 
@@ -149,12 +147,12 @@ AUTH_LDAP_USER_ATTR_MAP = {
     "email":"mail"
 }
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.SessionAuthentication',
-    )
-}
-
 AUTHENTICATION_BACKENDS = (
-    "django_auth_ldap.backend.LDAPBackend",
+    'django_auth_ldap.backend.LDAPBackend',
+    'django.contrib.auth.backends.ModelBackend',
 )
+
+# Enable debug for ldap server connection
+logger = logging.getLogger('django_auth_ldap')
+logger.addHandler(logging.StreamHandler())
+logger.setLevel(logging.DEBUG)
