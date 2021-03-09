@@ -2,4 +2,4 @@
 
 ## Demos
 
-[Standalone demo](backend/StandAloneDemo.md)
+[Backend standalone demo](backend/StandAloneDemo.md)
