@@ -1,6 +1,6 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
-from dashboard.api.views import UserViewSet, CIViewSet, JobViewSet, TokenViewSet
+from ci_dashboardApp.api.views import UserViewSet, CIViewSet, JobViewSet, TokenViewSet
 
 router = DefaultRouter()
 router.register(r"user", UserViewSet)

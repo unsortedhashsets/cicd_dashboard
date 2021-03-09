@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from dashboard.models import CI, Job, Token
+from ci_dashboardApp.models import CI, Job, Token
 
 from django.contrib.auth.models import User
 
@@ -18,7 +18,7 @@ class JobSerializer(serializers.ModelSerializer):
 
 class CISerializer(serializers.ModelSerializer):
     jobs = JobSerializer(many=True, read_only=True)
-    type = serializers.ChoiceField(choices=['JANKINS', 'TRAVIS'])
+    type = serializers.ChoiceField(choices=['JENKINS', 'TRAVIS'])
     access = serializers.ChoiceField(choices=['Private', 'Public'])
 
     class Meta:

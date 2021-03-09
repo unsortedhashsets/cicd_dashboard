@@ -1,4 +1,5 @@
-import dashboard.api.CItools as ct
+from django.http import Http404
+import ci_dashboardApp.api.CItools as ct
 from rest_framework.response import Response
 from rest_framework import (generics, 
                             mixins,
@@ -6,11 +7,11 @@ from rest_framework import (generics,
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
-from dashboard.api.serializers import (UserSerializer,
+from ci_dashboardApp.api.serializers import (UserSerializer,
                                        CISerializer,
                                        JobSerializer,
                                        TokenSerializer)
-from dashboard.models import (CI,
+from ci_dashboardApp.models import (CI,
                               Job,
                               Token)
 from django.db.models import Q
@@ -23,7 +24,7 @@ class UserViewSet(mixins.ListModelMixin,
     permission_classes = [IsAuthenticated]
     
     def get_queryset(self):
-        return User.objects.filter(user=self.request.user.id)
+        return User.objects.filter(id=self.request.user.id)
 
 class CIViewSet(ModelViewSet):
     queryset = CI.objects.all()
@@ -51,7 +52,11 @@ class JobViewSet(ModelViewSet):
 
     @action(detail=True, methods=['GET'])
     def status(self, request, pk=None):
-        job = Job.objects.get(pk=pk)
+        try:
+            CIObjects = CI.objects.filter(Q(owner=self.request.user.id) | Q(access="Public")).values_list('id')
+            job = Job.objects.get(Q(pk=pk) & Q(ci__in=list(CIObjects)))
+        except Job.DoesNotExist:
+            raise Http404
         try:
             token = Token.objects.get(ci=job.ci.id, user=self.request.user.id)
         except Token.DoesNotExist:

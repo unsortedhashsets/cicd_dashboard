@@ -1,25 +1,25 @@
-- model: dashboard.Job
+- model: ci_dashboardApp.Job
   pk: 1
   fields:
     job: vscode-atlasmap-pipeline
     path: /view/Fuse%20Tooling.next/job/vscode/job/
     ci: 1
 
-- model: dashboard.Job
+- model: ci_dashboardApp.Job
   pk: 2
   fields:
     job: vscode-camelk-pipeline
     path: /view/Fuse%20Tooling.next/job/vscode/job/
     ci: 1
 
-- model: dashboard.Job
+- model: ci_dashboardApp.Job
   pk: 3
   fields:
     job: vscode-lsp-pipeline
     path: /view/Fuse%20Tooling.next/job/vscode/job/
     ci: 1
 
-- model: dashboard.Job
+- model: ci_dashboardApp.Job
   pk: 4
   fields:
     job: vscode-wsdl2rest-pipeline

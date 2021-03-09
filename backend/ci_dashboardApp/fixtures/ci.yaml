@@ -1,4 +1,4 @@
-- model: dashboard.CI
+- model: ci_dashboardApp.CI
   pk: 1
   fields:
     ci: FUSE_QE_JENKINS
