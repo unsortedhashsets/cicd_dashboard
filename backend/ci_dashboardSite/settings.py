@@ -24,11 +24,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
+# ENV VARIABLES
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = str(os.getenv('SECRET_KEY'))
-
 # Admin level users
 ADMINS_LIST = json.loads(os.environ['ADMINS_LIST'])
+# DB ENVS
+if os.getenv("BACKEND_LOCAL") is None:
+    POSTGRES_DB=str(os.getenv('POSTGRES_DB'))
+    POSTGRES_USER=str(os.getenv('POSTGRES_USER'))
+    POSTGRES_PASSWORD=str(os.getenv('POSTGRES_PASSWORD'))
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -86,13 +92,24 @@ WSGI_APPLICATION = 'ci_dashboardSite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if os.getenv("BACKEND_LOCAL") is None:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': POSTGRES_DB,
+            'USER': POSTGRES_USER,
+            'PASSWORD': POSTGRES_PASSWORD,
+            'HOST': 'database',
+            'PORT': 5432,
+        }
     }
-}
-
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

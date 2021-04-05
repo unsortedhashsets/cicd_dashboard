@@ -15,6 +15,7 @@ In project home directory create .env file with two variables:
 ```
 SECRET_KEY=*SomeSuperSecretKey*
 ADMINS_LIST='["RHlogin"]'
+BACKEND_LOCAL=1
 ```
 
 User defined in admin list will be promoted as staff/admin/superuser after LDAP authentication
@@ -36,7 +37,7 @@ To deactivate use `deactivate`
 ### 3. Install requirements
 
 ```
-pip install -r requirements.txt
+pip install -r backend/requirements.txt
 ```
 
 ### 4. Make migrations

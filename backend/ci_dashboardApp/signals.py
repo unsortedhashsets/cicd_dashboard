@@ -7,10 +7,10 @@ from django.conf import settings
 def create_profile(sender, instance, created, **kwargs):
     if instance.password != 'MASKED':
         instance.password = 'MASKED'
-        
+
         if instance.username in settings.ADMINS_LIST:
             instance.is_staff = True
             instance.is_admin = True
             instance.is_superuser=True
-    
-    instance.save()
+        
+        instance.save()
