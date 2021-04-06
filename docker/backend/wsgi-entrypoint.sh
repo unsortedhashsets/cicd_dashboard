@@ -39,8 +39,8 @@ done
 
 # Option 1:
 # run gunicorn with debug log level
-# gunicorn server.wsgi --bind 0.0.0.0:8000 --workers 1 --threads 1 --log-level debug
+gunicorn ci_dashboardSite.wsgi --bind 0.0.0.0:8000 --workers 1 --threads 1 --log-level debug
 
 # Option 2:
 # run development server
-DEBUG=True python3 manage.py runserver 0.0.0.0:8000
+# DEBUG=True python3 manage.py runserver 0.0.0.0:8000
