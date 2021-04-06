@@ -7,14 +7,19 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = "__all__"
+        fields = (
+            "id",
+            "username",
+            "first_name",
+            "last_name",
+            "email"
+            )
 
 class JobSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Job
         fields = "__all__"
-        # exclude = ("ci",)
 
 class CISerializer(serializers.ModelSerializer):
     jobs = JobSerializer(many=True, read_only=True)
