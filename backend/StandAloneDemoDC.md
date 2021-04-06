@@ -40,10 +40,10 @@ ADMINS_LIST='["RHlogin"]'
 
 User defined in admin list will be promoted as staff/admin/superuser after LDAP authentication
 
-### 1. Start docker-compose
+### 1. Start docker-compose development
 
 ```
-docker-compose up
+docker-compose -f docker-compose-dev.yml up
 ```
 
 Possible APIs:

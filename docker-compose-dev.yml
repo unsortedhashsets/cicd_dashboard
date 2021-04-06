@@ -7,18 +7,6 @@ services:
     env_file:
       - .env
 
-  nginx:
-    restart: unless-stopped
-    build:
-      context: .
-      dockerfile: ./docker/nginx/Dockerfile
-    ports:
-      - 80:80
-    volumes:
-      - ./docker/nginx/development:/etc/nginx/conf.d
-    depends_on:
-      - backend
-
   backend:
     restart: unless-stopped
     env_file:
@@ -27,8 +15,8 @@ services:
       context: .
       dockerfile: ./docker/backend/Dockerfile
     entrypoint: /app/docker/backend/wsgi-entrypoint.sh
-    expose:
-      - 8000
+    ports:
+      - 8000:8000
     depends_on:
       - database
     extra_hosts:
