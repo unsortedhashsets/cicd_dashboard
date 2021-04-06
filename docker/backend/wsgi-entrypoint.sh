@@ -5,33 +5,33 @@ do
     echo "Waiting for server volume..."
 done
 
-until ./manage.py makemigrations
+until python3 manage.py makemigrations
 do
     echo "Waiting for migrations to be ready..."
     sleep 2
 done
 
-until ./manage.py migrate
+until python3 manage.py migrate
 do
     echo "Waiting for db to be ready..."
     sleep 2
 done
 
-until ./manage.py loaddata ci_dashboardApp/fixtures/ci.yaml
+until python3 manage.py loaddata ci_dashboardApp/fixtures/ci.yaml
 do
     echo "Waiting for /fixtures/ci.yaml to be ready..."
     sleep 2
 done
 
-until ./manage.py loaddata ci_dashboardApp/fixtures/job.yaml
+until python3 manage.py loaddata ci_dashboardApp/fixtures/job.yaml
 do
     echo "Waiting for /fixtures/job.yaml to be ready..."
     sleep 2
 done
 
-#./manage.py collectstatic --noinput
+#python3manage.py collectstatic --noinput
 
-gunicorn ci_dashboardSite.wsgi --bind 0.0.0.0:8000 --workers 4 --threads 4
+#gunicorn ci_dashboardSite.wsgi --bind 0.0.0.0:8000 --workers 4 --threads 4
 
 #####################################################################################
 # Options to DEBUG Django server
@@ -43,4 +43,4 @@ gunicorn ci_dashboardSite.wsgi --bind 0.0.0.0:8000 --workers 4 --threads 4
 
 # Option 2:
 # run development server
-# DEBUG=True ./manage.py runserver 0.0.0.0:8000
+DEBUG=True python3 manage.py runserver 0.0.0.0:8000

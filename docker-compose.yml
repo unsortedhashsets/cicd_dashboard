@@ -7,17 +7,17 @@ services:
     env_file:
       - .env
 
-  nginx:
-    restart: unless-stopped
-    build:
-      context: .
-      dockerfile: ./docker/nginx/Dockerfile
-    ports:
-      - 80:80
-    volumes:
-      - ./docker/nginx/development:/etc/nginx/conf.d
-    depends_on:
-      - backend
+  #nginx:
+  #  restart: unless-stopped
+  #  build:
+  #    context: .
+  #    dockerfile: ./docker/nginx/Dockerfile
+  #  ports:
+  #    - 80:80
+  #  volumes:
+  #    - ./docker/nginx/development:/etc/nginx/conf.d
+  #  depends_on:
+  #    - backend
 
   backend:
     restart: unless-stopped

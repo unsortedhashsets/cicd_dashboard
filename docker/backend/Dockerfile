@@ -1,27 +1,11 @@
 # docker/backend/Dockerfile
-FROM python:3
+FROM fedora:latest
 
-RUN apt-get update
-RUN apt install ldap-utils -y
-
-RUN curl -ks 'https://password.corp.redhat.com/legacy.crt' -o '/usr/local/share/ca-certificates/legacy.crt'
-#RUN curl -ks 'https://password.corp.redhat.com/legacy.crt' -o '/etc/pki/ca-trust/source/anchors/legacy.crt'
-#RUN curl -ks 'https://password.corp.redhat.com/legacy.crt' -o '/etc/openldap/cacerts/legacy.crt'
-
-RUN curl -ks 'https://password.corp.redhat.com/RH-IT-Root-CA.crt' -o '/usr/local/share/ca-certificates/RH-IT-Root-CA.crt'
-#RUN curl -ks 'https://password.corp.redhat.com/RH-IT-Root-CA.crt' -o '/etc/pki/ca-trust/source/anchors/RH-IT-Root-CA.crt'
-#RUN curl -ks 'https://password.corp.redhat.com/RH-IT-Root-CA.crt' -o '/etc/openldap/cacerts/RH-IT-Root-CA.crt'
-
-RUN /usr/sbin/update-ca-certificates
-
-RUN mkdir /etc/openldap
-RUN echo $'TLS_CACERTDIR /etc/openldap/cacerts\nSASL_NOCANON    on\nURI ldap://ldap.corp.redhat.com/\nBASE dc=redhat,dc=com\nSASL_MECH GSSAPI\nTLS_REQCERT demand' > /etc/openldap/ldap.conf
+RUN yum install python3 python3-pip python-ldap -y
+# Install RH certificates
+RUN yum install http://hdn.corp.redhat.com/rhel7-csb-stage/RPMS/noarch/redhat-internal-cert-install-0.1-23.el7.csb.noarch.rpm -y
 
 WORKDIR /app
-
-RUN apt-get update
-RUN apt-get install python3-dev -y
-RUN apt-get install libldap2-dev libsasl2-dev libssl-dev -y
 
 COPY ./backend/requirements.txt /app/backend/
 

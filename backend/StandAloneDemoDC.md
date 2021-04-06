@@ -1,0 +1,61 @@
+## DJANGO-BACKEND WITH POSTGRESQL IN CONTAINERS 
+
+### Prerequisites
+
+[Docker](https://docs.docker.com/engine/install/)
+
+[Docker-compose](https://docs.docker.com/compose/install/#:~:text=Prerequisites,part%20of%20those%20desktop%20installs.)
+
+
+
+### **!!!** IMPORTANT **!!!**:
+
+---
+⚠️ 
+
+The LDAP Authentication from the container temporarily does not work.
+
+LDAP CLI function 
+`ldapsearch -x -h ldap.corp.redhat.com -b dc=redhat,dc=com -s sub 'uid=mabramov'`
+does not work to.
+
+⚠️ 
+
+---
+
+Authentication is possible only through the RH LDAP server.
+Kerberos password will be immediately mask with signal function:
+ci_dashboardApp/signals.py `create_profile` with string 'MASKED'
+
+Without authentication is possible to communicate with CI instances predefined as PUBLIC.
+
+### 0. Prepare .env file
+
+In project home directory create .env file with two variables:
+
+```
+SECRET_KEY=*SomeSuperSecretKey*
+ADMINS_LIST='["RHlogin"]'
+```
+
+User defined in admin list will be promoted as staff/admin/superuser after LDAP authentication
+
+### 1. Start docker-compose
+
+```
+docker-compose up
+```
+
+Possible APIs:
+
+| API                | Description                                                                                                                        |
+| ------------------ |------------------------------------------------------------------------------------------------------------------------------------|
+| /admin             | dashboard (RH user verified with LDAP and mentioned in .env - ADMIN_LIST)                                                          |
+| /api               | base directory                                                                                                                     |
+| /api/user/         | information about actual RH user verified with LDAP                                                                                |
+| /api/ci/           | CRUD CI's information (returns nested jobs) with list view and with individual view - /api/ci/1                                    |
+| /api/job/          | CRUD job's information with list view and with individual view - /api/job/1                                                        |
+| /api/job/1/status/ | returns job's last build status                                                                                                    |
+| /api/token/        | CRUD for relationship token-CI to use advance CI features (or by default for TRAVIS) (not provided with fixtures, tested manually) |
+| /api-auth/login/   | api for LDAP login                                                                                                                 |
+| /api-auth/logout/  | api for logout                                                                                                                     |
