@@ -6,10 +6,12 @@ export const lightTheme: Theme = createMuiTheme({
   palette: {
     type: 'light',
     primary: {
-      main: red[500],
+      main: red[400],
+      dark: red[200],
     },
     secondary: {
-      main: blueGrey[500],
+      main: blueGrey[400],
+      dark: blueGrey[600],
     },
   },
 });
@@ -19,10 +21,12 @@ export const darkTheme: Theme = createMuiTheme({
   palette: {
     type: 'dark',
     primary: {
-      main: blueGrey[500],
+      main: blueGrey[400],
+      dark: blueGrey[600],
     },
     secondary: {
-      main: red[500],
+      main: red[400],
+      dark: red[200],
     },
   },
 });

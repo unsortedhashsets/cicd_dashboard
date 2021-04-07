@@ -71,10 +71,7 @@ MIDDLEWARE = [
 
 ALLOWED_HOSTS=['*']
                
-CORS_ORIGIN_ALLOW_ALL = False
-CORS_ORIGIN_WHITELIST = (
-       'http://192.168.0.45:3000',
-)
+CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'ci_dashboardSite.urls'
 

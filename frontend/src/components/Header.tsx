@@ -10,8 +10,8 @@ import {
   Tooltip,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-import Brightness7Icon from '@material-ui/icons/Brightness7';
-import Brightness3Icon from '@material-ui/icons/Brightness3';
+import Brightness7Icon from '@material-ui/icons/Brightness3';
+import Brightness3Icon from '@material-ui/icons/Brightness7';
 import UserIcon from '@material-ui/icons/AccountCircle';
 
 // constants

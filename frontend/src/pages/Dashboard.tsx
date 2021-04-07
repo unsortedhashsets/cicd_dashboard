@@ -1,12 +1,15 @@
-import React, { FC, ReactElement } from 'react';
+import React, { FC, ReactElement, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import CollapsibleTable from '../components/CollapsibleTable';
 
-// components
-import PageTitle from '../components/PageTitle';
+// axios
+
+import { CItoolModel } from '../model/CItool.model';
 
 // constants
 import { APP_TITLE, PAGE_TITLE_DASHBOARD } from '../utils/constants';
+import axios from 'axios';
 
 // define css-in-js
 const useStyles = makeStyles((theme: Theme) =>
@@ -22,6 +25,18 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Dashboard: FC<{}> = (): ReactElement => {
   const classes = useStyles();
+
+  const [CItoolModels, setCItoolsList] = useState<CItoolModel[]>([]);
+
+  useEffect(() => {
+    axios
+      .get<CItoolModel[]>('http://localhost:8000/api/ci/')
+      .then((response) => {
+        setCItoolsList(response.data);
+      });
+    return () => {};
+  }, []);
+
   return (
     <>
       <Helmet>
@@ -30,7 +45,7 @@ const Dashboard: FC<{}> = (): ReactElement => {
         </title>
       </Helmet>
       <div className={classes.root}>
-        <PageTitle title={PAGE_TITLE_DASHBOARD} />
+        <CollapsibleTable rows={CItoolModels} />
       </div>
     </>
   );
