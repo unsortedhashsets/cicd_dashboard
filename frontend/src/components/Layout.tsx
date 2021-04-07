@@ -52,7 +52,7 @@ interface Props {
 // functional component
 const Layout: FC<Props> = ({ toggleTheme, useDefaultTheme, children }) => {
   const classes = useStyles();
-  const [open, toggle] = useReducer((open) => !open, true);
+  const [open, toggle] = useReducer((open) => !open, false);
   return (
     <div className={classes.root}>
       <CssBaseline />
