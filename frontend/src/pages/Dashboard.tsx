@@ -45,7 +45,7 @@ const Dashboard: FC<{}> = (): ReactElement => {
         </title>
       </Helmet>
       <div className={classes.root}>
-        <CollapsibleTable rows={CItoolModels} />
+        <CollapsibleTable CItools={CItoolModels} />
       </div>
     </>
   );

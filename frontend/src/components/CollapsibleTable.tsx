@@ -1,8 +1,9 @@
-import React, { FC, ReactElement } from 'react';
+import React, { FC, ReactElement, useState } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
+import UpdateIcon from '@material-ui/icons/Update';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -13,8 +14,9 @@ import Paper from '@material-ui/core/Paper';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
-import { CItoolModel } from '../model/CItool.model';
+import { CItoolModel, defaultCItool } from '../model/CItool.model';
 import StateRow from './StateRow';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -23,20 +25,34 @@ const useStyles = makeStyles((theme: Theme) =>
         background: `${theme.palette.primary.dark}`,
       },
     },
+    content: {
+      '& > *': {
+        background: `${theme.palette.primary.light}`,
+      },
+    },
   })
 );
 
-const Row: FC<{ row: CItoolModel }> = ({ row }): ReactElement => {
+const Row: FC<{ _CItool: CItoolModel }> = ({ _CItool }): ReactElement => {
   const [openModule, setOpenModule] = React.useState(true);
   const classes = useStyles();
+  const [CItool, setCItool] = useState<CItoolModel>(_CItool);
 
-  console.log(row);
-  if (row.jobs.length === 0) {
+  const handleUpdate = (): void => {
+    axios
+      .get<CItoolModel>(`http://localhost:8000/api/ci/${CItool.id}/`)
+      .then((response) => {
+        setCItool(defaultCItool);
+        setCItool(response.data);
+      });
+  };
+
+  if (CItool.jobs.length === 0) {
     return (
       <React.Fragment>
         <TableRow className={classes.root}>
           <TableCell style={{ width: '62px' }} />
-          <TableCell style={{ color: 'white' }}>{row.ci}</TableCell>
+          <TableCell style={{ color: 'white' }}>{CItool.ci}</TableCell>
         </TableRow>
         <TableBody />
       </React.Fragment>
@@ -56,9 +72,14 @@ const Row: FC<{ row: CItoolModel }> = ({ row }): ReactElement => {
             {openModule ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell style={{ color: 'white' }}>{row.ci}</TableCell>
+        <TableCell style={{ color: 'white' }}>{CItool.ci}</TableCell>
+        <TableCell align='right'>
+          <IconButton>
+            <UpdateIcon onClick={handleUpdate} />
+          </IconButton>
+        </TableCell>
       </TableRow>
-      <TableRow>
+      <TableRow className={classes.content}>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={openModule} timeout='auto' unmountOnExit>
             <Box margin={1}>
@@ -75,7 +96,7 @@ const Row: FC<{ row: CItoolModel }> = ({ row }): ReactElement => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.jobs.map((childrenRow) => (
+                  {CItool.jobs.map((childrenRow) => (
                     <StateRow jobRow={childrenRow} />
                   ))}
                 </TableBody>
@@ -88,16 +109,16 @@ const Row: FC<{ row: CItoolModel }> = ({ row }): ReactElement => {
   );
 };
 
-const CollapsibleTable: FC<{ rows: CItoolModel[] }> = ({
-  rows,
+const CollapsibleTable: FC<{ CItools: CItoolModel[] }> = ({
+  CItools,
 }): ReactElement => {
   return (
     <TableContainer component={Paper}>
       <Table aria-label='collapsible table'>
         <TableHead></TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <Row key={row.ci} row={row} />
+          {CItools.map((CItool) => (
+            <Row key={CItool.ci} _CItool={CItool} />
           ))}
         </TableBody>
       </Table>

@@ -9,3 +9,13 @@ export interface CItoolModel {
   link: string;
   owner: number | null;
 }
+
+export const defaultCItool: CItoolModel = {
+  id: 0,
+  jobs: [],
+  type: '',
+  access: '',
+  ci: '',
+  link: '',
+  owner: null,
+};

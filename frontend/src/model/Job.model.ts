@@ -12,3 +12,11 @@ export interface JobStatusModel {
   buildUrl: string;
   jobUrl: string;
 }
+
+export const defaultJobStatusModel: JobStatusModel = {
+  name: '',
+  buildNumber: '',
+  buildStatus: '',
+  buildUrl: '',
+  jobUrl: '',
+};
