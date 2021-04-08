@@ -1,13 +1,13 @@
 import { createMuiTheme, Theme } from '@material-ui/core/styles';
-import { blueGrey, red } from '@material-ui/core/colors';
+import { blueGrey, grey } from '@material-ui/core/colors';
 
 // define light theme colors
 export const lightTheme: Theme = createMuiTheme({
   palette: {
     type: 'light',
     primary: {
-      main: red[400],
-      dark: red[200],
+      main: grey[400],
+      dark: grey[600],
     },
     secondary: {
       main: blueGrey[400],
@@ -25,8 +25,8 @@ export const darkTheme: Theme = createMuiTheme({
       dark: blueGrey[600],
     },
     secondary: {
-      main: red[400],
-      dark: red[200],
+      main: grey[400],
+      dark: grey[600],
     },
   },
 });

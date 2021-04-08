@@ -31,7 +31,5 @@ TODO:
   * Prepare page CI Tools layout
 * API connection for public Jobs - CRUD Actions
   * Prepare page Jobs layout
-* Prepare layout for Dashboard
-  * Add API conenction for status update
 * Add login page and API connection with sessions and CSRF token (BLOCKED with LDAP issue)
 * ...

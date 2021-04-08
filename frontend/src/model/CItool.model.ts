@@ -1,4 +1,4 @@
-import JobModel from './Job.model';
+import { JobModel } from './Job.model';
 
 export interface CItoolModel {
   id: number;

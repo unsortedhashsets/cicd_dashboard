@@ -14,12 +14,12 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
 import { CItoolModel } from '../model/CItool.model';
+import StateRow from './StateRow';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       '& > *': {
-        borderBottom: 'unset',
         background: `${theme.palette.primary.dark}`,
       },
     },
@@ -32,10 +32,9 @@ const Row: FC<{ row: CItoolModel }> = ({ row }): ReactElement => {
 
   console.log(row);
   if (row.jobs.length === 0) {
-    console.log('DONE');
     return (
       <React.Fragment>
-        <TableRow className={classes.root} style={{ background: '#3f51b5' }}>
+        <TableRow className={classes.root}>
           <TableCell style={{ width: '62px' }} />
           <TableCell style={{ color: 'white' }}>{row.ci}</TableCell>
         </TableRow>
@@ -46,7 +45,7 @@ const Row: FC<{ row: CItoolModel }> = ({ row }): ReactElement => {
 
   return (
     <React.Fragment>
-      <TableRow className={classes.root} style={{ background: '#3f51b5' }}>
+      <TableRow className={classes.root}>
         <TableCell style={{ width: '62px' }}>
           <IconButton
             aria-label='expand row'
@@ -67,23 +66,17 @@ const Row: FC<{ row: CItoolModel }> = ({ row }): ReactElement => {
                 <TableHead>
                   <TableRow>
                     <TableCell></TableCell>
-                    <TableCell>Something Inside Title</TableCell>
-                    <TableCell>Something Inside Title</TableCell>
-                    <TableCell>Something Inside Title</TableCell>
-                    <TableCell>Something Inside Title</TableCell>
+                    <TableCell>Job name</TableCell>
+                    <TableCell>Job link</TableCell>
+                    <TableCell>Last build link</TableCell>
+                    <TableCell>Last build number</TableCell>
+                    <TableCell>Commands</TableCell>
+                    <TableCell>Last build status</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {row.jobs.map((childrenRow) => (
-                    <TableRow key={childrenRow.ci}>
-                      <TableCell component='th' scope='row'>
-                        {childrenRow.id}
-                      </TableCell>
-                      <TableCell>{childrenRow.id}</TableCell>
-                      <TableCell>{childrenRow.ci}</TableCell>
-                      <TableCell>{childrenRow.job}</TableCell>
-                      <TableCell>{childrenRow.path}</TableCell>
-                    </TableRow>
+                    <StateRow jobRow={childrenRow} />
                   ))}
                 </TableBody>
               </Table>

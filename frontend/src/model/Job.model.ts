@@ -1,10 +1,14 @@
-interface JobModel {
+export interface JobModel {
   id: number;
   job: string;
   path: string;
   ci: number;
 }
 
-const JobModels: JobModel[] = [];
-
-export default JobModel;
+export interface JobStatusModel {
+  name: string;
+  buildNumber: string;
+  buildStatus: string;
+  buildUrl: string;
+  jobUrl: string;
+}

@@ -31,7 +31,7 @@ done
 
 #python3manage.py collectstatic --noinput
 
-#gunicorn ci_dashboardSite.wsgi --bind 0.0.0.0:8000 --workers 4 --threads 4
+gunicorn ci_dashboardSite.wsgi --bind 0.0.0.0:8000 --workers 4 --threads 4
 
 #####################################################################################
 # Options to DEBUG Django server
@@ -39,7 +39,7 @@ done
 
 # Option 1:
 # run gunicorn with debug log level
-gunicorn ci_dashboardSite.wsgi --bind 0.0.0.0:8000 --workers 1 --threads 1 --log-level debug
+#gunicorn ci_dashboardSite.wsgi --bind 0.0.0.0:8000 --workers 1 --threads 1 --log-level debug
 
 # Option 2:
 # run development server
