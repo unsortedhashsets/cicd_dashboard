@@ -8,14 +8,18 @@ import {
   Typography,
   IconButton,
   Tooltip,
+  Icon,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import Brightness7Icon from '@material-ui/icons/Brightness3';
 import Brightness3Icon from '@material-ui/icons/Brightness7';
-import UserIcon from '@material-ui/icons/AccountCircle';
+import DefaultIcon from '@material-ui/icons/FileCopy';
+import { useLocation } from 'react-router-dom';
 
 // constants
 import { APP_TITLE, DRAWER_WIDTH } from '../utils/constants';
+import { NavLink } from 'react-router-dom';
+import { loginRoute } from '../config';
 
 // define css-in-js
 const useStyles = makeStyles((theme: Theme) =>
@@ -53,6 +57,10 @@ const useStyles = makeStyles((theme: Theme) =>
     hide: {
       display: 'none',
     },
+    listItemDisabled: {
+      cursor: 'not-allowed',
+    },
+    selected: {},
   })
 );
 
@@ -71,6 +79,14 @@ const Header: FC<Props> = ({
   useDefaultTheme,
 }): ReactElement => {
   const classes = useStyles();
+  const location: any = useLocation();
+
+  const handleNavigate = (
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ): void => {
+    if (!loginRoute.enabled) e.preventDefault();
+  };
+
   return (
     <>
       <CssBaseline />
@@ -110,9 +126,24 @@ const Header: FC<Props> = ({
               </Tooltip>
             )}
           </IconButton>
-          <IconButton size='small' color='inherit'>
-            <UserIcon />
-          </IconButton>
+          <NavLink
+            to={`${loginRoute.path}`}
+            style={{ textDecoration: 'none', color: 'inherit' }}
+            key={`${loginRoute.key}`}
+            onClick={handleNavigate}
+            className={clsx({
+              [classes.listItemDisabled]: !loginRoute.enabled,
+            })}
+          >
+            <IconButton
+              className={clsx({
+                [classes.selected]: location.pathname === loginRoute.path,
+              })}
+              size='small'
+            >
+              <Icon component={loginRoute.icon || DefaultIcon} />
+            </IconButton>
+          </NavLink>
         </Toolbar>
       </AppBar>
     </>

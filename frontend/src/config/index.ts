@@ -4,18 +4,30 @@ import DashboardIcon from '@material-ui/icons/BarChartOutlined';
 import JobIcon from '@material-ui/icons/Build';
 import CiIcon from '@material-ui/icons/Cached';
 import TokenIcon from '@material-ui/icons/VpnKey';
+import UserIcon from '@material-ui/icons/AccountCircle';
 
 // components
 import Dashboard from '../pages/Dashboard';
 import CITools from '../pages/CItools';
 import Jobs from '../pages/Jobs';
-//import GHPublic from '../pages/GitHub/PublicRepo';
 import Tokens from '../pages/Tokens';
+import Login from '../pages/Login';
 
 // interface
 import RouteItem from '../model/RouteItem.model';
 
 // define app routes
+export const loginRoute: RouteItem = {
+  key: 'router-login',
+  title: 'Login',
+  tooltip: 'Login',
+  path: '/login',
+  enabled: true,
+  component: Login,
+  icon: UserIcon,
+  appendDivider: true,
+};
+
 export const routes: Array<RouteItem> = [
   {
     key: 'router-dashboard',

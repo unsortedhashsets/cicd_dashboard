@@ -53,7 +53,6 @@ INSTALLED_APPS = [
     'rest_framework',
 
     'rest_auth',
-    
     'ci_dashboardApp',
 ]
 
@@ -69,11 +68,18 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ALLOWED_HOSTS=['*']
-               
-CORS_ORIGIN_ALLOW_ALL = True
+from corsheaders.defaults import default_headers
 
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'X-CSRFTOKEN',
+]
+ALLOWED_HOSTS=['*']
+CORS_ORIGIN_ALLOW_ALL = True # If this is used then `CORS_ORIGIN_WHITELIST` will not have any effect
+CORS_ALLOW_CREDENTIALS = True
+CSRF_COOKIE_NAME = "csrftoken"
 ROOT_URLCONF = 'ci_dashboardSite.urls'
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
 TEMPLATES = [
     {
@@ -174,6 +180,12 @@ AUTHENTICATION_BACKENDS = (
     'django_auth_ldap.backend.LDAPBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+}
 
 # Enable debug for ldap server connection
 logger = logging.getLogger('django_auth_ldap')

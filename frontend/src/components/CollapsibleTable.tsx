@@ -13,7 +13,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-
 import { CItoolModel, defaultCItool } from '../model/CItool.model';
 import StateRow from './StateRow';
 import axios from 'axios';
@@ -40,7 +39,7 @@ const Row: FC<{ _CItool: CItoolModel }> = ({ _CItool }): ReactElement => {
 
   const handleUpdate = (): void => {
     axios
-      .get<CItoolModel>(`http://localhost:8000/api/ci/${CItool.id}/`)
+      .get<CItoolModel>(`http://127.0.0.1:8000/api/ci/${CItool.id}/`)
       .then((response) => {
         setCItool(defaultCItool);
         setCItool(response.data);

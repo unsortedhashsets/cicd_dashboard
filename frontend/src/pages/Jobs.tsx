@@ -26,7 +26,7 @@ const Jobs: FC<{}> = (): ReactElement => {
     <>
       <Helmet>
         <title>
-          {} | {APP_TITLE}
+          {PAGE_TITLE_JOBS} | {APP_TITLE}
         </title>
       </Helmet>
       <div className={classes.root}>

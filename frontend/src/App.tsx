@@ -15,13 +15,14 @@ import Layout from './components/Layout';
 import { lightTheme, darkTheme } from './theme/appTheme';
 
 // app routes
-import { routes } from './config';
+import { routes, loginRoute } from './config';
 
 // constants
 import { APP_TITLE } from './utils/constants';
 
 // interfaces
 import RouteItem from './model/RouteItem.model';
+import axios from 'axios';
 
 // define app context
 const AppContext = React.createContext(null);
@@ -31,7 +32,13 @@ const DefaultComponent: FC<{}> = (): ReactElement => (
   <div>{`No Component Defined.`}</div>
 );
 
+// axios
+
 function App() {
+  axios
+    .get('http://127.0.0.1:8000/api/set-csrf/')
+    .then((res) => console.log(res));
+
   const [useDefaultTheme, toggle] = useReducer((theme) => !theme, true);
 
   // define custom theme
@@ -68,6 +75,12 @@ function App() {
                     />
                   )
                 )}
+                <Route
+                  key={`${loginRoute.key}`}
+                  path={`${loginRoute.path}`}
+                  component={loginRoute.component || DefaultComponent}
+                  exact
+                />
               </Layout>
             </Switch>
           </Router>

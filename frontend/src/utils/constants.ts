@@ -6,6 +6,7 @@ export const PAGE_TITLE_DASHBOARD = 'Dashboard';
 export const PAGE_TITLE_CI_TOOLS = 'CI Tools';
 export const PAGE_TITLE_JOBS = 'Jobs';
 export const PAGE_TITLE_TOKENS = 'Tokens';
+export const PAGE_TITLE_LOGIN = 'Login';
 // UI CONSTANTS
 export const FOOTER_HEIGHT = 30;
 export const FOOTER_INDENT_RIGHT = 30;

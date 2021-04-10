@@ -26,7 +26,7 @@ const CITools: FC<{}> = (): ReactElement => {
     <>
       <Helmet>
         <title>
-          {} | {APP_TITLE}
+          {PAGE_TITLE_CI_TOOLS} | {APP_TITLE}
         </title>
       </Helmet>
       <div className={classes.root}>
