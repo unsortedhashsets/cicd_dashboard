@@ -1,4 +1,4 @@
-import React, { ReactElement, useReducer, FC } from 'react';
+import React, { ReactElement, useReducer, FC, useState } from 'react';
 import {
   createMuiTheme,
   Theme,
@@ -23,6 +23,7 @@ import { APP_TITLE } from './utils/constants';
 // interfaces
 import RouteItem from './model/RouteItem.model';
 import axios from 'axios';
+import { user } from './model/User.model';
 
 // define app context
 const AppContext = React.createContext(null);
@@ -35,6 +36,8 @@ const DefaultComponent: FC<{}> = (): ReactElement => (
 // axios
 
 function App() {
+  const [isLoading, setLoading] = useState(true);
+
   axios.defaults.withCredentials = true;
   axios.defaults.xsrfCookieName = 'csrftoken';
   axios.defaults.xsrfHeaderName = 'X-CSRFToken';
@@ -44,11 +47,26 @@ function App() {
     .get('http://127.0.0.1:8000/api/set-csrf/', { withCredentials: true })
     .then((res) => console.log(res));
 
+  axios
+    .get('http://127.0.0.1:8000/api/user/', {})
+    .then(() => {
+      user.isLogin = true;
+      setLoading(false);
+    })
+    .catch(() => {
+      user.isLogin = false;
+      setLoading(false);
+    });
+
   const [useDefaultTheme, toggle] = useReducer((theme) => !theme, true);
 
   // define custom theme
   let theme: Theme = createMuiTheme(useDefaultTheme ? darkTheme : lightTheme);
   theme = responsiveFontSizes(theme);
+
+  if (isLoading) {
+    return <div className='App'>Loading...</div>;
+  }
 
   return (
     <>

@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect, useState } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 import TextField from '@material-ui/core/TextField';
@@ -8,14 +8,8 @@ import CardActions from '@material-ui/core/CardActions';
 import CardHeader from '@material-ui/core/CardHeader';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
-import { AxiosResponse, AxiosError } from 'axios';
 import { useHistory } from 'react-router-dom';
-import {
-  defaultUserModel,
-  UserModel,
-  user,
-  setUserModel,
-} from '../model/User.model';
+import { user, setUserModel } from '../model/User.model';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -139,7 +133,7 @@ const Login = () => {
         user.isLogin = true;
         history.push('/');
       })
-      .catch((reason: AxiosError) => {
+      .catch(() => {
         dispatch({
           type: 'loginFailed',
           payload: 'Incorrect username or password',

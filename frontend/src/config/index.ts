@@ -25,7 +25,6 @@ export const loginRoute: RouteItem = {
   enabled: true,
   component: Login,
   icon: UserIcon,
-  appendDivider: true,
 };
 
 export const routes: Array<RouteItem> = [
@@ -62,7 +61,7 @@ export const routes: Array<RouteItem> = [
     title: 'Tokens',
     tooltip: 'Tokens',
     path: '/tokens',
-    enabled: false, // TODO: implement isAuth
+    enabled: true,
     component: Tokens,
     icon: TokenIcon,
     appendDivider: true,

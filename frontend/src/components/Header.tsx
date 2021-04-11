@@ -98,7 +98,8 @@ const Header: FC<Props> = ({
           })
           .catch(() => {
             setUserModel([defaultUserModel]);
-            history.push('/login');
+            user.isLogin = false;
+            window.location.replace('/');
           });
       }
     }, 60000);
@@ -109,7 +110,7 @@ const Header: FC<Props> = ({
     axios.post('http://127.0.0.1:8000/api/logout/').then(() => {
       setUserModel([defaultUserModel]);
       user.isLogin = false;
-      history.push('/login');
+      window.location.replace('/');
     });
   };
 
