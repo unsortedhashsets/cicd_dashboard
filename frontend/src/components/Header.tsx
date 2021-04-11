@@ -1,4 +1,4 @@
-import React, { ReactElement, FC } from 'react';
+import React, { ReactElement, FC, useState, useEffect } from 'react';
 import clsx from 'clsx';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import {
@@ -8,18 +8,23 @@ import {
   Typography,
   IconButton,
   Tooltip,
-  Icon,
+  Button,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import Brightness7Icon from '@material-ui/icons/Brightness3';
 import Brightness3Icon from '@material-ui/icons/Brightness7';
-import DefaultIcon from '@material-ui/icons/FileCopy';
-import { useLocation } from 'react-router-dom';
 
 // constants
 import { APP_TITLE, DRAWER_WIDTH } from '../utils/constants';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { loginRoute } from '../config';
+import axios from 'axios';
+import {
+  UserModel,
+  defaultUserModel,
+  user,
+  setUserModel,
+} from '../model/User.model';
 
 // define css-in-js
 const useStyles = makeStyles((theme: Theme) =>
@@ -79,7 +84,34 @@ const Header: FC<Props> = ({
   useDefaultTheme,
 }): ReactElement => {
   const classes = useStyles();
-  const location: any = useLocation();
+  const history = useHistory();
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      console.log(user);
+      if (user.isLogin) {
+        console.log(user);
+        axios
+          .get('http://127.0.0.1:8000/api/user/', {})
+          .then(() => {
+            user.isLogin = true;
+          })
+          .catch(() => {
+            setUserModel([defaultUserModel]);
+            history.push('/login');
+          });
+      }
+    }, 60000);
+    return () => clearInterval(interval);
+  });
+
+  const handleLogout = () => {
+    axios.post('http://127.0.0.1:8000/api/logout/').then(() => {
+      setUserModel([defaultUserModel]);
+      user.isLogin = false;
+      history.push('/login');
+    });
+  };
 
   const handleNavigate = (
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
@@ -126,24 +158,21 @@ const Header: FC<Props> = ({
               </Tooltip>
             )}
           </IconButton>
-          <NavLink
-            to={`${loginRoute.path}`}
-            style={{ textDecoration: 'none', color: 'inherit' }}
-            key={`${loginRoute.key}`}
-            onClick={handleNavigate}
-            className={clsx({
-              [classes.listItemDisabled]: !loginRoute.enabled,
-            })}
-          >
-            <IconButton
+          {user.isLogin ? (
+            <Button onClick={handleLogout}>LOGOUT</Button>
+          ) : (
+            <NavLink
+              to={`${loginRoute.path}`}
+              style={{ textDecoration: 'none', color: 'inherit' }}
+              key={`${loginRoute.key}`}
+              onClick={handleNavigate}
               className={clsx({
-                [classes.selected]: location.pathname === loginRoute.path,
+                [classes.listItemDisabled]: !loginRoute.enabled,
               })}
-              size='small'
             >
-              <Icon component={loginRoute.icon || DefaultIcon} />
-            </IconButton>
-          </NavLink>
+              <Button>LOGIN</Button>
+            </NavLink>
+          )}
         </Toolbar>
       </AppBar>
     </>

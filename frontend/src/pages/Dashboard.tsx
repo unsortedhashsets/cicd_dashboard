@@ -30,7 +30,9 @@ const Dashboard: FC<{}> = (): ReactElement => {
 
   useEffect(() => {
     axios
-      .get<CItoolModel[]>('http://localhost:8000/api/ci/')
+      .get<CItoolModel[]>('http://127.0.0.1:8000/api/ci/', {
+        withCredentials: true,
+      })
       .then((response) => {
         setCItoolsList(response.data);
       });

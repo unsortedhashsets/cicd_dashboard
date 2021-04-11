@@ -35,8 +35,13 @@ const DefaultComponent: FC<{}> = (): ReactElement => (
 // axios
 
 function App() {
+  axios.defaults.withCredentials = true;
+  axios.defaults.xsrfCookieName = 'csrftoken';
+  axios.defaults.xsrfHeaderName = 'X-CSRFToken';
+  axios.defaults.headers.common['Authorization'] = 'sessionid';
+
   axios
-    .get('http://127.0.0.1:8000/api/set-csrf/')
+    .get('http://127.0.0.1:8000/api/set-csrf/', { withCredentials: true })
     .then((res) => console.log(res));
 
   const [useDefaultTheme, toggle] = useReducer((theme) => !theme, true);

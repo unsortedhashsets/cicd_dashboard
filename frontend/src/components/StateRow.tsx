@@ -55,7 +55,10 @@ const StateRow: FC<{ jobRow: JobModel }> = ({ jobRow }): ReactElement => {
   const handleUpdate = (): void => {
     setJobStatusModel(defaultJobStatusModel);
     axios
-      .get<JobStatusModel>(`http://127.0.0.1:8000/api/job/${jobRow.id}/status/`)
+      .get<JobStatusModel>(
+        `http://127.0.0.1:8000/api/job/${jobRow.id}/status/`,
+        { withCredentials: true }
+      )
       .then((response) => {
         setJobStatusModel(response.data);
       });
@@ -64,7 +67,10 @@ const StateRow: FC<{ jobRow: JobModel }> = ({ jobRow }): ReactElement => {
   useEffect(() => {
     setJobStatusModel(defaultJobStatusModel);
     axios
-      .get<JobStatusModel>(`http://127.0.0.1:8000/api/job/${jobRow.id}/status`)
+      .get<JobStatusModel>(
+        `http://127.0.0.1:8000/api/job/${jobRow.id}/status`,
+        { withCredentials: true }
+      )
       .then((response) => {
         setJobStatusModel(response.data);
       });

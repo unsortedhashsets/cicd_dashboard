@@ -39,7 +39,9 @@ const Row: FC<{ _CItool: CItoolModel }> = ({ _CItool }): ReactElement => {
 
   const handleUpdate = (): void => {
     axios
-      .get<CItoolModel>(`http://127.0.0.1:8000/api/ci/${CItool.id}/`)
+      .get<CItoolModel>(`http://127.0.0.1:8000/api/ci/${CItool.id}/`, {
+        withCredentials: true,
+      })
       .then((response) => {
         setCItool(defaultCItool);
         setCItool(response.data);

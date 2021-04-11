@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer, useEffect, useState } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 import TextField from '@material-ui/core/TextField';
@@ -8,6 +8,14 @@ import CardActions from '@material-ui/core/CardActions';
 import CardHeader from '@material-ui/core/CardHeader';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
+import { AxiosResponse, AxiosError } from 'axios';
+import { useHistory } from 'react-router-dom';
+import {
+  defaultUserModel,
+  UserModel,
+  user,
+  setUserModel,
+} from '../model/User.model';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -23,10 +31,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     header: {
       textAlign: 'center',
-      background: '#212121',
-      color: '#fff',
+      background: `${theme.palette.primary.dark}`,
     },
     card: {
+      background: `${theme.palette.primary.main}`,
       marginTop: theme.spacing(10),
     },
   })
@@ -45,7 +53,7 @@ type State = {
 const initialState: State = {
   username: '',
   password: '',
-  isButtonDisabled: true,
+  isButtonDisabled: false,
   helperText: '',
   isError: false,
 };
@@ -96,6 +104,7 @@ const reducer = (state: State, action: Action): State => {
 };
 
 const Login = () => {
+  const history = useHistory();
   const classes = useStyles();
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -114,20 +123,28 @@ const Login = () => {
   }, [state.username, state.password]);
 
   const handleLogin = () => {
-    axios.defaults.withCredentials = true;
-    axios.defaults.xsrfCookieName = 'csrftoken';
-    axios.defaults.xsrfHeaderName = 'X-CSRFToken';
-
-    axios.post('http://127.0.0.1:8000/api/login/', {
-      username: state.username,
-      password: state.password,
-    });
-  };
-
-  const handleKeyPress = (event: React.KeyboardEvent) => {
-    if (event.keyCode === 13 || event.which === 13) {
-      state.isButtonDisabled || handleLogin();
-    }
+    axios
+      .post('http://127.0.0.1:8000/api/login/', {
+        username: state.username,
+        password: state.password,
+      })
+      .then(() => {
+        dispatch({
+          type: 'loginSuccess',
+          payload: 'Login Successfully',
+        });
+        axios.get('http://127.0.0.1:8000/api/user/', {}).then((response) => {
+          setUserModel(response.data[0]);
+        });
+        user.isLogin = true;
+        history.push('/');
+      })
+      .catch((reason: AxiosError) => {
+        dispatch({
+          type: 'loginFailed',
+          payload: 'Incorrect username or password',
+        });
+      });
   };
 
   const handleUsernameChange: React.ChangeEventHandler<HTMLInputElement> = (
@@ -163,7 +180,6 @@ const Login = () => {
               placeholder='Username'
               margin='normal'
               onChange={handleUsernameChange}
-              onKeyPress={handleKeyPress}
             />
             <TextField
               error={state.isError}
@@ -175,7 +191,6 @@ const Login = () => {
               margin='normal'
               helperText={state.helperText}
               onChange={handlePasswordChange}
-              onKeyPress={handleKeyPress}
             />
           </div>
         </CardContent>
