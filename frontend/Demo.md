@@ -25,11 +25,23 @@ Features:
 * Dark/Light modes
 * Shadows and gradients
 
-TODO:
+DONEs:
+* API connection for public ci and job status
+  * Prepare dashboard layout
+  * Get public job status
+  * Get private job status (after login)
+  * feature to update all CIs jobs
+  * feature to update jobs individually 
+* Login / session / csrf 
+  * Prepare login layout
+  * Solve csrf token issue
+  * Solve session issue
+  * Prepare logout
+* ...
 
+TODOs:
 * API connection for public CI tools - CRUD Actions
   * Prepare page CI Tools layout
 * API connection for public Jobs - CRUD Actions
   * Prepare page Jobs layout
-* Add login page and API connection with sessions and CSRF token (BLOCKED with LDAP issue)
 * ...
