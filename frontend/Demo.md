@@ -45,20 +45,18 @@ DONEs:
   * Delete
 * API connection for private tokens - CRUD Actions
   * Prepare page Tokens layout
-  * Delete
+  * Delete  
+  * Add create/update form (WITH MODAL)
+  * Create
+  * Update  
   
 TODOs:
 * API connection for public/private CI tools - CRUD Actions
-  * Add create/update form 
+  * Add create/update form (WITH MODAL)
   * Create
   * Update
 
 * API connection for public/private Jobs - CRUD Actions
-  * Add create/update form 
-  * Create
-  * Update
-
-* API connection for private tokens - CRUD Actions
-  * Add create/update form 
+  * Add create/update form (WITH MODAL)
   * Create
   * Update

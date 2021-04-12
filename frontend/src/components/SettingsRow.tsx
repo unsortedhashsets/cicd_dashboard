@@ -1,4 +1,4 @@
-import { Button, TableCell, TableRow, Theme } from '@material-ui/core';
+import { Button, TableCell, TableRow } from '@material-ui/core';
 import axios from 'axios';
 import { FC, ReactElement } from 'react';
 import { JobModel } from '../model/Job.model';

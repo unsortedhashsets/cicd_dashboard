@@ -2,9 +2,6 @@ import React, { FC, ReactElement, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
-// components
-import PageTitle from '../components/PageTitle';
-
 // constants
 import { APP_TITLE, PAGE_TITLE_TOKENS } from '../utils/constants';
 import { TokenModel } from '../model/Token.model';

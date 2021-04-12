@@ -1,9 +1,5 @@
 import React, { FC, ReactElement, useState } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
-import Collapse from '@material-ui/core/Collapse';
-import IconButton from '@material-ui/core/IconButton';
-import UpdateIcon from '@material-ui/icons/Update';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -11,13 +7,11 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import { CItoolModel, defaultCItool } from '../model/CItool.model';
-import StateRow from './StateRow';
 import axios from 'axios';
 import { TokenModel } from '../model/Token.model';
 import { Button } from '@material-ui/core';
+import { RWDModal } from '../model/RWDModal';
+import { TokenModal } from './TokenModal';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -42,6 +36,12 @@ interface PropsCT {
 const TokenTable: FC<PropsCT> = ({ tokens }): ReactElement => {
   const classes = useStyles();
 
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setIsModalVisible((wasModalVisible) => !wasModalVisible);
+  };
+
   const handleDelete = (id: number): void => {
     axios.delete(`http://127.0.0.1:8000/api/token/${id}/`, {
       withCredentials: true,
@@ -61,9 +61,14 @@ const TokenTable: FC<PropsCT> = ({ tokens }): ReactElement => {
             <TableCell>User ID</TableCell>
             <TableCell>Token</TableCell>
             <TableCell>
-              <Button variant='contained' color='primary'>
+              <Button variant='contained' color='primary' onClick={toggleModal}>
                 Add Token
               </Button>
+              <TokenModal
+                isModalVisible={isModalVisible}
+                onBackdropClick={toggleModal}
+                aim='Add'
+              />
             </TableCell>
             <TableCell>Update</TableCell>
             <TableCell>Delete</TableCell>
@@ -84,9 +89,14 @@ const TokenTable: FC<PropsCT> = ({ tokens }): ReactElement => {
           <TableCell>User ID</TableCell>
           <TableCell>Token</TableCell>
           <TableCell>
-            <Button variant='contained' color='primary'>
+            <Button variant='contained' color='primary' onClick={toggleModal}>
               Add Token
             </Button>
+            <TokenModal
+              isModalVisible={isModalVisible}
+              onBackdropClick={toggleModal}
+              aim='Add'
+            />
           </TableCell>
           <TableCell>Update</TableCell>
           <TableCell>Delete</TableCell>
@@ -101,9 +111,19 @@ const TokenTable: FC<PropsCT> = ({ tokens }): ReactElement => {
               <TableCell>{token.token}</TableCell>
               <TableCell></TableCell>
               <TableCell>
-                <Button variant='contained' color='primary'>
+                <Button
+                  variant='contained'
+                  color='primary'
+                  onClick={toggleModal}
+                >
                   Update
                 </Button>
+                <TokenModal
+                  isModalVisible={isModalVisible}
+                  onBackdropClick={toggleModal}
+                  aim='Update'
+                  token={token}
+                />
               </TableCell>
               <TableCell>
                 <Button

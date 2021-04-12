@@ -23,7 +23,7 @@ import { APP_TITLE } from './utils/constants';
 // interfaces
 import RouteItem from './model/RouteItem.model';
 import axios from 'axios';
-import { user } from './model/User.model';
+import { setUserModel, user } from './model/User.model';
 
 // define app context
 const AppContext = React.createContext(null);
@@ -49,7 +49,8 @@ function App() {
 
   axios
     .get('http://127.0.0.1:8000/api/user/', {})
-    .then(() => {
+    .then((response) => {
+      setUserModel(response.data[0]);
       user.isLogin = true;
       setLoading(false);
     })
