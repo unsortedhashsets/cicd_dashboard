@@ -37,11 +37,28 @@ DONEs:
   * Solve csrf token issue
   * Solve session issue
   * Prepare logout
-* ...
-
-TODOs:
-* API connection for public CI tools - CRUD Actions
+* API connection for public/private CI tools - CRUD Actions
   * Prepare page CI Tools layout
-* API connection for public Jobs - CRUD Actions
+  * Delete
+* API connection for public/private Jobs - CRUD Actions
   * Prepare page Jobs layout
-* ...
+  * Delete
+* API connection for private tokens - CRUD Actions
+  * Prepare page Tokens layout
+  * Delete
+  
+TODOs:
+* API connection for public/private CI tools - CRUD Actions
+  * Add create/update form 
+  * Create
+  * Update
+
+* API connection for public/private Jobs - CRUD Actions
+  * Add create/update form 
+  * Create
+  * Update
+
+* API connection for private tokens - CRUD Actions
+  * Add create/update form 
+  * Create
+  * Update
