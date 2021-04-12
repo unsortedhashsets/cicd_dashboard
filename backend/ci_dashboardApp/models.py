@@ -4,8 +4,8 @@ from django.forms import MultipleChoiceField
 from django.db.models import UniqueConstraint
 
 class CI(models.Model):
-    ci = models.CharField(max_length=60)
-    link = models.URLField(max_length=128, unique=True)
+    ci = models.CharField(max_length=60, unique=True)
+    link = models.URLField(max_length=128)
     type = models.CharField(max_length=7)
     access = models.CharField(max_length=7)
     owner = models.ForeignKey(User, on_delete=models.SET_NULL, related_name="owner", null=True)

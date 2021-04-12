@@ -9552,6 +9552,11 @@
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
   "version" "16.13.1"
 
+"react-popconfirm@^0.1.1":
+  "integrity" "sha1-RivLfOuuOSzgyEizNdZde4OGvD4="
+  "resolved" "https://registry.npmjs.org/react-popconfirm/-/react-popconfirm-0.1.1.tgz"
+  "version" "0.1.1"
+
 "react-refresh@^0.8.3", "react-refresh@>=0.8.3 <0.10.0":
   "integrity" "sha512-X8jZHc7nCMjaCqoU+V2I0cOhNW+QMBwSUkeXnTi8IPe6zaRWfn60ZzvFDZqWPfmSJfjub7dDW1SP0jaHWLu/hg=="
   "resolved" "https://registry.npmjs.org/react-refresh/-/react-refresh-0.8.3.tgz"

@@ -1,4 +1,4 @@
-import React, { ReactElement, FC, useState, useEffect } from 'react';
+import React, { ReactElement, FC, useEffect } from 'react';
 import clsx from 'clsx';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import {
@@ -16,15 +16,10 @@ import Brightness3Icon from '@material-ui/icons/Brightness7';
 
 // constants
 import { APP_TITLE, DRAWER_WIDTH } from '../utils/constants';
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { loginRoute } from '../config';
 import axios from 'axios';
-import {
-  UserModel,
-  defaultUserModel,
-  user,
-  setUserModel,
-} from '../model/User.model';
+import { defaultUserModel, user, setUserModel } from '../model/User.model';
 
 // define css-in-js
 const useStyles = makeStyles((theme: Theme) =>
@@ -84,7 +79,6 @@ const Header: FC<Props> = ({
   useDefaultTheme,
 }): ReactElement => {
   const classes = useStyles();
-  const history = useHistory();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -110,6 +104,7 @@ const Header: FC<Props> = ({
     axios.post('http://127.0.0.1:8000/api/logout/').then(() => {
       setUserModel([defaultUserModel]);
       user.isLogin = false;
+      localStorage.removeItem('sessionid');
       window.location.replace('/');
     });
   };

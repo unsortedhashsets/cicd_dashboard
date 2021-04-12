@@ -2,14 +2,12 @@
 import DashboardIcon from '@material-ui/icons/BarChartOutlined';
 
 import JobIcon from '@material-ui/icons/Build';
-import CiIcon from '@material-ui/icons/Cached';
 import TokenIcon from '@material-ui/icons/VpnKey';
 import UserIcon from '@material-ui/icons/AccountCircle';
 
 // components
 import Dashboard from '../pages/Dashboard';
-import CITools from '../pages/CItools';
-import Jobs from '../pages/Jobs';
+import CITools from '../pages/CITools';
 import Tokens from '../pages/Tokens';
 import Login from '../pages/Login';
 
@@ -45,15 +43,6 @@ export const routes: Array<RouteItem> = [
     path: '/ci-tools',
     enabled: true,
     component: CITools,
-    icon: CiIcon,
-  },
-  {
-    key: 'router-jobs',
-    title: 'Jobs',
-    tooltip: 'Jobs',
-    path: '/jobs',
-    enabled: true,
-    component: Jobs,
     icon: JobIcon,
   },
   {

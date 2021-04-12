@@ -1,4 +1,4 @@
-import React, { FC, ReactElement } from 'react';
+import React, { FC, ReactElement, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
@@ -7,6 +7,9 @@ import PageTitle from '../components/PageTitle';
 
 // constants
 import { APP_TITLE, PAGE_TITLE_TOKENS } from '../utils/constants';
+import { TokenModel } from '../model/Token.model';
+import axios from 'axios';
+import TokenTable from '../components/TokenTable';
 
 // define css-in-js
 const useStyles = makeStyles((theme: Theme) =>
@@ -22,6 +25,19 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Tokens: FC<{}> = (): ReactElement => {
   const classes = useStyles();
+  const [tokenModels, setTokenList] = useState<TokenModel[]>([]);
+
+  useEffect(() => {
+    axios
+      .get<TokenModel[]>('http://127.0.0.1:8000/api/token/', {
+        withCredentials: true,
+      })
+      .then((response) => {
+        setTokenList(response.data);
+      });
+    return () => {};
+  }, []);
+
   return (
     <>
       <Helmet>
@@ -30,7 +46,7 @@ const Tokens: FC<{}> = (): ReactElement => {
         </title>
       </Helmet>
       <div className={classes.root}>
-        <PageTitle title={PAGE_TITLE_TOKENS} />
+        <TokenTable tokens={tokenModels} />
       </div>
     </>
   );

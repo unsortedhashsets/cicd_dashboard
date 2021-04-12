@@ -32,7 +32,12 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Row: FC<{ _CItool: CItoolModel }> = ({ _CItool }): ReactElement => {
+// define interface to represent component props
+interface PropsR {
+  _CItool: CItoolModel;
+}
+
+const Row: FC<PropsR> = ({ _CItool }): ReactElement => {
   const [openModule, setOpenModule] = React.useState(true);
   const classes = useStyles();
   const [CItool, setCItool] = useState<CItoolModel>(_CItool);
@@ -54,6 +59,7 @@ const Row: FC<{ _CItool: CItoolModel }> = ({ _CItool }): ReactElement => {
         <TableRow className={classes.root}>
           <TableCell style={{ width: '62px' }} />
           <TableCell style={{ color: 'white' }}>{CItool.ci}</TableCell>
+          <TableCell></TableCell>
         </TableRow>
         <TableBody />
       </React.Fragment>
@@ -110,9 +116,12 @@ const Row: FC<{ _CItool: CItoolModel }> = ({ _CItool }): ReactElement => {
   );
 };
 
-const CollapsibleTable: FC<{ CItools: CItoolModel[] }> = ({
-  CItools,
-}): ReactElement => {
+// define interface to represent component props
+interface PropsCT {
+  CItools: CItoolModel[];
+}
+
+const StateCollapsibleTable: FC<PropsCT> = ({ CItools }): ReactElement => {
   return (
     <TableContainer component={Paper}>
       <Table aria-label='collapsible table'>
@@ -127,4 +136,4 @@ const CollapsibleTable: FC<{ CItools: CItoolModel[] }> = ({
   );
 };
 
-export default CollapsibleTable;
+export default StateCollapsibleTable;

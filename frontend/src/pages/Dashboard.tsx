@@ -1,7 +1,6 @@
-import React, { FC, ReactElement, useEffect, useState } from 'react';
+import { FC, ReactElement, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import CollapsibleTable from '../components/CollapsibleTable';
 
 // axios
 
@@ -10,6 +9,7 @@ import { CItoolModel } from '../model/CItool.model';
 // constants
 import { APP_TITLE, PAGE_TITLE_DASHBOARD } from '../utils/constants';
 import axios from 'axios';
+import StateCollapsibleTable from '../components/StateCollapsibleTable';
 
 // define css-in-js
 const useStyles = makeStyles((theme: Theme) =>
@@ -47,7 +47,7 @@ const Dashboard: FC<{}> = (): ReactElement => {
         </title>
       </Helmet>
       <div className={classes.root}>
-        <CollapsibleTable CItools={CItoolModels} />
+        <StateCollapsibleTable CItools={CItoolModels} />
       </div>
     </>
   );
