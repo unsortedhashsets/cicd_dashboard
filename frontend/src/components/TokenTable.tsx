@@ -10,7 +10,6 @@ import Paper from '@material-ui/core/Paper';
 import axios from 'axios';
 import { TokenModel } from '../model/Token.model';
 import { Button } from '@material-ui/core';
-import { RWDModal } from '../model/RWDModal';
 import { TokenModal } from './TokenModal';
 
 const useStyles = makeStyles((theme: Theme) =>

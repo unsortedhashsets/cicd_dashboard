@@ -9,6 +9,8 @@ import { APP_TITLE, PAGE_TITLE_CI_TOOLS } from '../utils/constants';
 import { CItoolModel } from '../model/CItool.model';
 import axios from 'axios';
 import SettingsCollapsibleTable from '../components/SettingsCollapsibleTable';
+import { Button } from '@material-ui/core';
+import { CIModal } from '../components/CIModal';
 
 // define css-in-js
 const useStyles = makeStyles((theme: Theme) =>
@@ -16,7 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       flex: 1,
       display: 'flex',
-      flexDirection: 'row',
+      flexDirection: 'column',
       justifyContent: 'space-between',
     },
   })
@@ -24,7 +26,11 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const CITools: FC<{}> = (): ReactElement => {
   const classes = useStyles();
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
+  const toggleModal = () => {
+    setIsModalVisible((wasModalVisible) => !wasModalVisible);
+  };
   const [CItoolModels, setCItoolsList] = useState<CItoolModel[]>([]);
 
   useEffect(() => {
@@ -45,6 +51,14 @@ const CITools: FC<{}> = (): ReactElement => {
         </title>
       </Helmet>
       <div className={classes.root}>
+        <Button variant='contained' color='secondary' onClick={toggleModal}>
+          Add CI tool
+        </Button>
+        <CIModal
+          isModalVisible={isModalVisible}
+          onBackdropClick={toggleModal}
+          aim='Add'
+        />
         <SettingsCollapsibleTable CItools={CItoolModels} />
       </div>
     </>

@@ -8,8 +8,8 @@ import CardActions from '@material-ui/core/CardActions';
 import CardHeader from '@material-ui/core/CardHeader';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
 import { user, setUserModel } from '../model/User.model';
+import { RWDModal } from '../model/RWDModal';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     card: {
       background: `${theme.palette.primary.main}`,
-      marginTop: theme.spacing(10),
+      marginTop: theme.spacing(0),
     },
   })
 );
@@ -97,8 +97,15 @@ const reducer = (state: State, action: Action): State => {
   }
 };
 
-const Login = () => {
-  const history = useHistory();
+interface LoginModalProps {
+  onBackdropClick: () => void;
+  isModalVisible: boolean;
+}
+
+export const LoginModal: React.FC<LoginModalProps> = ({
+  isModalVisible,
+  onBackdropClick,
+}) => {
   const classes = useStyles();
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -131,7 +138,7 @@ const Login = () => {
           setUserModel(response.data[0]);
         });
         user.isLogin = true;
-        history.push('/');
+        onBackdropClick();
       })
       .catch(() => {
         dispatch({
@@ -160,49 +167,53 @@ const Login = () => {
   };
 
   return (
-    <form className={classes.container} noValidate autoComplete='off'>
-      <Card className={classes.card}>
-        <CardHeader className={classes.header} title='Login App' />
-        <CardContent>
-          <div>
-            <TextField
-              error={state.isError}
-              fullWidth
-              id='username'
-              type='email'
-              label='Username'
-              placeholder='Username'
-              margin='normal'
-              onChange={handleUsernameChange}
-            />
-            <TextField
-              error={state.isError}
-              fullWidth
-              id='password'
-              type='password'
-              label='Password'
-              placeholder='Password'
-              margin='normal'
-              helperText={state.helperText}
-              onChange={handlePasswordChange}
-            />
-          </div>
-        </CardContent>
-        <CardActions>
-          <Button
-            variant='contained'
-            size='large'
-            color='secondary'
-            className={classes.loginBtn}
-            onClick={handleLogin}
-            disabled={state.isButtonDisabled}
-          >
-            Login
-          </Button>
-        </CardActions>
-      </Card>
-    </form>
+    <RWDModal
+      onBackdropClick={onBackdropClick}
+      isModalVisible={isModalVisible}
+      content={
+        <form className={classes.container} noValidate autoComplete='off'>
+          <Card className={classes.card}>
+            <CardHeader className={classes.header} title='Login App' />
+            <CardContent>
+              <div>
+                <TextField
+                  error={state.isError}
+                  fullWidth
+                  id='username'
+                  type='email'
+                  label='Username'
+                  placeholder='Username'
+                  margin='normal'
+                  onChange={handleUsernameChange}
+                />
+                <TextField
+                  error={state.isError}
+                  fullWidth
+                  id='password'
+                  type='password'
+                  label='Password'
+                  placeholder='Password'
+                  margin='normal'
+                  helperText={state.helperText}
+                  onChange={handlePasswordChange}
+                />
+              </div>
+            </CardContent>
+            <CardActions>
+              <Button
+                variant='contained'
+                size='large'
+                color='secondary'
+                className={classes.loginBtn}
+                onClick={handleLogin}
+                disabled={state.isButtonDisabled}
+              >
+                Login
+              </Button>
+            </CardActions>
+          </Card>
+        </form>
+      }
+    />
   );
 };
-
-export default Login;

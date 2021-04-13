@@ -1,4 +1,4 @@
-import React, { FC, ReactElement } from 'react';
+import React, { FC, ReactElement, useState } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Collapse from '@material-ui/core/Collapse';
@@ -14,6 +14,7 @@ import { CItoolModel } from '../model/CItool.model';
 import axios from 'axios';
 import { Button } from '@material-ui/core';
 import SettingsRow from './SettingsRow';
+import { CIModal } from '../components/CIModal';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -39,6 +40,12 @@ const Row: FC<PropsR> = ({ CItool }): ReactElement => {
   const [openModule, setOpenModule] = React.useState(true);
   const classes = useStyles();
 
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setIsModalVisible((wasModalVisible) => !wasModalVisible);
+  };
+
   const handleDelete = (): void => {
     axios.delete(`http://127.0.0.1:8000/api/ci/${CItool.id}/`, {
       withCredentials: true,
@@ -63,9 +70,15 @@ const Row: FC<PropsR> = ({ CItool }): ReactElement => {
             </Button>
           </TableCell>
           <TableCell>
-            <Button variant='contained' color='primary'>
+            <Button variant='contained' color='primary' onClick={toggleModal}>
               Update
             </Button>
+            <CIModal
+              isModalVisible={isModalVisible}
+              onBackdropClick={toggleModal}
+              aim='Update'
+              ci={CItool}
+            />
           </TableCell>
           <TableCell>
             <Button variant='contained' onClick={handleDelete}>
@@ -103,9 +116,15 @@ const Row: FC<PropsR> = ({ CItool }): ReactElement => {
           </Button>
         </TableCell>
         <TableCell>
-          <Button variant='contained' color='primary'>
+          <Button variant='contained' color='primary' onClick={toggleModal}>
             Update
           </Button>
+          <CIModal
+            isModalVisible={isModalVisible}
+            onBackdropClick={toggleModal}
+            aim='Update'
+            ci={CItool}
+          />
         </TableCell>
         <TableCell>
           <Button variant='contained' onClick={handleDelete}>

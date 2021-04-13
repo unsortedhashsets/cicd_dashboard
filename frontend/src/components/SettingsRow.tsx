@@ -9,10 +9,13 @@ interface Props {
 
 const SettingsRow: FC<Props> = ({ jobRow }): ReactElement => {
   const handleDelete = (): void => {
-    axios.delete(`http://127.0.0.1:8000/api/job/${jobRow.id}/`, {
-      withCredentials: true,
-    });
-    window.location.replace('/ci-tools');
+    axios
+      .delete(`http://127.0.0.1:8000/api/job/${jobRow.id}/`, {
+        withCredentials: true,
+      })
+      .then(() => {
+        window.location.replace('/ci-tools/');
+      });
   };
 
   return (

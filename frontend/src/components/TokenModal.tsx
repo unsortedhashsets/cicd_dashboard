@@ -97,13 +97,11 @@ const reducer = (state: State, action: Action): State => {
 interface TokenModalProps {
   onBackdropClick: () => void;
   isModalVisible: boolean;
-  tokenError?: boolean;
   token?: TokenModel;
   aim?: string;
 }
 
 export const TokenModal: React.FC<TokenModalProps> = ({
-  tokenError,
   isModalVisible,
   onBackdropClick,
   token,
@@ -122,11 +120,18 @@ export const TokenModal: React.FC<TokenModalProps> = ({
           user: user.id,
         })
         .then(() => {
+          dispatch({
+            type: 'ChangeSuccess',
+            payload: 'Token changed Successfully',
+          });
           onBackdropClick();
           window.location.replace('/tokens');
         })
         .catch((e) => {
-          console.log(e);
+          dispatch({
+            type: 'ChangeFailed',
+            payload: 'Something failed',
+          });
         });
     } else {
       axios
@@ -138,7 +143,7 @@ export const TokenModal: React.FC<TokenModalProps> = ({
         })
         .then(() => {
           onBackdropClick();
-          window.location.replace('/tokens');
+          //window.location.replace('/tokens');
         })
         .catch((e) => {
           console.log(e);
@@ -175,7 +180,7 @@ export const TokenModal: React.FC<TokenModalProps> = ({
             <CardContent>
               <div>
                 <TextField
-                  error={tokenError}
+                  error={state.isError}
                   fullWidth
                   id='ci_id'
                   label='CI ID (digit)'
@@ -184,13 +189,14 @@ export const TokenModal: React.FC<TokenModalProps> = ({
                   onChange={handleCIchange}
                 />
                 <TextField
-                  error={tokenError}
+                  error={state.isError}
                   fullWidth
                   id='token'
                   label='Token'
                   placeholder={token?.token || 'xxxxxxx'}
                   margin='normal'
                   onChange={handleTokenChange}
+                  helperText={state.helperText}
                 />
               </div>
             </CardContent>

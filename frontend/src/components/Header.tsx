@@ -1,4 +1,4 @@
-import React, { ReactElement, FC, useEffect } from 'react';
+import React, { ReactElement, FC, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import {
@@ -16,10 +16,9 @@ import Brightness3Icon from '@material-ui/icons/Brightness7';
 
 // constants
 import { APP_TITLE, DRAWER_WIDTH } from '../utils/constants';
-import { NavLink } from 'react-router-dom';
-import { loginRoute } from '../config';
 import axios from 'axios';
 import { defaultUserModel, user, setUserModel } from '../model/User.model';
+import { LoginModal } from './LoginModal';
 
 // define css-in-js
 const useStyles = makeStyles((theme: Theme) =>
@@ -80,6 +79,12 @@ const Header: FC<Props> = ({
 }): ReactElement => {
   const classes = useStyles();
 
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setIsModalVisible((wasModalVisible) => !wasModalVisible);
+  };
+
   useEffect(() => {
     const interval = setInterval(() => {
       console.log(user);
@@ -108,12 +113,6 @@ const Header: FC<Props> = ({
       localStorage.removeItem('sessionid');
       window.location.replace('/');
     });
-  };
-
-  const handleNavigate = (
-    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
-  ): void => {
-    if (!loginRoute.enabled) e.preventDefault();
   };
 
   return (
@@ -158,17 +157,13 @@ const Header: FC<Props> = ({
           {user.isLogin ? (
             <Button onClick={handleLogout}>LOGOUT</Button>
           ) : (
-            <NavLink
-              to={`${loginRoute.path}`}
-              style={{ textDecoration: 'none', color: 'inherit' }}
-              key={`${loginRoute.key}`}
-              onClick={handleNavigate}
-              className={clsx({
-                [classes.listItemDisabled]: !loginRoute.enabled,
-              })}
-            >
-              <Button>LOGIN</Button>
-            </NavLink>
+            <>
+              <Button onClick={toggleModal}>LOGIN</Button>
+              <LoginModal
+                isModalVisible={isModalVisible}
+                onBackdropClick={toggleModal}
+              />
+            </>
           )}
         </Toolbar>
       </AppBar>

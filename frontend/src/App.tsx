@@ -15,7 +15,7 @@ import Layout from './components/Layout';
 import { lightTheme, darkTheme } from './theme/appTheme';
 
 // app routes
-import { routes, loginRoute } from './config';
+import { routes } from './config';
 
 // constants
 import { APP_TITLE } from './utils/constants';
@@ -99,12 +99,6 @@ function App() {
                     />
                   )
                 )}
-                <Route
-                  key={`${loginRoute.key}`}
-                  path={`${loginRoute.path}`}
-                  component={loginRoute.component || DefaultComponent}
-                  exact
-                />
               </Layout>
             </Switch>
           </Router>

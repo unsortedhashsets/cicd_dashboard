@@ -1,5 +1,5 @@
 export interface UserModel {
-  id: number;
+  id: number | null;
   username: string;
   first_name: string;
   last_name: string;
@@ -11,7 +11,7 @@ export interface LoginUserModel extends UserModel {
 }
 
 export const defaultUserModel: UserModel = {
-  id: 0,
+  id: null,
   username: '',
   first_name: '',
   last_name: '',
@@ -19,7 +19,7 @@ export const defaultUserModel: UserModel = {
 };
 
 export const user: LoginUserModel = {
-  id: 0,
+  id: null,
   username: '',
   first_name: '',
   last_name: '',
