@@ -139,6 +139,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
         });
         user.isLogin = true;
         onBackdropClick();
+        window.location.reload();
       })
       .catch(() => {
         dispatch({

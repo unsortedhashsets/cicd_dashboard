@@ -45,7 +45,7 @@ const TokenTable: FC<PropsCT> = ({ tokens }): ReactElement => {
     axios.delete(`http://127.0.0.1:8000/api/token/${id}/`, {
       withCredentials: true,
     });
-    window.location.replace('/tokens');
+    window.location.reload();
   };
 
   if (tokens.length === 0) {

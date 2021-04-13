@@ -151,7 +151,7 @@ export const CIModal: React.FC<CIModalProps> = ({
             payload: `CI ${aim}ed Successfully`,
           });
           onBackdropClick();
-          window.location.replace('/ci-tools');
+          window.location.reload();
         })
         .catch((e) => {
           dispatch({
@@ -171,7 +171,7 @@ export const CIModal: React.FC<CIModalProps> = ({
         })
         .then(() => {
           onBackdropClick();
-          window.location.replace('/ci-tools');
+          window.location.reload();
         })
         .catch((e) => {
           console.log(e);

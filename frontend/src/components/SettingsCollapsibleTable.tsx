@@ -50,7 +50,7 @@ const Row: FC<PropsR> = ({ CItool }): ReactElement => {
     axios.delete(`http://127.0.0.1:8000/api/ci/${CItool.id}/`, {
       withCredentials: true,
     });
-    window.location.replace('/ci-tools');
+    window.location.reload();
   };
 
   if (CItool.jobs.length === 0) {
@@ -64,12 +64,10 @@ const Row: FC<PropsR> = ({ CItool }): ReactElement => {
           <TableCell>{CItool.access}</TableCell>
           <TableCell>{CItool.owner || 'undefined'}</TableCell>
           <TableCell>{CItool.type}</TableCell>
-          <TableCell>
+          <TableCell align='center'>
             <Button variant='contained' color='primary'>
               Add Job
             </Button>
-          </TableCell>
-          <TableCell>
             <Button variant='contained' color='primary' onClick={toggleModal}>
               Update
             </Button>
@@ -79,8 +77,6 @@ const Row: FC<PropsR> = ({ CItool }): ReactElement => {
               aim='Update'
               ci={CItool}
             />
-          </TableCell>
-          <TableCell>
             <Button variant='contained' onClick={handleDelete}>
               Delete
             </Button>
@@ -110,12 +106,10 @@ const Row: FC<PropsR> = ({ CItool }): ReactElement => {
         <TableCell>{CItool.access}</TableCell>
         <TableCell>{CItool.owner || 'undefined'}</TableCell>
         <TableCell>{CItool.type}</TableCell>
-        <TableCell>
+        <TableCell align='center'>
           <Button variant='contained' color='primary'>
             Add Job
           </Button>
-        </TableCell>
-        <TableCell>
           <Button variant='contained' color='primary' onClick={toggleModal}>
             Update
           </Button>
@@ -125,15 +119,13 @@ const Row: FC<PropsR> = ({ CItool }): ReactElement => {
             aim='Update'
             ci={CItool}
           />
-        </TableCell>
-        <TableCell>
           <Button variant='contained' onClick={handleDelete}>
             Delete
           </Button>
         </TableCell>
       </TableRow>
       <TableRow className={classes.content}>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={10}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={8}>
           <Collapse in={openModule} timeout='auto' unmountOnExit>
             <Box margin={1}>
               <Table size='small' aria-label='jobs'>
@@ -147,12 +139,7 @@ const Row: FC<PropsR> = ({ CItool }): ReactElement => {
                     <TableCell></TableCell>
                     <TableCell></TableCell>
                     <TableCell></TableCell>
-                    <TableCell style={{ paddingRight: 0 }} align='right'>
-                      Update
-                    </TableCell>
-                    <TableCell style={{ paddingRight: 0 }} align='right'>
-                      Delete
-                    </TableCell>
+                    <TableCell align='center'>Commands</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -187,9 +174,7 @@ const StateCollapsibleTable: FC<PropsCT> = ({ CItools }): ReactElement => {
           <TableCell>Access</TableCell>
           <TableCell>Owner</TableCell>
           <TableCell>Type</TableCell>
-          <TableCell>Add Job</TableCell>
-          <TableCell>Update</TableCell>
-          <TableCell>Delete</TableCell>
+          <TableCell align='center'>Commands</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>

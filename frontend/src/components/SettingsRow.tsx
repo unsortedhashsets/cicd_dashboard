@@ -14,7 +14,7 @@ const SettingsRow: FC<Props> = ({ jobRow }): ReactElement => {
         withCredentials: true,
       })
       .then(() => {
-        window.location.replace('/ci-tools/');
+        window.location.reload();
       });
   };
 
@@ -30,13 +30,16 @@ const SettingsRow: FC<Props> = ({ jobRow }): ReactElement => {
       <TableCell></TableCell>
       <TableCell></TableCell>
       <TableCell></TableCell>
-      <TableCell style={{ paddingRight: 0 }} align='right'>
+      <TableCell align='center'>
         <Button variant='contained' color='primary'>
           Update
         </Button>
-      </TableCell>
-      <TableCell style={{ paddingRight: 0 }} align='right'>
-        <Button variant='contained' color='secondary' onClick={handleDelete}>
+        <Button
+          style={{ marginLeft: '15px' }}
+          variant='contained'
+          color='secondary'
+          onClick={handleDelete}
+        >
           Delete
         </Button>
       </TableCell>

@@ -125,7 +125,7 @@ export const TokenModal: React.FC<TokenModalProps> = ({
             payload: 'Token changed Successfully',
           });
           onBackdropClick();
-          window.location.replace('/tokens');
+          window.location.reload();
         })
         .catch((e) => {
           dispatch({
@@ -143,7 +143,7 @@ export const TokenModal: React.FC<TokenModalProps> = ({
         })
         .then(() => {
           onBackdropClick();
-          //window.location.replace('/tokens');
+          window.location.reload();
         })
         .catch((e) => {
           console.log(e);
