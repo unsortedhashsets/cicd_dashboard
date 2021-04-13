@@ -6,6 +6,7 @@ import {
   TableCell,
   TableRow,
   Theme,
+  CircularProgress,
 } from '@material-ui/core';
 import axios from 'axios';
 import { FC, ReactElement, useEffect, useState } from 'react';
@@ -15,7 +16,6 @@ import {
   defaultJobStatusModel,
 } from '../model/Job.model';
 import UpdateIcon from '@material-ui/icons/Update';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 const StateRow: FC<{ jobRow: JobModel }> = ({ jobRow }): ReactElement => {
   const [jobStatus, setJobStatusModel] = useState<JobStatusModel>(

@@ -3,7 +3,7 @@ import MediaQuery from 'react-responsive';
 import {
   BaseModalWrapper,
   BaseModalWrapperProps,
-} from '../components/BaseModalWrapper';
+} from '../components/Modals/BaseModalWrapper';
 import {
   DesktopCloseButton,
   DesktopModalContainer,

@@ -1,11 +1,11 @@
 import React, { useReducer } from 'react';
-import { RWDModal } from '../model/RWDModal';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import CardHeader from '@material-ui/core/CardHeader';
-import TextField from '@material-ui/core/TextField';
+import { RWDModal } from '../../model/RWDModal';
 import {
+  Card,
+  CardContent,
+  CardActions,
+  CardHeader,
+  TextField,
   Button,
   createStyles,
   makeStyles,
@@ -13,8 +13,8 @@ import {
   Theme,
 } from '@material-ui/core';
 import axios from 'axios';
-import { user } from '../model/User.model';
-import { CItoolModel } from '../model/CItool.model';
+import { user } from '../../model/User.model';
+import { CItoolModel } from '../../model/CItool.model';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: 400,
       margin: `${theme.spacing(0)} auto`,
     },
-    loginBtn: {
+    Btn: {
       marginTop: theme.spacing(2),
       flexGrow: 1,
     },
@@ -170,11 +170,18 @@ export const CIModal: React.FC<CIModalProps> = ({
           owner: user.id,
         })
         .then(() => {
+          dispatch({
+            type: 'ChangeSuccess',
+            payload: `CI ${aim}ed Successfully`,
+          });
           onBackdropClick();
           window.location.reload();
         })
         .catch((e) => {
-          console.log(e);
+          dispatch({
+            type: 'ChangeFailed',
+            payload: 'Something failed',
+          });
         });
     }
   };
@@ -294,7 +301,7 @@ export const CIModal: React.FC<CIModalProps> = ({
                 variant='contained'
                 size='large'
                 color='secondary'
-                className={classes.loginBtn}
+                className={classes.Btn}
                 onClick={handleAIM}
               >
                 {aim}

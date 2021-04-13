@@ -1,11 +1,10 @@
-import React, { FC, ReactElement } from "react";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import { Typography } from "@material-ui/core";
+import { FC, ReactElement } from 'react';
+import { Typography, createStyles, makeStyles, Theme } from '@material-ui/core';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     title: {
-      textTransform: "uppercase",
+      textTransform: 'uppercase',
     },
   })
 );
@@ -13,7 +12,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const PageTitle: FC<{ title: String }> = ({ title }): ReactElement => {
   const classes = useStyles();
   return (
-    <Typography variant="h4" className={classes.title} color="textSecondary">
+    <Typography variant='h4' className={classes.title} color='textSecondary'>
       {title}
     </Typography>
   );

@@ -1,8 +1,6 @@
-import React from 'react';
-import { ReactNode } from 'react';
-import { MouseEventHandler } from 'react';
-import { Modal } from '../model/Modal.model';
-import { CloseSign } from '../theme/ModalPopup.styles';
+import React, { ReactNode, MouseEventHandler } from 'react';
+import { Modal } from '../../model/Modal.model';
+import { CloseSign } from '../../theme/ModalPopup.styles';
 
 export interface BaseModalWrapperProps {
   isModalVisible: boolean;

@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useState } from 'react';
+import { FC, ReactElement, useState } from 'react';
 import clsx from 'clsx';
 import {
   List,
@@ -10,11 +10,11 @@ import {
   Icon,
   Tooltip,
   IconButton,
+  makeStyles,
+  Theme,
+  createStyles,
 } from '@material-ui/core';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import DefaultIcon from '@material-ui/icons/FileCopy';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
+import { FileCopy, ExpandLess, ExpandMore } from '@material-ui/icons';
 import { useLocation } from 'react-router-dom';
 
 // components
@@ -70,7 +70,7 @@ const Menu: FC<{}> = (): ReactElement => {
                     })}
                     size='small'
                   >
-                    <Icon component={route.icon || DefaultIcon} />
+                    <Icon component={route.icon || FileCopy} />
                   </IconButton>
                 </ListItemIcon>
                 <ListItemText primary={route.title} />

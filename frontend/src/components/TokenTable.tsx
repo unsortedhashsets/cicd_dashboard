@@ -1,16 +1,21 @@
-import React, { FC, ReactElement, useState } from 'react';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import axios from 'axios';
+import { FC, ReactElement, useState } from 'react';
+import {
+  Button,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  createStyles,
+  makeStyles,
+  Theme,
+} from '@material-ui/core';
+import { TokenModal } from './Modals/TokenModal';
+import { DeleteModal } from './Modals/DeleteModal';
 import { TokenModel } from '../model/Token.model';
-import { Button } from '@material-ui/core';
-import { TokenModal } from './TokenModal';
+import { user } from '../model/User.model';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -35,17 +40,16 @@ interface PropsCT {
 const TokenTable: FC<PropsCT> = ({ tokens }): ReactElement => {
   const classes = useStyles();
 
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalTokenVisible, setIsModalTokenVisible] = useState(false);
 
-  const toggleModal = () => {
-    setIsModalVisible((wasModalVisible) => !wasModalVisible);
+  const toggleTokenModal = () => {
+    setIsModalTokenVisible((wasModalVisible) => !wasModalVisible);
   };
 
-  const handleDelete = (id: number): void => {
-    axios.delete(`http://127.0.0.1:8000/api/token/${id}/`, {
-      withCredentials: true,
-    });
-    window.location.reload();
+  const [isModalDeleteVisible, setIsModalDeleteVisible] = useState(false);
+
+  const toggleDeleteModal = () => {
+    setIsModalDeleteVisible((wasModalVisible) => !wasModalVisible);
   };
 
   if (tokens.length === 0) {
@@ -60,12 +64,17 @@ const TokenTable: FC<PropsCT> = ({ tokens }): ReactElement => {
             <TableCell>User ID</TableCell>
             <TableCell>Token</TableCell>
             <TableCell>
-              <Button variant='contained' color='primary' onClick={toggleModal}>
+              <Button
+                variant='contained'
+                color='primary'
+                onClick={toggleTokenModal}
+                disabled={!user.isLogin}
+              >
                 Add Token
               </Button>
               <TokenModal
-                isModalVisible={isModalVisible}
-                onBackdropClick={toggleModal}
+                isModalVisible={isModalTokenVisible}
+                onBackdropClick={toggleTokenModal}
                 aim='Add'
               />
             </TableCell>
@@ -88,12 +97,17 @@ const TokenTable: FC<PropsCT> = ({ tokens }): ReactElement => {
           <TableCell>User ID</TableCell>
           <TableCell>Token</TableCell>
           <TableCell>
-            <Button variant='contained' color='primary' onClick={toggleModal}>
+            <Button
+              variant='contained'
+              color='primary'
+              onClick={toggleTokenModal}
+              disabled={!user.isLogin}
+            >
               Add Token
             </Button>
             <TokenModal
-              isModalVisible={isModalVisible}
-              onBackdropClick={toggleModal}
+              isModalVisible={isModalTokenVisible}
+              onBackdropClick={toggleTokenModal}
               aim='Add'
             />
           </TableCell>
@@ -113,25 +127,34 @@ const TokenTable: FC<PropsCT> = ({ tokens }): ReactElement => {
                 <Button
                   variant='contained'
                   color='primary'
-                  onClick={toggleModal}
+                  onClick={toggleTokenModal}
+                  disabled={!user.isLogin}
                 >
                   Update
                 </Button>
                 <TokenModal
-                  isModalVisible={isModalVisible}
-                  onBackdropClick={toggleModal}
+                  isModalVisible={isModalTokenVisible}
+                  onBackdropClick={toggleTokenModal}
                   aim='Update'
                   token={token}
                 />
               </TableCell>
               <TableCell>
                 <Button
+                  style={{ marginLeft: '15px' }}
                   variant='contained'
                   color='secondary'
-                  onClick={() => handleDelete(token.id)}
+                  onClick={toggleDeleteModal}
+                  disabled={!user.isLogin}
                 >
                   Delete
                 </Button>
+                <DeleteModal
+                  isModalVisible={isModalDeleteVisible}
+                  onBackdropClick={toggleDeleteModal}
+                  aim='token'
+                  id={token.id}
+                />
               </TableCell>
             </TableRow>
           ))}

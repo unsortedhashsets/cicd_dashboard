@@ -1,7 +1,9 @@
-import React, { ReactElement, FC, useEffect, useState } from 'react';
+import { ReactElement, FC, useEffect, useState } from 'react';
 import clsx from 'clsx';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import {
+  createStyles,
+  makeStyles,
+  Theme,
   AppBar,
   Toolbar,
   CssBaseline,
@@ -18,7 +20,7 @@ import Brightness3Icon from '@material-ui/icons/Brightness7';
 import { APP_TITLE, DRAWER_WIDTH } from '../utils/constants';
 import axios from 'axios';
 import { defaultUserModel, user, setUserModel } from '../model/User.model';
-import { LoginModal } from './LoginModal';
+import { LoginModal } from './Modals/LoginModal';
 
 // define css-in-js
 const useStyles = makeStyles((theme: Theme) =>
@@ -99,7 +101,7 @@ const Header: FC<Props> = ({
             setUserModel(defaultUserModel);
             user.isLogin = false;
             localStorage.removeItem('sessionid');
-            window.location.replace('/');
+            window.location.reload();
           });
       }
     }, 60000);
@@ -111,7 +113,7 @@ const Header: FC<Props> = ({
       setUserModel(defaultUserModel);
       user.isLogin = false;
       localStorage.removeItem('sessionid');
-      window.location.replace('/');
+      window.location.reload();
     });
   };
 

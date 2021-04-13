@@ -1,16 +1,14 @@
-import React, { FC, ReactElement, useEffect, useState } from 'react';
+import { FC, ReactElement, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-
-// components
 
 // constants
 import { APP_TITLE, PAGE_TITLE_CI_TOOLS } from '../utils/constants';
 import { CItoolModel } from '../model/CItool.model';
 import axios from 'axios';
 import SettingsCollapsibleTable from '../components/SettingsCollapsibleTable';
-import { Button } from '@material-ui/core';
-import { CIModal } from '../components/CIModal';
+import { Button, makeStyles, createStyles, Theme } from '@material-ui/core';
+import { CIModal } from '../components/Modals/CIModal';
+import { user } from '../model/User.model';
 
 // define css-in-js
 const useStyles = makeStyles((theme: Theme) =>
@@ -51,7 +49,12 @@ const CITools: FC<{}> = (): ReactElement => {
         </title>
       </Helmet>
       <div className={classes.root}>
-        <Button variant='contained' color='secondary' onClick={toggleModal}>
+        <Button
+          variant='contained'
+          color='secondary'
+          onClick={toggleModal}
+          disabled={!user.isLogin}
+        >
           Add CI tool
         </Button>
         <CIModal

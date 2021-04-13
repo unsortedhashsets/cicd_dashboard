@@ -1,21 +1,23 @@
 import { Button, TableCell, TableRow } from '@material-ui/core';
-import axios from 'axios';
-import { FC, ReactElement } from 'react';
+import React, { FC, ReactElement, useState } from 'react';
 import { JobModel } from '../model/Job.model';
+import { user } from '../model/User.model';
+import { DeleteModal } from './Modals/DeleteModal';
+import { JobModal } from './Modals/JobModal';
 
 interface Props {
   jobRow: JobModel;
 }
 
 const SettingsRow: FC<Props> = ({ jobRow }): ReactElement => {
-  const handleDelete = (): void => {
-    axios
-      .delete(`http://127.0.0.1:8000/api/job/${jobRow.id}/`, {
-        withCredentials: true,
-      })
-      .then(() => {
-        window.location.reload();
-      });
+  const [isJobModalVisible, setIsJobModalVisible] = useState(false);
+  const [isModalDeleteVisible, setIsModalDeleteVisible] = useState(false);
+
+  const toggleDeleteModal = () => {
+    setIsModalDeleteVisible((wasModalVisible) => !wasModalVisible);
+  };
+  const toggleJobModal = () => {
+    setIsJobModalVisible((wasModalVisible) => !wasModalVisible);
   };
 
   return (
@@ -31,17 +33,35 @@ const SettingsRow: FC<Props> = ({ jobRow }): ReactElement => {
       <TableCell></TableCell>
       <TableCell></TableCell>
       <TableCell align='center'>
-        <Button variant='contained' color='primary'>
+        <Button
+          variant='contained'
+          color='primary'
+          onClick={toggleJobModal}
+          disabled={!user.isLogin}
+        >
           Update
         </Button>
+        <JobModal
+          isModalVisible={isJobModalVisible}
+          onBackdropClick={toggleJobModal}
+          aim='Update'
+          job={jobRow}
+        />
         <Button
           style={{ marginLeft: '15px' }}
           variant='contained'
           color='secondary'
-          onClick={handleDelete}
+          onClick={toggleDeleteModal}
+          disabled={!user.isLogin}
         >
           Delete
         </Button>
+        <DeleteModal
+          isModalVisible={isModalDeleteVisible}
+          onBackdropClick={toggleDeleteModal}
+          aim='job'
+          id={jobRow.id}
+        />
       </TableCell>
     </TableRow>
   );

@@ -1,14 +1,20 @@
 import React, { useReducer } from 'react';
-import { RWDModal } from '../model/RWDModal';
-import { TokenModel } from '../model/Token.model';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import CardHeader from '@material-ui/core/CardHeader';
-import TextField from '@material-ui/core/TextField';
-import { Button, createStyles, makeStyles, Theme } from '@material-ui/core';
+import {
+  Button,
+  createStyles,
+  makeStyles,
+  Theme,
+  Card,
+  CardContent,
+  CardActions,
+  CardHeader,
+  TextField,
+} from '@material-ui/core';
 import axios from 'axios';
-import { user } from '../model/User.model';
+import { RWDModal } from '../../model/RWDModal';
+import { user } from '../../model/User.model';
+import { JobModel } from '../../model/Job.model';
+import { CItoolModel } from '../../model/CItool.model';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -18,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: 400,
       margin: `${theme.spacing(0)} auto`,
     },
-    loginBtn: {
+    Btn: {
       marginTop: theme.spacing(2),
       flexGrow: 1,
     },
@@ -34,24 +40,18 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 type State = {
+  job: string;
+  path: string;
   ci: string;
-  token: string;
   isButtonDisabled: boolean;
   helperText: string;
   isError: boolean;
 };
 
-const initialState: State = {
-  ci: '',
-  token: '',
-  isButtonDisabled: false,
-  helperText: '',
-  isError: false,
-};
-
 type Action =
+  | { type: 'setJob'; payload: string }
+  | { type: 'setPath'; payload: string }
   | { type: 'setCI'; payload: string }
-  | { type: 'setToken'; payload: string }
   | { type: 'setIsButtonDisabled'; payload: boolean }
   | { type: 'ChangeSuccess'; payload: string }
   | { type: 'ChangeFailed'; payload: string }
@@ -59,15 +59,20 @@ type Action =
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
+    case 'setJob':
+      return {
+        ...state,
+        job: action.payload,
+      };
+    case 'setPath':
+      return {
+        ...state,
+        path: action.payload,
+      };
     case 'setCI':
       return {
         ...state,
         ci: action.payload,
-      };
-    case 'setToken':
-      return {
-        ...state,
-        token: action.payload,
       };
     case 'setIsButtonDisabled':
       return {
@@ -94,35 +99,45 @@ const reducer = (state: State, action: Action): State => {
   }
 };
 
-interface TokenModalProps {
+interface JobModalProps {
   onBackdropClick: () => void;
   isModalVisible: boolean;
-  token?: TokenModel;
+  job?: JobModel;
+  ci?: CItoolModel;
   aim?: string;
 }
 
-export const TokenModal: React.FC<TokenModalProps> = ({
+export const JobModal: React.FC<JobModalProps> = ({
   isModalVisible,
   onBackdropClick,
-  token,
+  job,
   aim,
+  ci,
 }) => {
   const classes = useStyles();
-  const [state, dispatch] = useReducer(reducer, initialState);
+
+  const [state, dispatch] = useReducer(reducer, {
+    job: job?.job || 'name',
+    path: job?.path || 'path',
+    ci: job?.ci.toString() || ci?.id.toString() || '0',
+    isButtonDisabled: false,
+    helperText: '',
+    isError: false,
+  });
 
   const handleAIM = (): void => {
     if (aim === 'Add') {
       axios
-        .post(`http://127.0.0.1:8000/api/token/`, {
+        .post(`http://127.0.0.1:8000/api/job/`, {
           withCredentials: true,
-          token: state.token,
-          ci: Number(state.ci),
-          user: user.id,
+          job: state.job,
+          ci: state.ci,
+          path: state.path,
         })
         .then(() => {
           dispatch({
             type: 'ChangeSuccess',
-            payload: 'Token changed Successfully',
+            payload: `Job ${aim}ed Successfully`,
           });
           onBackdropClick();
           window.location.reload();
@@ -135,36 +150,43 @@ export const TokenModal: React.FC<TokenModalProps> = ({
         });
     } else {
       axios
-        .put(`http://127.0.0.1:8000/api/token/${token?.id}/`, {
+        .put(`http://127.0.0.1:8000/api/job/${job?.id}/`, {
           withCredentials: true,
-          token: state.token,
-          ci: Number(state.ci),
-          user: user.id,
+          job: state.job,
+          ci: state.ci,
+          path: state.path,
         })
         .then(() => {
+          dispatch({
+            type: 'ChangeSuccess',
+            payload: `Job ${aim}ed Successfully`,
+          });
           onBackdropClick();
           window.location.reload();
         })
         .catch((e) => {
-          console.log(e);
+          dispatch({
+            type: 'ChangeFailed',
+            payload: 'Something failed',
+          });
         });
     }
   };
 
-  const handleTokenChange: React.ChangeEventHandler<HTMLInputElement> = (
+  const handleJobChange: React.ChangeEventHandler<HTMLInputElement> = (
     event
   ) => {
     dispatch({
-      type: 'setToken',
+      type: 'setJob',
       payload: event.target.value,
     });
   };
 
-  const handleCIchange: React.ChangeEventHandler<HTMLInputElement> = (
+  const handlePathChange: React.ChangeEventHandler<HTMLInputElement> = (
     event
   ) => {
     dispatch({
-      type: 'setCI',
+      type: 'setPath',
       payload: event.target.value,
     });
   };
@@ -176,26 +198,29 @@ export const TokenModal: React.FC<TokenModalProps> = ({
       content={
         <form className={classes.container} noValidate autoComplete='off'>
           <Card className={classes.card}>
-            <CardHeader className={classes.header} title={`${aim} token`} />
+            <CardHeader className={classes.header} title={`${aim} Job`} />
             <CardContent>
               <div>
                 <TextField
                   error={state.isError}
                   fullWidth
-                  id='ci_id'
-                  label='CI ID (digit)'
-                  placeholder={token?.ci.toString() || '0'}
+                  id='job_name'
+                  label='Job Name'
+                  placeholder={state.job || 'Name'}
+                  defaultValue={state.job}
                   margin='normal'
-                  onChange={handleCIchange}
+                  onChange={handleJobChange}
+                  helperText={state.helperText}
                 />
                 <TextField
                   error={state.isError}
                   fullWidth
-                  id='token'
-                  label='Token'
-                  placeholder={token?.token || 'xxxxxxx'}
+                  id='job_path'
+                  label='Job path (/view/Fuse%20Tooling.next/...)'
+                  placeholder={state.path || '/view/Fuse%20Tooling.next/...'}
+                  defaultValue={state.path}
                   margin='normal'
-                  onChange={handleTokenChange}
+                  onChange={handlePathChange}
                   helperText={state.helperText}
                 />
               </div>
@@ -205,8 +230,9 @@ export const TokenModal: React.FC<TokenModalProps> = ({
                 variant='contained'
                 size='large'
                 color='secondary'
-                className={classes.loginBtn}
+                className={classes.Btn}
                 onClick={handleAIM}
+                disabled={!user.isLogin}
               >
                 {aim}
               </Button>

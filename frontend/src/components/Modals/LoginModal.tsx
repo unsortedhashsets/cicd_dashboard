@@ -1,15 +1,18 @@
 import React, { useReducer, useEffect } from 'react';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-
-import TextField from '@material-ui/core/TextField';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import CardHeader from '@material-ui/core/CardHeader';
-import Button from '@material-ui/core/Button';
+import {
+  Button,
+  createStyles,
+  makeStyles,
+  Theme,
+  Card,
+  CardContent,
+  CardActions,
+  CardHeader,
+  TextField,
+} from '@material-ui/core';
 import axios from 'axios';
-import { user, setUserModel } from '../model/User.model';
-import { RWDModal } from '../model/RWDModal';
+import { user, setUserModel } from '../../model/User.model';
+import { RWDModal } from '../../model/RWDModal';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -19,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: 400,
       margin: `${theme.spacing(0)} auto`,
     },
-    loginBtn: {
+    Btn: {
       marginTop: theme.spacing(2),
       flexGrow: 1,
     },
@@ -205,7 +208,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
                 variant='contained'
                 size='large'
                 color='secondary'
-                className={classes.loginBtn}
+                className={classes.Btn}
                 onClick={handleLogin}
                 disabled={state.isButtonDisabled}
               >

@@ -7,9 +7,11 @@ import {
   Icon,
   Tooltip,
   IconButton,
+  makeStyles,
+  Theme,
+  createStyles,
 } from '@material-ui/core';
 import DefaultIcon from '@material-ui/icons/FileCopy';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { NavLink, useLocation } from 'react-router-dom';
 
 // models

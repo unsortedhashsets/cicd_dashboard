@@ -1,20 +1,26 @@
 import React, { FC, ReactElement, useState } from 'react';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
-import Collapse from '@material-ui/core/Collapse';
-import IconButton from '@material-ui/core/IconButton';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+import {
+  Button,
+  TableRow,
+  TableHead,
+  TableCell,
+  TableBody,
+  Table,
+  IconButton,
+  Collapse,
+  Box,
+  createStyles,
+  makeStyles,
+  Theme,
+} from '@material-ui/core';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import { CItoolModel } from '../model/CItool.model';
-import axios from 'axios';
-import { Button } from '@material-ui/core';
 import SettingsRow from './SettingsRow';
-import { CIModal } from '../components/CIModal';
+import { CIModal } from './Modals/CIModal';
+import { JobModal } from './Modals/JobModal';
+import { DeleteModal } from './Modals/DeleteModal';
+import { CItoolModel } from '../model/CItool.model';
+import { user } from '../model/User.model';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -40,17 +46,20 @@ const Row: FC<PropsR> = ({ CItool }): ReactElement => {
   const [openModule, setOpenModule] = React.useState(true);
   const classes = useStyles();
 
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isCIModalVisible, setIsCIModalVisible] = useState(false);
+  const [isJobModalVisible, setIsJobModalVisible] = useState(false);
+  const [isModalDeleteVisible, setIsModalDeleteVisible] = useState(false);
 
-  const toggleModal = () => {
-    setIsModalVisible((wasModalVisible) => !wasModalVisible);
+  const toggleCIModal = () => {
+    setIsCIModalVisible((wasModalVisible) => !wasModalVisible);
   };
 
-  const handleDelete = (): void => {
-    axios.delete(`http://127.0.0.1:8000/api/ci/${CItool.id}/`, {
-      withCredentials: true,
-    });
-    window.location.reload();
+  const toggleJobModal = () => {
+    setIsJobModalVisible((wasModalVisible) => !wasModalVisible);
+  };
+
+  const toggleDeleteModal = () => {
+    setIsModalDeleteVisible((wasModalVisible) => !wasModalVisible);
   };
 
   if (CItool.jobs.length === 0) {
@@ -65,21 +74,49 @@ const Row: FC<PropsR> = ({ CItool }): ReactElement => {
           <TableCell>{CItool.owner || 'undefined'}</TableCell>
           <TableCell>{CItool.type}</TableCell>
           <TableCell align='center'>
-            <Button variant='contained' color='primary'>
+            <Button
+              variant='contained'
+              color='primary'
+              onClick={toggleJobModal}
+              disabled={!user.isLogin}
+            >
               Add Job
             </Button>
-            <Button variant='contained' color='primary' onClick={toggleModal}>
+            <JobModal
+              isModalVisible={isJobModalVisible}
+              onBackdropClick={toggleJobModal}
+              aim='Add'
+              ci={CItool}
+            />
+            <Button
+              variant='contained'
+              color='primary'
+              onClick={toggleCIModal}
+              disabled={!user.isLogin}
+            >
               Update
             </Button>
             <CIModal
-              isModalVisible={isModalVisible}
-              onBackdropClick={toggleModal}
+              isModalVisible={isCIModalVisible}
+              onBackdropClick={toggleCIModal}
               aim='Update'
               ci={CItool}
             />
-            <Button variant='contained' onClick={handleDelete}>
+            <Button
+              style={{ marginLeft: '15px' }}
+              variant='contained'
+              color='secondary'
+              onClick={toggleDeleteModal}
+              disabled={!user.isLogin}
+            >
               Delete
             </Button>
+            <DeleteModal
+              isModalVisible={isModalDeleteVisible}
+              onBackdropClick={toggleDeleteModal}
+              aim='ci'
+              id={CItool.id}
+            />
           </TableCell>
         </TableRow>
         <TableBody />
@@ -107,21 +144,51 @@ const Row: FC<PropsR> = ({ CItool }): ReactElement => {
         <TableCell>{CItool.owner || 'undefined'}</TableCell>
         <TableCell>{CItool.type}</TableCell>
         <TableCell align='center'>
-          <Button variant='contained' color='primary'>
+          <Button
+            style={{ marginLeft: '15px' }}
+            variant='contained'
+            color='primary'
+            onClick={toggleJobModal}
+            disabled={!user.isLogin}
+          >
             Add Job
           </Button>
-          <Button variant='contained' color='primary' onClick={toggleModal}>
+          <JobModal
+            isModalVisible={isJobModalVisible}
+            onBackdropClick={toggleJobModal}
+            aim='Add'
+            ci={CItool}
+          />
+          <Button
+            style={{ marginLeft: '15px' }}
+            variant='contained'
+            color='primary'
+            onClick={toggleCIModal}
+            disabled={!user.isLogin}
+          >
             Update
           </Button>
           <CIModal
-            isModalVisible={isModalVisible}
-            onBackdropClick={toggleModal}
+            isModalVisible={isCIModalVisible}
+            onBackdropClick={toggleCIModal}
             aim='Update'
             ci={CItool}
           />
-          <Button variant='contained' onClick={handleDelete}>
+          <Button
+            style={{ marginLeft: '15px' }}
+            variant='contained'
+            color='secondary'
+            onClick={toggleDeleteModal}
+            disabled={!user.isLogin}
+          >
             Delete
           </Button>
+          <DeleteModal
+            isModalVisible={isModalDeleteVisible}
+            onBackdropClick={toggleDeleteModal}
+            aim='ci'
+            id={CItool.id}
+          />
         </TableCell>
       </TableRow>
       <TableRow className={classes.content}>
