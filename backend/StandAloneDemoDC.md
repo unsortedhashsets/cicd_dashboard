@@ -36,6 +36,9 @@ In project home directory create .env file with two variables:
 ```
 SECRET_KEY=*SomeSuperSecretKey*
 ADMINS_LIST='["RHlogin"]'
+POSTGRES_DB=*db_name*
+POSTGRES_USER=*db_user*
+POSTGRES_PASSWORD=*db_password*
 ```
 
 User defined in admin list will be promoted as staff/admin/superuser after LDAP authentication

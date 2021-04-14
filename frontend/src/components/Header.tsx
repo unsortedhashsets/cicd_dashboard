@@ -17,7 +17,7 @@ import Brightness7Icon from '@material-ui/icons/Brightness3';
 import Brightness3Icon from '@material-ui/icons/Brightness7';
 
 // constants
-import { APP_TITLE, DRAWER_WIDTH } from '../utils/constants';
+import { API_IP, APP_TITLE, DRAWER_WIDTH } from '../utils/constants';
 import axios from 'axios';
 import { defaultUserModel, user, setUserModel } from '../model/User.model';
 import { LoginModal } from './Modals/LoginModal';
@@ -89,11 +89,9 @@ const Header: FC<Props> = ({
 
   useEffect(() => {
     const interval = setInterval(() => {
-      console.log(user);
       if (user.isLogin) {
-        console.log(user);
         axios
-          .get('http://127.0.0.1:8000/api/user/', {})
+          .get(`${API_IP}/api/user/`, {})
           .then(() => {
             user.isLogin = true;
           })
@@ -109,7 +107,7 @@ const Header: FC<Props> = ({
   });
 
   const handleLogout = () => {
-    axios.post('http://127.0.0.1:8000/api/logout/').then(() => {
+    axios.post(`${API_IP}/api/logout/`).then(() => {
       setUserModel(defaultUserModel);
       user.isLogin = false;
       localStorage.removeItem('sessionid');

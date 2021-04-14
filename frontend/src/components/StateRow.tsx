@@ -16,6 +16,7 @@ import {
   defaultJobStatusModel,
 } from '../model/Job.model';
 import UpdateIcon from '@material-ui/icons/Update';
+import { API_IP } from '../utils/constants';
 
 const StateRow: FC<{ jobRow: JobModel }> = ({ jobRow }): ReactElement => {
   const [jobStatus, setJobStatusModel] = useState<JobStatusModel>(
@@ -55,10 +56,9 @@ const StateRow: FC<{ jobRow: JobModel }> = ({ jobRow }): ReactElement => {
   const handleUpdate = (): void => {
     setJobStatusModel(defaultJobStatusModel);
     axios
-      .get<JobStatusModel>(
-        `http://127.0.0.1:8000/api/job/${jobRow.id}/status/`,
-        { withCredentials: true }
-      )
+      .get<JobStatusModel>(`${API_IP}/api/job/${jobRow.id}/status/`, {
+        withCredentials: true,
+      })
       .then((response) => {
         setJobStatusModel(response.data);
       });
@@ -67,10 +67,9 @@ const StateRow: FC<{ jobRow: JobModel }> = ({ jobRow }): ReactElement => {
   useEffect(() => {
     setJobStatusModel(defaultJobStatusModel);
     axios
-      .get<JobStatusModel>(
-        `http://127.0.0.1:8000/api/job/${jobRow.id}/status`,
-        { withCredentials: true }
-      )
+      .get<JobStatusModel>(`${API_IP}/api/job/${jobRow.id}/status`, {
+        withCredentials: true,
+      })
       .then((response) => {
         setJobStatusModel(response.data);
       });

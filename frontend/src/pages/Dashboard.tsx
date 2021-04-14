@@ -7,7 +7,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { CItoolModel } from '../model/CItool.model';
 
 // constants
-import { APP_TITLE, PAGE_TITLE_DASHBOARD } from '../utils/constants';
+import { API_IP, APP_TITLE, PAGE_TITLE_DASHBOARD } from '../utils/constants';
 import axios from 'axios';
 import StateCollapsibleTable from '../components/StateCollapsibleTable';
 
@@ -30,7 +30,7 @@ const Dashboard: FC<{}> = (): ReactElement => {
 
   useEffect(() => {
     axios
-      .get<CItoolModel[]>('http://127.0.0.1:8000/api/ci/', {
+      .get<CItoolModel[]>(`${API_IP}/api/ci/`, {
         withCredentials: true,
       })
       .then((response) => {

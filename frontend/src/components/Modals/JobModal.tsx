@@ -15,6 +15,7 @@ import { RWDModal } from '../../model/RWDModal';
 import { user } from '../../model/User.model';
 import { JobModel } from '../../model/Job.model';
 import { CItoolModel } from '../../model/CItool.model';
+import { API_IP } from '../../utils/constants';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -128,7 +129,7 @@ export const JobModal: React.FC<JobModalProps> = ({
   const handleAIM = (): void => {
     if (aim === 'Add') {
       axios
-        .post(`http://127.0.0.1:8000/api/job/`, {
+        .post(`${API_IP}/api/job/`, {
           withCredentials: true,
           job: state.job,
           ci: state.ci,
@@ -150,7 +151,7 @@ export const JobModal: React.FC<JobModalProps> = ({
         });
     } else {
       axios
-        .put(`http://127.0.0.1:8000/api/job/${job?.id}/`, {
+        .put(`${API_IP}/api/job/${job?.id}/`, {
           withCredentials: true,
           job: state.job,
           ci: state.ci,

@@ -19,6 +19,7 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { CItoolModel, defaultCItool } from '../model/CItool.model';
 import StateRow from './StateRow';
 import axios from 'axios';
+import { API_IP } from '../utils/constants';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -47,7 +48,7 @@ const Row: FC<PropsR> = ({ _CItool }): ReactElement => {
 
   const handleUpdate = (): void => {
     axios
-      .get<CItoolModel>(`http://127.0.0.1:8000/api/ci/${CItool.id}/`, {
+      .get<CItoolModel>(`${API_IP}/api/ci/${CItool.id}/`, {
         withCredentials: true,
       })
       .then((response) => {

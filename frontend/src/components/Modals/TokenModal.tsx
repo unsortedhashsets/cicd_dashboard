@@ -14,6 +14,7 @@ import axios from 'axios';
 import { user } from '../../model/User.model';
 import { RWDModal } from '../../model/RWDModal';
 import { TokenModel } from '../../model/Token.model';
+import { API_IP } from '../../utils/constants';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -117,7 +118,7 @@ export const TokenModal: React.FC<TokenModalProps> = ({
   const handleAIM = (): void => {
     if (aim === 'Add') {
       axios
-        .post(`http://127.0.0.1:8000/api/token/`, {
+        .post(`${API_IP}/api/token/`, {
           withCredentials: true,
           token: state.token,
           ci: Number(state.ci),
@@ -139,7 +140,7 @@ export const TokenModal: React.FC<TokenModalProps> = ({
         });
     } else {
       axios
-        .put(`http://127.0.0.1:8000/api/token/${token?.id}/`, {
+        .put(`${API_IP}/api/token/${token?.id}/`, {
           withCredentials: true,
           token: state.token,
           ci: Number(state.ci),

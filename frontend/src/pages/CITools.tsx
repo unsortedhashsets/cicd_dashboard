@@ -2,7 +2,7 @@ import { FC, ReactElement, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 
 // constants
-import { APP_TITLE, PAGE_TITLE_CI_TOOLS } from '../utils/constants';
+import { API_IP, APP_TITLE, PAGE_TITLE_CI_TOOLS } from '../utils/constants';
 import { CItoolModel } from '../model/CItool.model';
 import axios from 'axios';
 import SettingsCollapsibleTable from '../components/SettingsCollapsibleTable';
@@ -33,7 +33,7 @@ const CITools: FC<{}> = (): ReactElement => {
 
   useEffect(() => {
     axios
-      .get<CItoolModel[]>('http://127.0.0.1:8000/api/ci/', {
+      .get<CItoolModel[]>(`${API_IP}/api/ci/`, {
         withCredentials: true,
       })
       .then((response) => {

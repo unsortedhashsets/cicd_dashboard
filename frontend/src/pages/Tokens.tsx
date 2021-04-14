@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 // constants
-import { APP_TITLE, PAGE_TITLE_TOKENS } from '../utils/constants';
+import { API_IP, APP_TITLE, PAGE_TITLE_TOKENS } from '../utils/constants';
 import { TokenModel } from '../model/Token.model';
 import axios from 'axios';
 import TokenTable from '../components/TokenTable';
@@ -26,7 +26,7 @@ const Tokens: FC<{}> = (): ReactElement => {
 
   useEffect(() => {
     axios
-      .get<TokenModel[]>('http://127.0.0.1:8000/api/token/', {
+      .get<TokenModel[]>(`${API_IP}/api/token/`, {
         withCredentials: true,
       })
       .then((response) => {

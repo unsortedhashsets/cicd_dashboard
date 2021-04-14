@@ -18,7 +18,7 @@ import { lightTheme, darkTheme } from './theme/appTheme';
 import { routes } from './config';
 
 // constants
-import { APP_TITLE } from './utils/constants';
+import { API_IP, APP_TITLE } from './utils/constants';
 
 // interfaces
 import RouteItem from './model/RouteItem.model';
@@ -43,12 +43,10 @@ function App() {
   axios.defaults.xsrfHeaderName = 'X-CSRFToken';
   axios.defaults.headers.common['Authorization'] = 'sessionid';
 
-  axios
-    .get('http://127.0.0.1:8000/api/set-csrf/', { withCredentials: true })
-    .then((res) => console.log(res));
+  axios.get(`${API_IP}/api/set-csrf/`, { withCredentials: true });
 
   axios
-    .get('http://127.0.0.1:8000/api/user/', {})
+    .get(`${API_IP}/api/user/`, {})
     .then((response) => {
       setUserModel(response.data[0]);
       user.isLogin = true;
