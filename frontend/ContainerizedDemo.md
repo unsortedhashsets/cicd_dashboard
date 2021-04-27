@@ -17,7 +17,7 @@ Without authentication is possible to communicate with CI instances predefined a
 
 ### 0. Prepare .env file
 
-In project home directory create .env file with two variables:
+In project home directory create .env file with variables:
 
 ```
 SECRET_KEY=*SomeSuperSecretKey*

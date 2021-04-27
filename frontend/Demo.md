@@ -9,6 +9,10 @@ Start backend server:
 Or
 * [Backend docker-compose standalone demo](backend/StandAloneDemoDC.md)
 
+Add additional variable to ENV file:
+
+`FRONTEND_LOCAL=1`
+
 In the project directory, run:
 
 `( cd frontend ; yarn start )`
