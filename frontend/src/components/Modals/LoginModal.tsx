@@ -13,7 +13,6 @@ import {
 import axios from 'axios';
 import { user, setUserModel } from '../../model/User.model';
 import { RWDModal } from '../../model/RWDModal';
-import { API_IP } from '../../utils/constants';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -129,7 +128,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
 
   const handleLogin = () => {
     axios
-      .post(`${API_IP}/api/login/`, {
+      .post(`/api/login/`, {
         username: state.username,
         password: state.password,
       })
@@ -138,11 +137,11 @@ export const LoginModal: React.FC<LoginModalProps> = ({
           type: 'loginSuccess',
           payload: 'Login Successfully',
         });
-        axios.get(`${API_IP}/api/user/`, {}).then((response) => {
+        onBackdropClick();
+        axios.get(`/api/user/`, {}).then((response) => {
           setUserModel(response.data[0]);
         });
         user.isLogin = true;
-        onBackdropClick();
         window.location.reload();
       })
       .catch(() => {

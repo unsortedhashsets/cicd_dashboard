@@ -12,6 +12,8 @@ services:
     build:
       context: .
       dockerfile: ./docker/nginx/Dockerfile
+    volumes:
+      - ./docker/nginx/production:/etc/nginx/conf.d
     ports:
       - 80:80
     depends_on:
@@ -29,8 +31,6 @@ services:
       - 8000
     depends_on:
       - database
-    extra_hosts:
-      - 'ldap.corp.redhat.com:10.45.248.15'
 
 volumes:
   static_volume: {}

@@ -18,7 +18,7 @@ import { lightTheme, darkTheme } from './theme/appTheme';
 import { routes } from './config';
 
 // constants
-import { API_IP, APP_TITLE } from './utils/constants';
+import { APP_TITLE } from './utils/constants';
 
 // interfaces
 import RouteItem from './model/RouteItem.model';
@@ -34,6 +34,11 @@ const DefaultComponent: FC<{}> = (): ReactElement => (
 );
 
 // axios
+if (window.location.origin === 'http://localhost:3000') {
+  axios.defaults.baseURL = 'http://127.0.0.1:8000';
+} else {
+  axios.defaults.baseURL = window.location.origin;
+}
 
 function App() {
   const [isLoading, setLoading] = useState(true);
@@ -43,10 +48,10 @@ function App() {
   axios.defaults.xsrfHeaderName = 'X-CSRFToken';
   axios.defaults.headers.common['Authorization'] = 'sessionid';
 
-  axios.get(`${API_IP}/api/set-csrf/`, { withCredentials: true });
+  axios.get(`/api/set-csrf/`, { withCredentials: true });
 
   axios
-    .get(`${API_IP}/api/user/`, {})
+    .get(`/api/user/`, {})
     .then((response) => {
       setUserModel(response.data[0]);
       user.isLogin = true;

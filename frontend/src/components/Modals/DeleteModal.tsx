@@ -11,7 +11,6 @@ import {
   Typography,
 } from '@material-ui/core';
 import axios from 'axios';
-import { API_IP } from '../../utils/constants';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -54,7 +53,7 @@ export const DeleteModal: React.FC<DeleteModalProps> = ({
 
   const handleDelete = (): void => {
     axios
-      .delete(`${API_IP}/api/${aim}/${id}/`, {
+      .delete(`/api/${aim}/${id}/`, {
         withCredentials: true,
       })
       .then(() => {

@@ -36,7 +36,7 @@ if os.getenv("BACKEND_LOCAL") is None:
     POSTGRES_PASSWORD=str(os.getenv('POSTGRES_PASSWORD'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # Application definition
 
@@ -78,8 +78,8 @@ CORS_ORIGIN_ALLOW_ALL = True # If this is used then `CORS_ORIGIN_WHITELIST` will
 CORS_ALLOW_CREDENTIALS = True
 CSRF_COOKIE_NAME = "csrftoken"
 ROOT_URLCONF = 'ci_dashboardSite.urls'
-SESSION_COOKIE_SECURE = not DEBUG
-CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
 
 TEMPLATES = [
     {

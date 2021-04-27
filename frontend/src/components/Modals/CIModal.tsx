@@ -15,7 +15,6 @@ import {
 import axios from 'axios';
 import { user } from '../../model/User.model';
 import { CItoolModel } from '../../model/CItool.model';
-import { API_IP } from '../../utils/constants';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -138,7 +137,7 @@ export const CIModal: React.FC<CIModalProps> = ({
   const handleAIM = (): void => {
     if (aim === 'Add') {
       axios
-        .post(`${API_IP}/api/ci/`, {
+        .post(`/api/ci/`, {
           withCredentials: true,
           ci: state.ci,
           type: state.type,
@@ -162,7 +161,7 @@ export const CIModal: React.FC<CIModalProps> = ({
         });
     } else {
       axios
-        .put(`${API_IP}/api/ci/${ci?.id}/`, {
+        .put(`/api/ci/${ci?.id}/`, {
           withCredentials: true,
           ci: state.ci,
           type: state.type,

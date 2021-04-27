@@ -10,4 +10,3 @@ export const FOOTER_HEIGHT = 30;
 export const FOOTER_INDENT_RIGHT = 30;
 export const HEADER_HEIGHT = 60;
 export const DRAWER_WIDTH = 250;
-export const API_IP = 'http://127.0.0.1:8000';

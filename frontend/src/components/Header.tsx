@@ -17,7 +17,7 @@ import Brightness7Icon from '@material-ui/icons/Brightness3';
 import Brightness3Icon from '@material-ui/icons/Brightness7';
 
 // constants
-import { API_IP, APP_TITLE, DRAWER_WIDTH } from '../utils/constants';
+import { APP_TITLE, DRAWER_WIDTH } from '../utils/constants';
 import axios from 'axios';
 import { defaultUserModel, user, setUserModel } from '../model/User.model';
 import { LoginModal } from './Modals/LoginModal';
@@ -91,7 +91,7 @@ const Header: FC<Props> = ({
     const interval = setInterval(() => {
       if (user.isLogin) {
         axios
-          .get(`${API_IP}/api/user/`, {})
+          .get(`/api/user/`, {})
           .then(() => {
             user.isLogin = true;
           })
@@ -107,7 +107,7 @@ const Header: FC<Props> = ({
   });
 
   const handleLogout = () => {
-    axios.post(`${API_IP}/api/logout/`).then(() => {
+    axios.post(`/api/logout/`).then(() => {
       setUserModel(defaultUserModel);
       user.isLogin = false;
       localStorage.removeItem('sessionid');

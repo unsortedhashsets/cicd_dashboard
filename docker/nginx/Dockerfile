@@ -1,23 +1,16 @@
-# Multi-stage
-# 1) Node image for building frontend assets
-# 2) nginx stage to serve frontend assets
+# The first stage
+# Build React static files
+FROM node:10 as build
 
-# Name the node stage "builder"
-FROM node:10 AS builder
-# Set working directory
 WORKDIR /app/frontend
-# Copy all files from current directory to working dir in image
+COPY ./frontend/package.json ./
+COPY ./frontend/package-lock.json ./
+RUN yarn install
 COPY ./frontend/ ./
-# install node modules and build assets
-RUN yarn install && yarn build
+RUN yarn build
 
-# nginx state for serving content
-FROM nginx:alpine
-# Set working directory to nginx asset directory
-WORKDIR /usr/share/nginx/html
-# Remove default nginx static assets
-RUN rm -rf ./*
-# Copy static assets from builder stage
-COPY --from=builder /app/frontend/build /usr/share/nginx/html
-# Containers run nginx with global directives and daemon off
+# The second stage
+# Copy React static files and start nginx
+FROM nginx:stable-alpine
+COPY --from=build /app/frontend/build /usr/share/nginx/html
 CMD ["nginx", "-g", "daemon off;"]

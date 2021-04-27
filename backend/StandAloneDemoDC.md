@@ -10,19 +10,6 @@
 
 ### **!!!** IMPORTANT **!!!**:
 
----
-⚠️ 
-
-The LDAP Authentication from the container temporarily does not work.
-
-LDAP CLI function 
-`ldapsearch -x -h ldap.corp.redhat.com -b dc=redhat,dc=com -s sub 'uid=mabramov'`
-does not work to.
-
-⚠️ 
-
----
-
 Authentication is possible only through the RH LDAP server.
 Kerberos password will be immediately mask with signal function:
 ci_dashboardApp/signals.py `create_profile` with string 'MASKED'

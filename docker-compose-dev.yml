@@ -19,8 +19,6 @@ services:
       - 8000:8000
     depends_on:
       - database
-    extra_hosts:
-      - 'ldap.corp.redhat.com:10.45.248.15'
 
 volumes:
   static_volume: {}
