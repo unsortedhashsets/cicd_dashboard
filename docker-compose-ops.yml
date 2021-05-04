@@ -3,15 +3,13 @@ version: '3'
 services:
   database:
     container_name: dashboard_database
-    image: postgres
+    image: dashboard_database
     env_file:
       - .env
 
   frontend:
     container_name: dashboard_frontend
-    build:
-      context: .
-      dockerfile: ./docker/frontend/Dockerfile
+    image: dashboard_frontend
     ports:
       - 80:80
     depends_on:
@@ -19,11 +17,9 @@ services:
 
   backend:
     container_name: dashboard_backend
+    image: dashboard_backend
     env_file:
       - .env
-    build:
-      context: .
-      dockerfile: ./docker/backend/Dockerfile
     entrypoint: /app/docker/backend/wsgi-entrypoint.sh
     expose:
       - 8000

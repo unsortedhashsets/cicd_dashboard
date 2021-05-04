@@ -96,8 +96,8 @@ const Row: FC<PropsR> = ({ _CItool }): ReactElement => {
               <Table size='small' aria-label='jobs'>
                 <TableHead>
                   <TableRow>
-                    <TableCell></TableCell>
-                    <TableCell>Job name</TableCell>
+                    <TableCell style={{ width: 50 }}></TableCell>
+                    <TableCell style={{ width: 350 }}>Job name</TableCell>
                     <TableCell>Job link</TableCell>
                     <TableCell>Last build link</TableCell>
                     <TableCell>Last build number</TableCell>

@@ -198,9 +198,9 @@ const Row: FC<PropsR> = ({ CItool }): ReactElement => {
               <Table size='small' aria-label='jobs'>
                 <TableHead>
                   <TableRow>
-                    <TableCell></TableCell>
-                    <TableCell>Name</TableCell>
-                    <TableCell>Path</TableCell>
+                    <TableCell style={{ width: 50 }}></TableCell>
+                    <TableCell style={{ width: 350 }}>Name</TableCell>
+                    <TableCell style={{ width: 500 }}>Path</TableCell>
                     <TableCell>CI ID</TableCell>
                     <TableCell></TableCell>
                     <TableCell></TableCell>

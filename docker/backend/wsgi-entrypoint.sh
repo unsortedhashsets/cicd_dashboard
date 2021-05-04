@@ -29,8 +29,6 @@ do
     sleep 2
 done
 
-#python3manage.py collectstatic --noinput
-
 gunicorn ci_dashboardSite.wsgi --bind 0.0.0.0:8000 --workers 4 --threads 4
 
 #####################################################################################
