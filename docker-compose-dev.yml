@@ -2,7 +2,7 @@ version: '3'
 
 services:
   database:
-    image: postgres
+    image: registry.redhat.io/rhscl/postgresql-12-rhel7
     restart: always
     env_file:
       - .env
@@ -13,8 +13,8 @@ services:
       - .env
     build:
       context: .
-      dockerfile: ./docker/backend/Dockerfile
-    entrypoint: /app/docker/wsgi-entrypoint.sh
+      dockerfile: ./backend/Dockerfile
+    entrypoint: /app/backend/wsgi-entrypoint.sh
     ports:
       - 8000:8000
     depends_on:

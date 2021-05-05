@@ -13,7 +13,7 @@ services:
     container_name: dashboard_frontend
     build:
       context: .
-      dockerfile: ./docker/frontend/Dockerfile
+      dockerfile: ./frontend/Dockerfile
     ports:
       - 80:80
     depends_on:
@@ -26,8 +26,8 @@ services:
       - .env
     build:
       context: .
-      dockerfile: ./docker/backend/Dockerfile
-    entrypoint: /app/docker/wsgi-entrypoint.sh
+      dockerfile: ./backend/Dockerfile
+    entrypoint: /app/backend/wsgi-entrypoint.sh
     expose:
       - 8000
     depends_on:
