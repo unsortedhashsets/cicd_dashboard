@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: DeploymentConfig
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: frontend
+  name: frontend
+spec:
+  replicas: 1
+  selector:
+    io.kompose.service: frontend
+  strategy:
+    resources: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: frontend
+    spec:
+      containers:
+        - image: ' '
+          name: dashboard-frontend
+          ports:
+            - containerPort: 80
+          resources: {}
+      restartPolicy: Always
+  test: false
+  triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+          - dashboard_frontend
+        from:
+          kind: ImageStreamTag
+          name: frontend:latest
+      type: ImageChange
+status:
+  availableReplicas: 0
+  latestVersion: 0
+  observedGeneration: 0
+  replicas: 0
+  unavailableReplicas: 0
+  updatedReplicas: 0

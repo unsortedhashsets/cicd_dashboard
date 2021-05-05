@@ -2,12 +2,14 @@ version: '3'
 
 services:
   database:
+    image: dashboard_database:latest
     container_name: dashboard_database
-    image: postgres
+    image: registry.redhat.io/rhscl/postgresql-12-rhel7
     env_file:
       - .env
 
   frontend:
+    image: dashboard_frontend:latest
     container_name: dashboard_frontend
     build:
       context: .
@@ -18,13 +20,14 @@ services:
       - backend
 
   backend:
+    image: dashboard_backend:latest
     container_name: dashboard_backend
     env_file:
       - .env
     build:
       context: .
       dockerfile: ./docker/backend/Dockerfile
-    entrypoint: /app/docker/backend/wsgi-entrypoint.sh
+    entrypoint: /app/docker/wsgi-entrypoint.sh
     expose:
       - 8000
     depends_on:

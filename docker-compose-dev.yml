@@ -14,7 +14,7 @@ services:
     build:
       context: .
       dockerfile: ./docker/backend/Dockerfile
-    entrypoint: /app/docker/backend/wsgi-entrypoint.sh
+    entrypoint: /app/docker/wsgi-entrypoint.sh
     ports:
       - 8000:8000
     depends_on:

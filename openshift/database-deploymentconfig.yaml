@@ -1,0 +1,78 @@
+apiVersion: v1
+kind: DeploymentConfig
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: database
+  name: database
+spec:
+  replicas: 1
+  selector:
+    io.kompose.service: database
+  strategy:
+    resources: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: database
+    spec:
+      containers:
+        - env:
+            - name: ADMINS_LIST
+              valueFrom:
+                configMapKeyRef:
+                  key: ADMINS_LIST
+                  name: env
+            - name: BACKEND_LOCAL
+              valueFrom:
+                configMapKeyRef:
+                  key: BACKEND_LOCAL
+                  name: env
+            - name: FRONT_LOCAL
+              valueFrom:
+                configMapKeyRef:
+                  key: FRONT_LOCAL
+                  name: env
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  key: POSTGRES_DB
+                  name: env
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  key: POSTGRES_PASSWORD
+                  name: env
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  key: POSTGRES_USER
+                  name: env
+            - name: SECRET_KEY
+              valueFrom:
+                configMapKeyRef:
+                  key: SECRET_KEY
+                  name: env
+          image: ' '
+          name: dashboard-database
+          resources: {}
+      restartPolicy: Always
+  test: false
+  triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+          - dashboard_database
+        from:
+          kind: ImageStreamTag
+          name: database:latest
+      type: ImageChange
+status:
+  availableReplicas: 0
+  latestVersion: 0
+  observedGeneration: 0
+  replicas: 0
+  unavailableReplicas: 0
+  updatedReplicas: 0
