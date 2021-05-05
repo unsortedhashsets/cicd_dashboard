@@ -1,4 +1,4 @@
-# VUT-ITT
+# VUT-ITT-IBT
 
 ## Demos
 
