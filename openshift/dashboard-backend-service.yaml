@@ -3,14 +3,14 @@ kind: Service
 metadata:
   creationTimestamp: null
   labels:
-    io.kompose.service: backend
-  name: backend
+    io.kompose.service: dashboard-backend
+  name: dashboard-backend
 spec:
   ports:
     - name: "8000"
       port: 8000
       targetPort: 8000
   selector:
-    io.kompose.service: backend
+    io.kompose.service: dashboard-backend
 status:
   loadBalancer: {}

@@ -3,19 +3,19 @@ kind: DeploymentConfig
 metadata:
   creationTimestamp: null
   labels:
-    io.kompose.service: frontend
-  name: frontend
+    io.kompose.service: dashboard-frontend
+  name: dashboard-frontend
 spec:
   replicas: 1
   selector:
-    io.kompose.service: frontend
+    io.kompose.service: dashboard-frontend
   strategy:
     resources: {}
   template:
     metadata:
       creationTimestamp: null
       labels:
-        io.kompose.service: frontend
+        io.kompose.service: dashboard-frontend
     spec:
       containers:
         - image: ' '
@@ -33,7 +33,7 @@ spec:
           - dashboard_frontend
         from:
           kind: ImageStreamTag
-          name: frontend:latest
+          name: dashboard-frontend:latest
       type: ImageChange
 status:
   availableReplicas: 0

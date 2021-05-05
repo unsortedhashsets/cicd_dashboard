@@ -3,22 +3,24 @@ kind: DeploymentConfig
 metadata:
   creationTimestamp: null
   labels:
-    io.kompose.service: database
-  name: database
+    io.kompose.service: dashboard-backend
+  name: dashboard-backend
 spec:
   replicas: 1
   selector:
-    io.kompose.service: database
+    io.kompose.service: dashboard-backend
   strategy:
     resources: {}
   template:
     metadata:
       creationTimestamp: null
       labels:
-        io.kompose.service: database
+        io.kompose.service: dashboard-backend
     spec:
       containers:
-        - env:
+        - command:
+            - /app/backend/wsgi-entrypoint.sh
+          env:
             - name: ADMINS_LIST
               valueFrom:
                 configMapKeyRef:
@@ -55,7 +57,9 @@ spec:
                   key: SECRET_KEY
                   name: env
           image: ' '
-          name: dashboard-database
+          name: dashboard-backend
+          ports:
+            - containerPort: 8000
           resources: {}
       restartPolicy: Always
   test: false
@@ -64,10 +68,10 @@ spec:
     - imageChangeParams:
         automatic: true
         containerNames:
-          - dashboard_database
+          - dashboard_backend
         from:
           kind: ImageStreamTag
-          name: database:latest
+          name: dashboard-backend:latest
       type: ImageChange
 status:
   availableReplicas: 0

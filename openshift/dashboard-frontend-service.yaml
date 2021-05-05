@@ -3,14 +3,14 @@ kind: Service
 metadata:
   creationTimestamp: null
   labels:
-    io.kompose.service: frontend
-  name: frontend
+    io.kompose.service: dashboard-frontend
+  name: dashboard-frontend
 spec:
   ports:
     - name: "80"
       port: 80
       targetPort: 80
   selector:
-    io.kompose.service: frontend
+    io.kompose.service: dashboard-frontend
 status:
   loadBalancer: {}
