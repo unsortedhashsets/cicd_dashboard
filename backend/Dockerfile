@@ -1,4 +1,4 @@
-FROM archlinux as backend
+FROM archlinux
 MAINTAINER Mikhail Abramov
 
 RUN curl -ks 'https://password.corp.redhat.com/legacy.crt' > legacy.crt
