@@ -12,10 +12,10 @@ RUN apt-get update
 RUN apt-get install python3-dev -y
 RUN apt-get install libldap2-dev libsasl2-dev libssl-dev -y
 
-COPY ./backend/requirements.txt /app/backend/
+COPY requirements.txt /app/
 
 RUN pip install --upgrade pip
 RUN pip install gunicorn
-RUN pip install -r backend/requirements.txt
+RUN pip install -r requirements.txt
 
-ADD ./backend /app/backend
+ADD . /app/
