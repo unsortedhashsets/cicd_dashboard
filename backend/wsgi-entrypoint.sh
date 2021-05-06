@@ -1,5 +1,7 @@
 #!/bin/sh
 
+chmod 777 -R .
+
 until python3 manage.py makemigrations
 do
     echo "Waiting for migrations to be ready..."

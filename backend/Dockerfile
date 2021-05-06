@@ -17,6 +17,3 @@ ADD . /app/
 RUN pip install --upgrade pip
 RUN pip install gunicorn
 RUN pip install -r requirements.txt
-
-RUN useradd appuser && chown -R appuser /app
-USER appuser
