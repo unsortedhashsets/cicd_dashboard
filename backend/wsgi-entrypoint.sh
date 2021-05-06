@@ -1,7 +1,5 @@
 #!/bin/sh
 
-chown $UID -R *
-
 until python3 manage.py makemigrations
 do
     echo "Waiting for migrations to be ready..."

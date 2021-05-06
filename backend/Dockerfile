@@ -18,6 +18,5 @@ RUN pip install --upgrade pip
 RUN pip install gunicorn
 RUN pip install -r requirements.txt
 
-RUN chown -R 1001:0 /app
-
-USER 1001
+RUN chgrp -R 0 /app && \
+    chmod -R g=u /app
