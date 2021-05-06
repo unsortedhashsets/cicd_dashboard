@@ -1,6 +1,6 @@
 #!/bin/sh
 
-sudo chown "$(whoami)" -R .
+chown $UID -R .
 
 until python3 manage.py makemigrations
 do
