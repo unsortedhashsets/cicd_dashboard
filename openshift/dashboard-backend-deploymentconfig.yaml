@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - command:
-            - wsgi-entrypoint.sh
+            - /app/backend/wsgi-entrypoint.sh
           env:
             - name: ADMINS_LIST
               valueFrom:
