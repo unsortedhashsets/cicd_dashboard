@@ -1,27 +1,27 @@
 version: '3'
 
 services:
-  dashboard_database:
-    image: dashboard_database:latest
-    container_name: dashboard_database
+  dashboard-database:
+    image: dashboard-database:latest
+    container_name: dashboard-database
     image: postgres
     env_file:
       - .env
 
-  dashboard_frontend:
-    image: dashboard_frontend:latest
-    container_name: dashboard_frontend
+  dashboard-frontend:
+    image: dashboard-frontend:latest
+    container_name: dashboard-frontend
     build:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
       - 80:80
     depends_on:
-      - dashboard_backend
+      - dashboard-backend
 
-  dashboard_backend:
-    image: dashboard_backend:latest
-    container_name: dashboard_backend
+  dashboard-backend:
+    image: dashboard-backend:latest
+    container_name: dashboard-backend
     env_file:
       - .env
     build:
@@ -31,4 +31,4 @@ services:
     expose:
       - 8000
     depends_on:
-      - dashboard_database
+      - dashboard-database

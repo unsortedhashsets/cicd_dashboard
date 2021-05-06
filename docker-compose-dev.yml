@@ -1,14 +1,16 @@
 version: '3'
 
 services:
-  database:
-    image: registry.redhat.io/rhscl/postgresql-12-rhel7
-    restart: always
+  dashboard-database:
+    image: dashboard-database:latest
+    container_name: dashboard-database
+    image: postgres
     env_file:
       - .env
 
-  backend:
-    restart: always
+  dashboard-backend:
+    image: dashboard-backend:latest
+    container_name: dashboard-backend
     env_file:
       - .env
     build:
@@ -18,4 +20,4 @@ services:
     ports:
       - 8000:8000
     depends_on:
-      - database
+      - dashboard-database

@@ -109,7 +109,7 @@ if os.getenv("BACKEND_LOCAL") is None:
             'NAME': POSTGRES_DB,
             'USER': POSTGRES_USER,
             'PASSWORD': POSTGRES_PASSWORD,
-            'HOST': 'database',
+            'HOST': 'dashboard-database',
             'PORT': 5432,
         }
     }
