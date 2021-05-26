@@ -9,9 +9,9 @@ Start backend server:
 Or
 * [Backend docker-compose standalone demo](../backend/StandAloneDemoDC.md)
 
-In the project directory, run:
+In the frontend directory, run:
 
-`( cd frontend ; REACT_APP_LOCAL=1 yarn start )`
+`REACT_APP_LOCAL=1 yarn start`
 
 ### 2. In explorer navigate to:
 

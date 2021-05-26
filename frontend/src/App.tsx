@@ -34,7 +34,6 @@ const DefaultComponent: FC<{}> = (): ReactElement => (
 );
 
 // axios
-console.log(`var = ${process.env['REACT_APP_LOCAL']}`);
 if (process.env['REACT_APP_LOCAL'] === '1') {
   axios.defaults.baseURL = 'http://127.0.0.1:8000';
 } else {
