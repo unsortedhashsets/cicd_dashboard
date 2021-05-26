@@ -23,51 +23,27 @@ from rest_framework.views import APIView
 
 @ensure_csrf_cookie
 def set_csrf_token(request):
-    """
-    This will be `/api/set-csrf-cookie/` on `urls.py`
-    """
     return JsonResponse({"details": "CSRF cookie set"})
 
 
 class LDAPLogin(APIView):
-    """
-    Class to authenticate a user via LDAP and
-    then creating a login session
-    """
-    authentication_classes = ()
 
     def post(self, request):
-        """
-        Api to login a user
-        :param request:
-        :return:
-        """
-        print("TEST")
         user_obj = authenticate(username=request.data['username'],
                                 password=request.data['password'])
         login(request, user_obj)
-        data={'detail': 'User logged in successfully'}
-        return Response(data, status=200)
+        return Response({'detail': 'User logged in successfully'}, status=200)
 
 class LDAPLogout(APIView):
-    """
-    Class for logging out a user by clearing his/her session
-    """
     permission_classes = (IsAuthenticated,)
 
     def post(self, request):
-        """
-        Api to logout a user
-        :param request:
-        :return:
-        """
         logout(request)
-        data={'detail': 'User logged out successfully'}
-        return Response(data, status=200)
+        return Response({'detail': 'User logged out successfully'}, status=200)
 
 class UserViewSet(mixins.ListModelMixin,
                      viewsets.GenericViewSet):
-    queryset = User.objects.all()
+    queryset = User.objects.none()
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
     
@@ -75,14 +51,14 @@ class UserViewSet(mixins.ListModelMixin,
         return User.objects.filter(id=self.request.user.id)
 
 class CIViewSet(ModelViewSet):
-    queryset = CI.objects.all()
+    queryset = CI.objects.none()
     serializer_class = CISerializer
 
     def get_queryset(self):
         return CI.objects.filter(Q(owner=self.request.user.id) | Q(access="Public"))
 
 class TokenViewSet(ModelViewSet):
-    queryset = Token.objects.all()
+    queryset = Token.objects.none()
     serializer_class = TokenSerializer
     permission_classes = [IsAuthenticated]
 
@@ -90,18 +66,20 @@ class TokenViewSet(ModelViewSet):
         return Token.objects.filter(user=self.request.user.id)
 
 class JobViewSet(ModelViewSet):
-    queryset = Job.objects.all()
+    queryset = Job.objects.none()
     serializer_class = JobSerializer
 
     def get_queryset(self):
-        CIObjects = CI.objects.filter(Q(owner=self.request.user.id) | Q(access="Public")).values_list('id')
+        CIObjects = CI.objects.filter(Q(owner=self.request.user.id) |
+                                      Q(access="Public")).values_list('id')
         return Job.objects.filter(ci__in=list(CIObjects))
 
 
     @action(detail=True, methods=['GET'])
     def status(self, request, pk=None):
         try:
-            CIObjects = CI.objects.filter(Q(owner=self.request.user.id) | Q(access="Public")).values_list('id')
+            CIObjects = CI.objects.filter(Q(owner=self.request.user.id) |
+                                          Q(access="Public")).values_list('id')
             job = Job.objects.get(Q(pk=pk) & Q(ci__in=list(CIObjects)))
         except Job.DoesNotExist:
             raise Http404

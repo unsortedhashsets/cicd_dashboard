@@ -15,13 +15,18 @@ def mapStates(state):
     return mappedState
 
 def getTravisJobStatus(url, token):
-    response = requests.get(str(url), headers={'User-Agent': 'CI-Dashboard', 'Travis-API-Version': '3' ,'Authorization': 'token ' + str(token)}, verify=False, timeout=5)
-    print(response.content)
+    response = requests.get(str(url), headers={'User-Agent': 'CI-Dashboard',
+                                               'Travis-API-Version': '3',
+                                               'Authorization': 'token ' + str(token)},
+                                              verify=False,
+                                              timeout=5)
     jobStatus = json.loads(response.text)
     return jobStatus
 
 def getJenkinsJobStatus(url):
-    response = requests.get(url, headers={'Accept': 'application/json'}, verify=False, timeout=5)
+    response = requests.get(url, headers={'Accept': 'application/json'},
+                                         verify=False,
+                                         timeout=5)
     jobStatus = json.loads(response.text)
     return jobStatus
 

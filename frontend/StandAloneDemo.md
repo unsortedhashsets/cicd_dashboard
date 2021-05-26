@@ -5,9 +5,9 @@
 [yarn](https://classic.yarnpkg.com/en/docs/install/#debian-stable)
 
 Start backend server:
-* [Backend standalone demo](backend/StandAloneDemo.md)
+* [Backend standalone demo](../backend/StandAloneDemo.md)
 Or
-* [Backend docker-compose standalone demo](backend/StandAloneDemoDC.md)
+* [Backend docker-compose standalone demo](../backend/StandAloneDemoDC.md)
 
 Add additional variable to ENV file:
 

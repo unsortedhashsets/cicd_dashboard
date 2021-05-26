@@ -74,7 +74,7 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
     'X-CSRFTOKEN',
 ]
 ALLOWED_HOSTS=['*']
-CORS_ORIGIN_ALLOW_ALL = True # If this is used then `CORS_ORIGIN_WHITELIST` will not have any effect
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 CSRF_COOKIE_NAME = "csrftoken"
 ROOT_URLCONF = 'ci_dashboardSite.urls'
@@ -165,16 +165,8 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_COOKIE_AGE = 5 * 60 
 
 AUTH_LDAP_SERVER_URI = "ldap://ldap.corp.redhat.com:389"
-
 AUTH_LDAP_USER_SEARCH = LDAPSearch("DC=redhat,DC=com", ldap.SCOPE_SUBTREE, "(uid=%(user)s)")
-
 AUTH_LDAP_START_TLS = True
-
-AUTH_LDAP_USER_ATTR_MAP = {
-    "first_name": "givenName",
-    "last_name": "sn",
-    "email":"mail"
-}
 
 AUTHENTICATION_BACKENDS = (
     'django_auth_ldap.backend.LDAPBackend',

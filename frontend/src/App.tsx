@@ -85,7 +85,6 @@ function App() {
           <Router>
             <Switch>
               <Layout toggleTheme={toggle} useDefaultTheme={useDefaultTheme}>
-                {/* for each route config, a react route is created */}
                 {routes.map((route: RouteItem) =>
                   route.subRoutes ? (
                     route.subRoutes.map((item: RouteItem) => (
