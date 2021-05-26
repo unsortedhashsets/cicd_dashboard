@@ -2,7 +2,7 @@
   pk: 1
   fields:
     ci: FUSE_QE_JENKINS
-    link: https://master-jenkins-csb-fusetools-qe.cloud.paas.psi.redhat.com
-    type:  JENKINS
+    link: https://master-jenkins-csb-fusetools-qe.apps.ocp4.prod.psi.redhat.com/
+    type: JENKINS
     access: Public
     owner: null

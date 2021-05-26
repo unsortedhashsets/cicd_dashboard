@@ -36,7 +36,7 @@ if os.getenv("BACKEND_LOCAL") is None:
     POSTGRES_PASSWORD=str(os.getenv('POSTGRES_PASSWORD'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # Application definition
 

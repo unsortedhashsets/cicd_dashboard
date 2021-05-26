@@ -34,10 +34,8 @@ const DefaultComponent: FC<{}> = (): ReactElement => (
 );
 
 // axios
-if (
-  window.location.origin === 'http://localhost:3000' ||
-  process.env['FRONT_LOCAL'] === '1'
-) {
+console.log(`var = ${process.env['REACT_APP_LOCAL']}`);
+if (process.env['REACT_APP_LOCAL'] === '1') {
   axios.defaults.baseURL = 'http://127.0.0.1:8000';
 } else {
   axios.defaults.baseURL = window.location.origin;

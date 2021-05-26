@@ -9,10 +9,12 @@ Start backend server:
 Or
 * [Backend docker-compose standalone demo](../backend/StandAloneDemoDC.md)
 
-Add additional variable to ENV file:
-
-`FRONTEND_LOCAL=1`
-
 In the project directory, run:
 
-`( cd frontend ; yarn start )`
+`( cd frontend ; REACT_APP_LOCAL=1 yarn start )`
+
+### 2. In explorer navigate to:
+
+```
+http://127.0.0.1:3000/
+```
