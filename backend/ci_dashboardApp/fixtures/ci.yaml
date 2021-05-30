@@ -6,3 +6,12 @@
     type: JENKINS
     access: Public
     owner: null
+
+- model: ci_dashboardApp.CI
+  pk: 2
+  fields:
+    ci: DEVTOOLS_JENKINS
+    link: https://studio-jenkins-csb-codeready.cloud.paas.psi.redhat.com/
+    type: JENKINS
+    access: Public
+    owner: null

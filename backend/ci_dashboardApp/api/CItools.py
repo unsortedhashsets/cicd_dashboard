@@ -10,6 +10,8 @@ def mapStates(state):
         mappedState = 'FAILURE'
     elif (state == 'errored'):
         mappedState = 'FAILURE'
+    elif (str(state).lower().startswith('yellow')):
+        mappedState = 'UNSTABLE'
     else:
         mappedState = 'UNKNOWN'
     return mappedState
@@ -31,28 +33,24 @@ def getJenkinsJobStatus(url):
     return jobStatus
 
 def processCI(job, token):
-    if job.ci.type == "TRAVIS":
-        try:
-            url = f"https://api.travis-ci.com/repo/{job.path}%2F{job}/builds?limit=1"
+    try:
+        if job.ci.type == "TRAVIS":
             jobUrl = f"https://travis-ci.com/{job.path}/{job}/builds/"
-            jobStatus = getTravisJobStatus(url, token)
+            apiurl = f"https://api.travis-ci.com/repo/{job.path}%2F{job}/builds?limit=1"
+            jobStatus = getTravisJobStatus(apiurl, token)
             jobStatus = jobStatus["builds"][0]
             buildId = jobStatus['id']
             buildResult = mapStates(jobStatus['state'])
             last_build_number = jobStatus['number']
             buildUrl = f"{jobUrl}/{buildId}"
-        except Exception as e:
-            print(e)
-            return { 'name': str(job), 'buildNumber': 'UNKNOWN', 'buildStatus': 'UNKNOWN', 'buildUrl': 'UNKNOWN', 'jobUrl': jobUrl}
-    elif job.ci.type == "JENKINS":
-        try:
+        elif job.ci.type == "JENKINS":
             jobUrl = f"{job.ci.link}/{job.path}/{job}"
             apiurl = f"{jobUrl}/api/json"
             jobStatus = getJenkinsJobStatus(apiurl)
             buildResult = mapStates(jobStatus['color'])
             last_build_number = jobStatus['lastCompletedBuild']['number']
             buildUrl = jobStatus['lastCompletedBuild']['url']
-        except Exception as e:
-            print(e)
-            return { 'name': str(job), 'buildNumber': 'UNKNOWN', 'buildStatus': 'UNKNOWN', 'buildUrl': 'UNKNOWN', 'jobUrl': jobUrl}
+    except Exception as e:
+        print(e)
+        return { 'name': str(job), 'buildNumber': 'UNKNOWN', 'buildStatus': 'UNKNOWN', 'buildUrl': 'UNKNOWN', 'jobUrl': jobUrl}
     return { 'name': str(job), 'buildNumber': str(last_build_number), 'buildStatus': buildResult, 'buildUrl': buildUrl, 'jobUrl': jobUrl}

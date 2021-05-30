@@ -25,3 +25,31 @@
     job: vscode-wsdl2rest-pipeline
     path: /view/Fuse%20Tooling.next/job/vscode/job/
     ci: 1
+
+- model: ci_dashboardApp.Job
+  pk: 4
+  fields:
+    job: vscode-wsdl2rest-pipeline
+    path: /view/Fuse%20Tooling.next/job/vscode/job/
+    ci: 1
+
+- model: ci_dashboardApp.Job
+  pk: 5
+  fields:
+    job: vscode-project-initializer-pipeline
+    path: /view/Fuse%20Tooling.next/job/vscode/job/
+    ci: 1
+
+- model: ci_dashboardApp.Job
+  pk: 6
+  fields:
+    job: lsp-eclipse-client-nightly-matrix
+    path: /view/Fuse%20Tooling.next/job/
+    ci: 1
+
+- model: ci_dashboardApp.Job
+  pk: 7
+  fields:
+    job: fuse-smoke
+    path: /view/Fuse%20Tooling%20-%20Weekly/job/
+    ci: 1
