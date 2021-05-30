@@ -38,5 +38,5 @@ docker-compose up
 ### 2. In explorer navigate to:
 
 ```
-http://0.0.0.0/
+http://0.0.0.0:8080/
 ```

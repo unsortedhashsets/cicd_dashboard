@@ -13,24 +13,9 @@ RUN yarn build
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 RUN cp -Rf build/* /usr/share/nginx/html
-RUN ls -l /usr/share/nginx/html
+
+RUN chmod -R 777 /var/log/nginx /var/cache/nginx /var/run \
+    && chgrp -R 0 /etc/nginx \
+    && chmod -R g+rwX /etc/nginx
+
 CMD ["nginx", "-g", "daemon off;"]
-
-# Need to test on newer OCP4+, does not work on OCP3
-
-#FROM node:14 as build
-#MAINTAINER Mikhail Abramov
-#
-#WORKDIR /app
-#
-#COPY . /app/
-#
-#RUN yarn install
-#RUN yarn build
-#
-#FROM nginx:stable-alpine as frontend
-#MAINTAINER Mikhail Abramov
-#
-#COPY nginx.conf /etc/nginx/conf.d/default.conf
-#COPY --from=build /app/build /usr/share/nginx/html
-#CMD ["nginx", "-g", "daemon off;"]
