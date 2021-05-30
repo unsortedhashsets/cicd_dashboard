@@ -162,7 +162,7 @@ STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = '/api/'
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-SESSION_COOKIE_AGE = 5 * 60 
+SESSION_COOKIE_AGE = 60 * 60 
 
 AUTH_LDAP_SERVER_URI = "ldap://ldap.corp.redhat.com:389"
 AUTH_LDAP_USER_SEARCH = LDAPSearch("DC=redhat,DC=com", ldap.SCOPE_SUBTREE, "(uid=%(user)s)")
