@@ -50,6 +50,16 @@ const StateRow: FC<{ jobRow: JobModel }> = ({ jobRow }): ReactElement => {
         },
       })
     );
+  } else if (jobStatus?.buildStatus === 'UNSTABLE') {
+    useStyles = makeStyles((theme: Theme) =>
+      createStyles({
+        jobRow: {
+          '& > *': {
+            background: `${theme.palette.warning.light}`,
+          },
+        },
+      })
+    );
   }
 
   const handleUpdate = (): void => {
