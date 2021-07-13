@@ -145,11 +145,11 @@ const Header: FC<Props> = ({
           </div>
           <IconButton onClick={toggleTheme}>
             {useDefaultTheme ? (
-              <Tooltip title='Switch to dark mode' placement='bottom'>
+              <Tooltip title='Switch to light mode' placement='bottom'>
                 <Brightness3Icon />
               </Tooltip>
             ) : (
-              <Tooltip title='Switch to light mode' placement='bottom'>
+              <Tooltip title='Switch to dark mode' placement='bottom'>
                 <Brightness7Icon />
               </Tooltip>
             )}
