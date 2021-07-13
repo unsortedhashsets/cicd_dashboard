@@ -12,17 +12,20 @@ do
     sleep 2
 done
 
-until python3 manage.py loaddata ci_dashboardApp/fixtures/ci.yaml
-do
-    echo "Waiting for /fixtures/ci.yaml to be ready..."
-    sleep 2
-done
+#####################################################################################
+# Options to INSER data to database with seeds:  ci_dashboardApp/fixtures
 
-until python3 manage.py loaddata ci_dashboardApp/fixtures/job.yaml
-do
-    echo "Waiting for /fixtures/job.yaml to be ready..."
-    sleep 2
-done
+#until python3 manage.py loaddata ci_dashboardApp/fixtures/ci.yaml
+#do
+#    echo "Waiting for /fixtures/ci.yaml to be ready..."
+#    sleep 2
+#done
+
+#until python3 manage.py loaddata ci_dashboardApp/fixtures/job.yaml
+#do
+#    echo "Waiting for /fixtures/job.yaml to be ready..."
+#    sleep 2
+#done
 
 gunicorn ci_dashboardSite.wsgi --bind 0.0.0.0:8000 --workers 4 --threads 4
 
