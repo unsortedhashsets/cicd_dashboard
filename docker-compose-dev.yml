@@ -2,9 +2,8 @@ version: '3'
 
 services:
   dashboard-database:
-    image: dashboard-database:latest
-    container_name: dashboard-database
     image: postgres
+    container_name: dashboard-database
     env_file:
       - .env
 

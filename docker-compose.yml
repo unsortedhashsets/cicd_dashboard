@@ -2,14 +2,12 @@ version: '3'
 
 services:
   dashboard-database:
-    image: dashboard-database:latest
-    container_name: dashboard-database
     image: postgres
+    container_name: dashboard-database
     env_file:
       - .env
 
   dashboard-frontend:
-    image: dashboard-frontend:latest
     container_name: dashboard-frontend
     build:
       context: ./frontend
@@ -22,7 +20,6 @@ services:
       - dashboard-backend
 
   dashboard-backend:
-    image: dashboard-backend:latest
     container_name: dashboard-backend
     env_file:
       - .env
