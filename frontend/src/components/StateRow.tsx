@@ -60,6 +60,16 @@ const StateRow: FC<{ jobRow: JobModel }> = ({ jobRow }): ReactElement => {
         },
       })
     );
+  } else if (jobStatus?.buildStatus === 'ABORTED') {
+    useStyles = makeStyles((theme: Theme) =>
+      createStyles({
+        jobRow: {
+          '& > *': {
+            background: `#AAAAAA`,
+          },
+        },
+      })
+    );
   }
 
   const handleUpdate = (): void => {
