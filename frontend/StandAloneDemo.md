@@ -11,7 +11,8 @@ Or
 
 In the frontend directory, run:
 
-`REACT_APP_LOCAL=1 yarn start`
+1. `yarn install`
+2. `REACT_APP_LOCAL=1 yarn start`
 
 ### 2. In explorer navigate to:
 
