@@ -39,15 +39,15 @@ def mapStates(state):
         mappedState = 'UNSTABLE'
     elif (state in runStatuses):
         mappedState = 'RUNNING'
-    # Cases:
-    #       Jenkins / TravisCI / CircleCI:
-    #           - not available
-    #           - no information
-    #       CircleCI (https://circleci.com/docs/2.0/workflows/#states):
-    #           - NOT RUN: Workflow was never started
-    #           - ON HOLD: A job in the workflow is waiting for approval
-    #           - NEEDS SETUP: A workflow stanza is not included or is incorrect in the config.yml file for this project
     else:
+        # Cases:
+        #   Jenkins / TravisCI / CircleCI:
+        #       - not available
+        #       - no information
+        #   CircleCI (https://circleci.com/docs/2.0/workflows/#states):
+        #       - NOT RUN: Workflow was never started
+        #       - ON HOLD: A job in the workflow is waiting for approval
+        #       - NEEDS SETUP: A workflow stanza is not included or is incorrect in the config.yml file for this project
         mappedState = 'UNKNOWN'
     return mappedState
 
