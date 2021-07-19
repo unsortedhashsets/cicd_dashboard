@@ -56,15 +56,15 @@ def getTravisJobStatus(url, token):
     response = requests.get(str(url), headers={'User-Agent': 'CI-Dashboard',
                                                'Travis-API-Version': '3',
                                                'Authorization': 'token ' + str(token)},
-                            verify=False,
+                            verify=True,
                             timeout=5)
     jobStatus = json.loads(response.text)
     return jobStatus
 
 
 def getCircleJobStatus(url):
-    response = requests.get(url, headers={'authorization: Basic REPLACE_BASIC_AUTH'},
-                            verify=False,
+    response = requests.get(url,
+                            verify=True,
                             timeout=5)
     jobStatus = json.loads(response.text)
     return jobStatus
@@ -97,7 +97,7 @@ def processCI(job, token):
         elif job.ci.type == "CIRCLE":
             jobUrl = f"https://app.circleci.com/pipelines/{job.path}/{job}"
             apiurl = f"https://circleci.com/api/v1.1/project/{job.path}/{job}?limit=1"
-            jobStatus = getCircleJobStatus(apiurl)
+            jobStatus = getCircleJobStatus(apiurl)[0]
             buildResult = mapStates(jobStatus['outcome'])
             last_build_number = jobStatus['build_num']
             buildUrl = jobStatus['build_url']

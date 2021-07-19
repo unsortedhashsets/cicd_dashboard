@@ -10,8 +10,8 @@
 - model: ci_dashboardApp.CI
   pk: 2
   fields:
-    ci: DEVTOOLS_JENKINS
-    link: https://studio-jenkins-csb-codeready.cloud.paas.psi.redhat.com/
-    type: JENKINS
+    ci: camel-tooling
+    link: https://app.circleci.com/
+    type: CIRCLE
     access: Public
     owner: null

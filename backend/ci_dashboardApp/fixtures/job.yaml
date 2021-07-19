@@ -1,55 +1,13 @@
 - model: ci_dashboardApp.Job
   pk: 1
   fields:
-    job: vscode-atlasmap-pipeline
-    path: /view/Fuse%20Tooling.next/job/vscode/job/
+    job: fuse-smoke
+    path: /view/Fuse%20Tooling%20-%20Weekly/job/
     ci: 1
 
 - model: ci_dashboardApp.Job
   pk: 2
   fields:
-    job: vscode-camelk-pipeline
-    path: /view/Fuse%20Tooling.next/job/vscode/job/
-    ci: 1
-
-- model: ci_dashboardApp.Job
-  pk: 3
-  fields:
-    job: vscode-lsp-pipeline
-    path: /view/Fuse%20Tooling.next/job/vscode/job/
-    ci: 1
-
-- model: ci_dashboardApp.Job
-  pk: 4
-  fields:
-    job: vscode-wsdl2rest-pipeline
-    path: /view/Fuse%20Tooling.next/job/vscode/job/
-    ci: 1
-
-- model: ci_dashboardApp.Job
-  pk: 4
-  fields:
-    job: vscode-wsdl2rest-pipeline
-    path: /view/Fuse%20Tooling.next/job/vscode/job/
-    ci: 1
-
-- model: ci_dashboardApp.Job
-  pk: 5
-  fields:
-    job: vscode-project-initializer-pipeline
-    path: /view/Fuse%20Tooling.next/job/vscode/job/
-    ci: 1
-
-- model: ci_dashboardApp.Job
-  pk: 6
-  fields:
-    job: lsp-eclipse-client-nightly-matrix
-    path: /view/Fuse%20Tooling.next/job/
-    ci: 1
-
-- model: ci_dashboardApp.Job
-  pk: 7
-  fields:
-    job: fuse-smoke
-    path: /view/Fuse%20Tooling%20-%20Weekly/job/
-    ci: 1
+    job: camel-lsp-client-vscode
+    path: github/camel-tooling
+    ci: 2

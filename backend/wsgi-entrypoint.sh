@@ -13,7 +13,8 @@ do
 done
 
 #####################################################################################
-# Options to INSER data to database with seeds:  ci_dashboardApp/fixtures
+# Options to INSERT data to database with seeds:  ci_dashboardApp/fixtures
+# !!! FOR TESTS (ABLE TO REWRITE DATABASE) !!!
 
 #until python3 manage.py loaddata ci_dashboardApp/fixtures/ci.yaml
 #do
