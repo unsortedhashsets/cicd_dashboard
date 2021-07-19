@@ -262,11 +262,19 @@ export const CIModal: React.FC<CIModalProps> = ({
                     <>
                       <option value={'JENKINS'}>Jenkins</option>
                       <option value={'TRAVIS'}>Travis</option>
+                      <option value={'CIRCLE'}>Circle</option>
+                    </>
+                  ) : state.type === 'Travis' ? (
+                    <>
+                      <option value={'TRAVIS'}>Travis</option>
+                      <option value={'CIRCLE'}>Circle</option>
+                      <option value={'JENKINS'}>Jenkins</option>
                     </>
                   ) : (
                     <>
-                      <option value={'TRAVIS'}>Travis</option>
+                      <option value={'CIRCLE'}>Circle</option>
                       <option value={'JENKINS'}>Jenkins</option>
+                      <option value={'TRAVIS'}>Travis</option>
                     </>
                   )}
                 </Select>

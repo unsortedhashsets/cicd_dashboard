@@ -50,7 +50,10 @@ const StateRow: FC<{ jobRow: JobModel }> = ({ jobRow }): ReactElement => {
         },
       })
     );
-  } else if (jobStatus?.buildStatus === 'UNSTABLE') {
+  } else if (
+    jobStatus?.buildStatus === 'UNSTABLE' ||
+    jobStatus?.buildStatus === 'RUNNING'
+  ) {
     useStyles = makeStyles((theme: Theme) =>
       createStyles({
         jobRow: {
