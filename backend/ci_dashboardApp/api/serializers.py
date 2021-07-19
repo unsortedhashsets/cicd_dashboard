@@ -3,6 +3,7 @@ from ci_dashboardApp.models import CI, Job, Token
 
 from django.contrib.auth.models import User
 
+
 class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -13,7 +14,8 @@ class UserSerializer(serializers.ModelSerializer):
             "first_name",
             "last_name",
             "email"
-            )
+        )
+
 
 class JobSerializer(serializers.ModelSerializer):
 
@@ -21,14 +23,16 @@ class JobSerializer(serializers.ModelSerializer):
         model = Job
         fields = "__all__"
 
+
 class CISerializer(serializers.ModelSerializer):
     jobs = JobSerializer(many=True, read_only=True)
-    type = serializers.ChoiceField(choices=['JENKINS', 'TRAVIS'])
+    type = serializers.ChoiceField(choices=['JENKINS', 'TRAVIS', 'CIRCLE'])
     access = serializers.ChoiceField(choices=['Private', 'Public'])
 
     class Meta:
         model = CI
         fields = "__all__"
+
 
 class TokenSerializer(serializers.ModelSerializer):
 
