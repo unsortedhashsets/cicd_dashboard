@@ -8,7 +8,7 @@ COPY . /app/
 
 RUN apk add --update npm
 RUN npm install --global yarn
-RUN yarn install
+RUN yarn install --network-timeout 100000
 RUN yarn build
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
