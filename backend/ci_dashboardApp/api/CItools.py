@@ -25,6 +25,7 @@ unstableStatuses = (
 
 runStatuses = (
     'running',          # CircleCI
+    None,               # Jenkins
 )
 
 
