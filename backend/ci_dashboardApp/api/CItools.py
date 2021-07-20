@@ -84,7 +84,7 @@ def processCI(job, token):
     try:
         if job.ci.type == "TRAVIS":
             jobUrl = f"https://travis-ci.com/{job.path}/{job}/builds/"
-            apiurl = f"https://api.travis-ci.com/repo/{job.path}/{job}/builds?limit=1"
+            apiurl = f"https://api.travis-ci.com/repo/{job.path}%2F{job}/builds?limit=1"
             jobStatus = getTravisJobStatus(apiurl, token)["builds"][0]
             buildResult = mapStates(jobStatus['state'])
             last_build_number = jobStatus['number']
