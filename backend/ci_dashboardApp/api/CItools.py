@@ -3,24 +3,24 @@ import json
 
 passedStatuses = (
     'passed',           # TravisCI
-    'blue',             # Jenkins
+    'SUCCESS',          # Jenkins
     'success',          # CircleCI
 )
 
 failedStatuses = (
     'failed',           # TravisCI / CircleCI
     'errored',          # TravisCI
-    'red',              # Jenkins
+    'FAILURE',          # Jenkins
     'failing',          # CircleCI
 )
 
 abortedStatuses = (
     'canceled',         # TravisCI / CircleCI
-    'aborted',          # Jenkins
+    'ABORTED',          # Jenkins
 )
 
 unstableStatuses = (
-    'yellow',           # Jenkins
+    'UNSTABLE',         # Jenkins
 )
 
 runStatuses = (
@@ -44,6 +44,8 @@ def mapStates(state):
         #   Jenkins / TravisCI / CircleCI:
         #       - not available
         #       - no information
+        #   Jenkins:
+        #       - NOT_BUILT
         #   CircleCI (https://circleci.com/docs/2.0/workflows/#states):
         #       - NOT RUN: Workflow was never started
         #       - ON HOLD: A job in the workflow is waiting for approval
@@ -82,21 +84,21 @@ def processCI(job, token):
     try:
         if job.ci.type == "TRAVIS":
             jobUrl = f"https://travis-ci.com/{job.path}/{job}/builds/"
-            apiurl = f"https://api.travis-ci.com/repo/{job.path}%2F{job}/builds?limit=1"
+            apiurl = f"https://api.travis-ci.com/repo/{job.path}/{job}/builds?limit=1"
             jobStatus = getTravisJobStatus(apiurl, token)["builds"][0]
             buildResult = mapStates(jobStatus['state'])
             last_build_number = jobStatus['number']
             buildUrl = f"{jobUrl}/{jobStatus['id']}"
         elif job.ci.type == "JENKINS":
             jobUrl = f"{job.ci.link}/{job.path}/{job}"
-            apiurl = f"{jobUrl}/api/json"
+            apiurl = f"{jobUrl}/lastBuild/api/json?tree=result,number,url"
             jobStatus = getJenkinsJobStatus(apiurl)
-            buildResult = mapStates(jobStatus['color'])
-            last_build_number = jobStatus['lastCompletedBuild']['number']
-            buildUrl = jobStatus['lastCompletedBuild']['url']
+            buildResult = mapStates(jobStatus['result'])
+            last_build_number = jobStatus['number']
+            buildUrl = jobStatus['url']
         elif job.ci.type == "CIRCLE":
             jobUrl = f"https://app.circleci.com/pipelines/{job.path}/{job}"
-            apiurl = f"https://circleci.com/api/v1.1/project/{job.path}/{job}?limit=1"
+            apiurl = f"https://circleci.com/api/v1.1/project/{job.path}/{job}?limit=1&shallow=true"
             jobStatus = getCircleJobStatus(apiurl)[0]
             buildResult = mapStates(jobStatus['outcome'])
             last_build_number = jobStatus['build_num']
