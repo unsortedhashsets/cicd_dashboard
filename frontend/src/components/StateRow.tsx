@@ -21,6 +21,7 @@ const StateRow: FC<{ jobRow: JobModel }> = ({ jobRow }): ReactElement => {
   const [jobStatus, setJobStatusModel] = useState<JobStatusModel>(
     defaultJobStatusModel
   );
+  const [time, setTime] = useState(Date.now());
 
   var useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -128,6 +129,7 @@ const StateRow: FC<{ jobRow: JobModel }> = ({ jobRow }): ReactElement => {
   };
 
   useEffect(() => {
+    const interval = setInterval(() => setTime(Date.now()), 300000);
     setJobStatusModel(defaultJobStatusModel);
     axios
       .get<JobStatusModel>(`/api/job/${jobRow.id}/status`, {
@@ -136,9 +138,10 @@ const StateRow: FC<{ jobRow: JobModel }> = ({ jobRow }): ReactElement => {
       .then((response) => {
         setJobStatusModel(response.data);
       });
-
-    return () => {};
-  }, [jobRow.id]);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [jobRow.id, time]);
 
   return (
     <TableRow key={jobRow.ci} className={useStyles().jobRow}>
