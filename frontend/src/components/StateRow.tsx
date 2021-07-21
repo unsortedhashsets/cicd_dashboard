@@ -50,10 +50,7 @@ const StateRow: FC<{ jobRow: JobModel }> = ({ jobRow }): ReactElement => {
         },
       })
     );
-  } else if (
-    jobStatus?.buildStatus === 'UNSTABLE' ||
-    jobStatus?.buildStatus === 'RUNNING'
-  ) {
+  } else if (jobStatus?.buildStatus === 'UNSTABLE') {
     useStyles = makeStyles((theme: Theme) =>
       createStyles({
         jobRow: {
@@ -69,6 +66,50 @@ const StateRow: FC<{ jobRow: JobModel }> = ({ jobRow }): ReactElement => {
         jobRow: {
           '& > *': {
             background: `#AAAAAA`,
+          },
+        },
+      })
+    );
+  } else if (jobStatus?.buildStatus === 'FAILURE/RUNNING') {
+    useStyles = makeStyles((theme: Theme) =>
+      createStyles({
+        jobRow: {
+          '& > *': {
+            background: `linear-gradient(90deg, ${theme.palette.error.light}, ${theme.palette.primary.light} 100%);`,
+            backgroundAttachment: `fixed;`,
+          },
+        },
+      })
+    );
+  } else if (jobStatus?.buildStatus === 'SUCCESS/RUNNING') {
+    useStyles = makeStyles((theme: Theme) =>
+      createStyles({
+        jobRow: {
+          '& > *': {
+            background: `linear-gradient(90deg, ${theme.palette.success.light}, ${theme.palette.primary.light} 100%);`,
+            backgroundAttachment: `fixed;`,
+          },
+        },
+      })
+    );
+  } else if (jobStatus?.buildStatus === 'ABORTED/RUNNING') {
+    useStyles = makeStyles((theme: Theme) =>
+      createStyles({
+        jobRow: {
+          '& > *': {
+            background: `linear-gradient(90deg, #AAAAAA, ${theme.palette.primary.light} 100%);`,
+            backgroundAttachment: `fixed;`,
+          },
+        },
+      })
+    );
+  } else if (jobStatus?.buildStatus === 'UNSTABLE/RUNNING') {
+    useStyles = makeStyles((theme: Theme) =>
+      createStyles({
+        jobRow: {
+          '& > *': {
+            background: `linear-gradient(90deg, ${theme.palette.warning.light}, ${theme.palette.primary.light} 100%);`,
+            backgroundAttachment: `fixed;`,
           },
         },
       })

@@ -24,6 +24,8 @@ unstableStatuses = (
 )
 
 runStatuses = (
+    'started',          # TravisCI
+    'created',          # TravisCI
     'running',          # CircleCI
     None,               # Jenkins
 )
@@ -99,11 +101,31 @@ def processCI(job, token):
             buildUrl = jobStatus['url']
         elif job.ci.type == "CIRCLE":
             jobUrl = f"https://app.circleci.com/pipelines/{job.path}/{job}"
-            apiurl = f"https://circleci.com/api/v1.1/project/{job.path}/{job}?limit=1&shallow=true"
-            jobStatus = getCircleJobStatus(apiurl)[0]
-            buildResult = mapStates(jobStatus['outcome'])
-            last_build_number = jobStatus['build_num']
-            buildUrl = jobStatus['build_url']
+            apiurl = f"https://circleci.com/api/v1.1/project/{job.path}/{job}?limit=2&shallow=true"
+            jobStatus = getCircleJobStatus(apiurl)
+            buildResult = mapStates(jobStatus[0]['outcome'])
+            last_build_number = jobStatus[0]['build_num']
+            buildUrl = jobStatus[0]['build_url']
+
+        if buildResult == 'RUNNING':
+            if job.ci.type == "TRAVIS":
+                previousBuildResult = mapStates(jobStatus['previous_state'])
+            elif job.ci.type == "JENKINS":
+                previousApiUrl = f"{jobUrl}/{last_build_number-1}/api/json?tree=result"
+                previousJobStatus = getJenkinsJobStatus(previousApiUrl)
+                previousBuildResult = mapStates(previousJobStatus['result'])
+            elif job.ci.type == "CIRCLE":
+                previousBuildResult = mapStates(jobStatus[1]['outcome'])
+
+            if previousBuildResult == 'FAILURE':
+                buildResult = 'FAILURE/RUNNING'
+            elif previousBuildResult == 'UNSTABLE':
+                buildResult = 'UNSTABLE/RUNNING'
+            elif previousBuildResult == 'SUCCESS':
+                buildResult = 'SUCCESS/RUNNING'
+            elif previousBuildResult == 'ABORTED':
+                buildResult = 'ABORTED/RUNNING'
+
     except Exception as e:
         print(e)
         return {'name': str(job), 'buildNumber': 'UNKNOWN', 'buildStatus': 'UNKNOWN', 'buildUrl': 'UNKNOWN', 'jobUrl': jobUrl}
