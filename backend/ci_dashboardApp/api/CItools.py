@@ -58,11 +58,12 @@ def mapStates(state):
 
 
 def getTravisJobStatus(url, token):
-    response = requests.get(str(url), headers={'User-Agent': 'CI-Dashboard',
-                                               'Travis-API-Version': '3',
-                                               'Authorization': 'token ' + str(token)},
+    response = requests.get(str(url),
+                            headers={'User-Agent': 'CI-Dashboard',
+                                     'Travis-API-Version': '3',
+                                     'Authorization': 'token ' + str(token)},
                             verify=True,
-                            timeout=5)
+                            timeout=10)
     jobStatus = json.loads(response.text)
     return jobStatus
 
@@ -70,15 +71,16 @@ def getTravisJobStatus(url, token):
 def getCircleJobStatus(url):
     response = requests.get(url,
                             verify=True,
-                            timeout=5)
+                            timeout=10)
     jobStatus = json.loads(response.text)
     return jobStatus
 
 
 def getJenkinsJobStatus(url):
-    response = requests.get(url, headers={'Accept': 'application/json'},
+    response = requests.get(url,
+                            headers={'Accept': 'application/json'},
                             verify=False,
-                            timeout=5)
+                            timeout=10)
     jobStatus = json.loads(response.text)
     return jobStatus
 
@@ -87,7 +89,7 @@ def processCI(job, token):
     try:
         if job.ci.type == "TRAVIS":
             jobUrl = f"https://travis-ci.com/{job.path}/{job}/builds/"
-            apiurl = f"https://api.travis-ci.com/repo/{job.path}%2F{job}/builds?limit=1"
+            apiurl = f"https://api.travis-ci.com/repo/{job.path}%2F{job}/builds?limit=1&branch.name=master"
             jobStatus = getTravisJobStatus(apiurl, token)["builds"][0]
             buildResult = mapStates(jobStatus['state'])
             last_build_number = jobStatus['number']
@@ -101,7 +103,7 @@ def processCI(job, token):
             buildUrl = jobStatus['url']
         elif job.ci.type == "CIRCLE":
             jobUrl = f"https://app.circleci.com/pipelines/{job.path}/{job}"
-            apiurl = f"https://circleci.com/api/v1.1/project/{job.path}/{job}?limit=2&shallow=true"
+            apiurl = f"https://circleci.com/api/v1.1/project/{job.path}/{job}/tree/master?limit=2&shallow=true"
             jobStatus = getCircleJobStatus(apiurl)
             buildResult = mapStates(jobStatus[0]['outcome'])
             last_build_number = jobStatus[0]['build_num']
