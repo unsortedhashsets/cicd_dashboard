@@ -122,7 +122,7 @@ def processCI(job, token):
                 buildResult = mapStates(
                     jobStatus['workflow_runs'][0]['conclusion'])
             else:
-                buildResult = None
+                buildResult = 'RUNNING'
             last_build_number = jobStatus['workflow_runs'][0]['run_number']
             buildUrl = jobStatus['workflow_runs'][0]['html_url']
 
