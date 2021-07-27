@@ -261,20 +261,30 @@ export const CIModal: React.FC<CIModalProps> = ({
                   {state.type === 'JENKINS' ? (
                     <>
                       <option value={'JENKINS'}>Jenkins</option>
-                      <option value={'TRAVIS'}>Travis</option>
-                      <option value={'CIRCLE'}>Circle</option>
+                      <option value={'TRAVIS'}>TravisCI</option>
+                      <option value={'CIRCLE'}>CircleCI</option>
+                      <option value={'GITHUB'}>GitHub Actions</option>
                     </>
-                  ) : state.type === 'Travis' ? (
+                  ) : state.type === 'TRAVIS' ? (
                     <>
-                      <option value={'TRAVIS'}>Travis</option>
-                      <option value={'CIRCLE'}>Circle</option>
+                      <option value={'TRAVIS'}>TravisCI</option>
+                      <option value={'CIRCLE'}>CircleCI</option>
+                      <option value={'GITHUB'}>GitHub Actions</option>
                       <option value={'JENKINS'}>Jenkins</option>
+                    </>
+                  ) : state.type === 'CIRCLE' ? (
+                    <>
+                      <option value={'CIRCLE'}>CircleCI</option>
+                      <option value={'GITHUB'}>GitHub Actions</option>
+                      <option value={'JENKINS'}>Jenkins</option>
+                      <option value={'TRAVIS'}>TravisCI</option>
                     </>
                   ) : (
                     <>
-                      <option value={'CIRCLE'}>Circle</option>
+                      <option value={'GITHUB'}>GitHub Actions</option>
                       <option value={'JENKINS'}>Jenkins</option>
-                      <option value={'TRAVIS'}>Travis</option>
+                      <option value={'TRAVIS'}>TravisCI</option>
+                      <option value={'CIRCLE'}>CircleCI</option>
                     </>
                   )}
                 </Select>

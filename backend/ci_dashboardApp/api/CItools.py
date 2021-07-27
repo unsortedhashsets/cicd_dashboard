@@ -4,7 +4,7 @@ import json
 passedStatuses = (
     'passed',           # TravisCI
     'SUCCESS',          # Jenkins
-    'success',          # CircleCI
+    'success',          # CircleCI / GitHub Actions
 )
 
 failedStatuses = (
@@ -12,22 +12,28 @@ failedStatuses = (
     'errored',          # TravisCI
     'FAILURE',          # Jenkins
     'failing',          # CircleCI
+    'failure',          # GitHub Actions
+    'timed_out',        # GitHub Actions
 )
 
 abortedStatuses = (
     'canceled',         # TravisCI / CircleCI
+    'cancelled',        # GitHub Actions
+    'skipped',          # GitHub Actions
     'ABORTED',          # Jenkins
 )
 
 unstableStatuses = (
     'UNSTABLE',         # Jenkins
+    'neutral',          # GitHub Actions
+    'action_required',  # GitHub Actions
 )
 
 runStatuses = (
     'started',          # TravisCI
     'created',          # TravisCI
     'running',          # CircleCI
-    None,               # Jenkins
+    None,               # Jenkins / GitHub Actions
 )
 
 
@@ -68,7 +74,7 @@ def getTravisJobStatus(url, token):
     return jobStatus
 
 
-def getCircleJobStatus(url):
+def getCircleGitHubJobStatus(url):
     response = requests.get(url,
                             verify=True,
                             timeout=10)
@@ -104,10 +110,21 @@ def processCI(job, token):
         elif job.ci.type == "CIRCLE":
             jobUrl = f"https://app.circleci.com/pipelines/{job.path}/{job}"
             apiurl = f"https://circleci.com/api/v1.1/project/{job.path}/{job}/tree/master?limit=2&shallow=true"
-            jobStatus = getCircleJobStatus(apiurl)
+            jobStatus = getCircleGitHubJobStatus(apiurl)
             buildResult = mapStates(jobStatus[0]['outcome'])
             last_build_number = jobStatus[0]['build_num']
             buildUrl = jobStatus[0]['build_url']
+        elif job.ci.type == "GITHUB":
+            jobUrl = f"https://github.com/{job.path}/{job}/actions"
+            apiurl = f"https://api.github.com/repos/{job.path}/{job}/actions/runs?branch=master&per_page=2"
+            jobStatus = getCircleGitHubJobStatus(apiurl)
+            if (jobStatus['workflow_runs'][0]['status'] == "completed"):
+                buildResult = mapStates(
+                    jobStatus['workflow_runs'][0]['conclusion'])
+            else:
+                buildResult = None
+            last_build_number = jobStatus['workflow_runs'][0]['run_number']
+            buildUrl = jobStatus['workflow_runs'][0]['html_url']
 
         if buildResult == 'RUNNING':
             if job.ci.type == "TRAVIS":
@@ -118,6 +135,9 @@ def processCI(job, token):
                 previousBuildResult = mapStates(previousJobStatus['result'])
             elif job.ci.type == "CIRCLE":
                 previousBuildResult = mapStates(jobStatus[1]['outcome'])
+            elif job.ci.type == "GITHUB":
+                previousBuildResult = mapStates(
+                    jobStatus['workflow_runs'][1]['conclusion'])
 
             if previousBuildResult == 'FAILURE':
                 buildResult = 'FAILURE/RUNNING'

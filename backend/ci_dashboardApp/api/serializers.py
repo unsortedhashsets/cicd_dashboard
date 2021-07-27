@@ -26,7 +26,8 @@ class JobSerializer(serializers.ModelSerializer):
 
 class CISerializer(serializers.ModelSerializer):
     jobs = JobSerializer(many=True, read_only=True)
-    type = serializers.ChoiceField(choices=['JENKINS', 'TRAVIS', 'CIRCLE'])
+    type = serializers.ChoiceField(
+        choices=['JENKINS', 'TRAVIS', 'CIRCLE', 'GITHUB'])
     access = serializers.ChoiceField(choices=['Private', 'Public'])
 
     class Meta:

@@ -1,7 +1,7 @@
 - model: ci_dashboardApp.CI
   pk: 1
   fields:
-    ci: FUSE_QE_JENKINS
+    ci: FUSE_QE_JENKINS (Jenkins)
     link: https://master-jenkins-csb-fusetools-qe.apps.ocp4.prod.psi.redhat.com/
     type: JENKINS
     access: Public
@@ -10,8 +10,17 @@
 - model: ci_dashboardApp.CI
   pk: 2
   fields:
-    ci: camel-tooling
+    ci: camel-tooling (CircleCI)
     link: https://app.circleci.com/
     type: CIRCLE
+    access: Public
+    owner: null
+
+- model: ci_dashboardApp.CI
+  pk: 3
+  fields:
+    ci: camel-tooling (GitHub Actions)
+    link: https://github.com/
+    type: GITHUB
     access: Public
     owner: null

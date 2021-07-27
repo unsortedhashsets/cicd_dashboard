@@ -11,3 +11,10 @@
     job: camel-lsp-client-vscode
     path: github/camel-tooling
     ci: 2
+
+- model: ci_dashboardApp.Job
+  pk: 3
+  fields:
+    job: camel-lsp-client-vscode
+    path: camel-tooling
+    ci: 3
