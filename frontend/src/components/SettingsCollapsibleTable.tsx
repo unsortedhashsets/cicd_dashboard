@@ -21,6 +21,7 @@ import { JobModal } from './Modals/JobModal';
 import { DeleteModal } from './Modals/DeleteModal';
 import { CItoolModel } from '../model/CItool.model';
 import { user } from '../model/User.model';
+import useLocalStorage from '../utils/useLocalStorage';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -43,8 +44,13 @@ interface PropsR {
 }
 
 const Row: FC<PropsR> = ({ CItool }): ReactElement => {
-  const [openModule, setOpenModule] = React.useState(true);
   const classes = useStyles();
+
+  const [isTableOpen, setTableOpen] = useLocalStorage(String(CItool.id), true);
+
+  const toggleTable = () => {
+    setTableOpen((prevValue) => !prevValue);
+  };
 
   const [isCIModalVisible, setIsCIModalVisible] = useState(false);
   const [isJobModalVisible, setIsJobModalVisible] = useState(false);
@@ -131,10 +137,10 @@ const Row: FC<PropsR> = ({ CItool }): ReactElement => {
           <IconButton
             aria-label='expand row'
             size='small'
-            onClick={() => setOpenModule(!openModule)}
+            onClick={toggleTable}
             style={{ color: 'white' }}
           >
-            {openModule ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            {isTableOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
         <TableCell>{CItool.id}</TableCell>
@@ -193,7 +199,7 @@ const Row: FC<PropsR> = ({ CItool }): ReactElement => {
       </TableRow>
       <TableRow className={classes.content}>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={8}>
-          <Collapse in={openModule} timeout='auto' unmountOnExit>
+          <Collapse in={isTableOpen} timeout='auto' unmountOnExit>
             <Box margin={1}>
               <Table size='small' aria-label='jobs'>
                 <TableHead>

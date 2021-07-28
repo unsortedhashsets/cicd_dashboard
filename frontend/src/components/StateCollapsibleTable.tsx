@@ -19,6 +19,7 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { CItoolModel, defaultCItool } from '../model/CItool.model';
 import StateRow from './StateRow';
 import axios from 'axios';
+import useLocalStorage from '../utils/useLocalStorage';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -41,9 +42,14 @@ interface PropsR {
 }
 
 const Row: FC<PropsR> = ({ _CItool }): ReactElement => {
-  const [openModule, setOpenModule] = React.useState(true);
   const classes = useStyles();
   const [CItool, setCItool] = useState<CItoolModel>(_CItool);
+
+  const [isTableOpen, setTableOpen] = useLocalStorage(String(_CItool.id), true);
+
+  const toggleTable = () => {
+    setTableOpen((prevValue) => !prevValue);
+  };
 
   const handleUpdate = (): void => {
     axios
@@ -76,10 +82,10 @@ const Row: FC<PropsR> = ({ _CItool }): ReactElement => {
           <IconButton
             aria-label='expand row'
             size='small'
-            onClick={() => setOpenModule(!openModule)}
+            onClick={toggleTable}
             style={{ color: 'white' }}
           >
-            {openModule ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            {isTableOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
         <TableCell style={{ color: 'white' }}>{CItool.ci}</TableCell>
@@ -91,7 +97,7 @@ const Row: FC<PropsR> = ({ _CItool }): ReactElement => {
       </TableRow>
       <TableRow className={classes.content}>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={openModule} timeout='auto' unmountOnExit>
+          <Collapse in={isTableOpen} timeout='auto' unmountOnExit>
             <Box margin={1}>
               <Table size='small' aria-label='jobs'>
                 <TableHead>
