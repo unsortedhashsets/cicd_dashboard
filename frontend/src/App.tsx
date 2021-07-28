@@ -1,9 +1,9 @@
 import React, { ReactElement, useReducer, FC, useState } from 'react';
 import {
-  createMuiTheme,
   Theme,
   responsiveFontSizes,
   ThemeProvider,
+  createTheme,
 } from '@material-ui/core/styles';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
@@ -17,8 +17,9 @@ import { lightTheme, darkTheme } from './theme/appTheme';
 // app routes
 import { routes } from './config';
 
-// constants
+// Utils
 import { APP_TITLE } from './utils/constants';
+import useLocalStorage from './utils/useLocalStorage';
 
 // interfaces
 import RouteItem from './model/RouteItem.model';
@@ -62,10 +63,14 @@ function App() {
       setLoading(false);
     });
 
-  const [useDefaultTheme, toggle] = useReducer((theme) => !theme, true);
+  const [isDarkTheme, setDarkTheme] = useLocalStorage('darkTheme', true);
+
+  const toggleTheme = () => {
+    setDarkTheme((prevValue) => !prevValue);
+  };
 
   // define custom theme
-  let theme: Theme = createMuiTheme(useDefaultTheme ? darkTheme : lightTheme);
+  let theme: Theme = createTheme(isDarkTheme ? darkTheme : lightTheme);
   theme = responsiveFontSizes(theme);
 
   if (isLoading) {
@@ -81,7 +86,7 @@ function App() {
         <ThemeProvider theme={theme}>
           <Router>
             <Switch>
-              <Layout toggleTheme={toggle} useDefaultTheme={useDefaultTheme}>
+              <Layout toggleTheme={toggleTheme} useDefaultTheme={isDarkTheme}>
                 {routes.map((route: RouteItem) =>
                   route.subRoutes ? (
                     route.subRoutes.map((item: RouteItem) => (
