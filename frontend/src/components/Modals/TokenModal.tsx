@@ -1,14 +1,15 @@
 import React, { useReducer } from 'react';
 import {
-  Button,
-  createStyles,
-  makeStyles,
-  Theme,
   Card,
   CardContent,
   CardActions,
   CardHeader,
   TextField,
+  Button,
+  createStyles,
+  makeStyles,
+  Select,
+  Theme,
 } from '@material-ui/core';
 import axios from 'axios';
 import { user } from '../../model/User.model';
@@ -41,6 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
 type State = {
   ci: string;
   token: string;
+  access: string;
   isButtonDisabled: boolean;
   helperText: string;
   isError: boolean;
@@ -49,6 +51,7 @@ type State = {
 type Action =
   | { type: 'setCI'; payload: string }
   | { type: 'setToken'; payload: string }
+  | { type: 'setAccess'; payload: string }
   | { type: 'setIsButtonDisabled'; payload: boolean }
   | { type: 'ChangeSuccess'; payload: string }
   | { type: 'ChangeFailed'; payload: string }
@@ -65,6 +68,11 @@ const reducer = (state: State, action: Action): State => {
       return {
         ...state,
         token: action.payload,
+      };
+    case 'setAccess':
+      return {
+        ...state,
+        access: action.payload,
       };
     case 'setIsButtonDisabled':
       return {
@@ -109,6 +117,7 @@ export const TokenModal: React.FC<TokenModalProps> = ({
   const [state, dispatch] = useReducer(reducer, {
     ci: token?.ci.toString() || '0',
     token: token?.token || 'xxsxasxxafsfawercq',
+    access: token?.access || 'Private',
     isButtonDisabled: false,
     helperText: '',
     isError: false,
@@ -122,6 +131,7 @@ export const TokenModal: React.FC<TokenModalProps> = ({
           token: state.token,
           ci: Number(state.ci),
           user: user.id,
+          access: state.access,
         })
         .then(() => {
           dispatch({
@@ -144,6 +154,7 @@ export const TokenModal: React.FC<TokenModalProps> = ({
           token: state.token,
           ci: Number(state.ci),
           user: user.id,
+          access: state.access,
         })
         .then(() => {
           dispatch({
@@ -180,6 +191,13 @@ export const TokenModal: React.FC<TokenModalProps> = ({
     });
   };
 
+  const handleAccessChange = (event: React.ChangeEvent<{ value: any }>) => {
+    dispatch({
+      type: 'setAccess',
+      payload: event.target.value,
+    });
+  };
+
   return (
     <RWDModal
       onBackdropClick={onBackdropClick}
@@ -211,6 +229,26 @@ export const TokenModal: React.FC<TokenModalProps> = ({
                   onChange={handleTokenChange}
                   helperText={state.helperText}
                 />
+                <Select
+                  className={classes.card}
+                  native
+                  fullWidth
+                  value={state.access}
+                  id='ci_access'
+                  onChange={handleAccessChange}
+                >
+                  {state.access === 'Private' ? (
+                    <>
+                      <option value={'Private'}>Private</option>
+                      {user.isLogin && <option value={'Shared'}>Shared</option>}
+                    </>
+                  ) : (
+                    <>
+                      {user.isLogin && <option value={'Shared'}>Shared</option>}
+                      <option value={'Private'}>Private</option>
+                    </>
+                  )}
+                </Select>
               </div>
             </CardContent>
             <CardActions>

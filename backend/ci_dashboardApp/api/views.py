@@ -59,7 +59,7 @@ class CIViewSet(ModelViewSet):
     serializer_class = CISerializer
 
     def get_queryset(self):
-        return CI.objects.filter(Q(owner=self.request.user.id) | Q(access="Public"))
+        return CI.objects.filter(Q(owner=self.request.user.id) | Q(access='Public'))
 
 
 class TokenViewSet(ModelViewSet):
@@ -77,14 +77,14 @@ class JobViewSet(ModelViewSet):
 
     def get_queryset(self):
         CIObjects = CI.objects.filter(Q(owner=self.request.user.id) |
-                                      Q(access="Public")).values_list('id')
+                                      Q(access='Public')).values_list('id')
         return Job.objects.filter(ci__in=list(CIObjects))
 
     @action(detail=True, methods=['GET'])
     def status(self, request, pk=None):
         try:
             CIObjects = CI.objects.filter(Q(owner=self.request.user.id) |
-                                          Q(access="Public")).values_list('id')
+                                          Q(access='Public')).values_list('id')
             job = Job.objects.get(Q(pk=pk) & Q(ci__in=list(CIObjects)))
         except Job.DoesNotExist:
             raise Http404
@@ -92,7 +92,7 @@ class JobViewSet(ModelViewSet):
             token = Token.objects.get(ci=job.ci.id, user=self.request.user.id)
         except Token.DoesNotExist:
             try:
-                token = Token.objects.get(ci=job.ci.id, user=job.ci.owner)
+                token = Token.objects.get(ci=job.ci.id, access='Shared')
             except Token.DoesNotExist:
                 token = None
         return Response(ct.processCI(job, token))

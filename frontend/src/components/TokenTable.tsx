@@ -40,10 +40,17 @@ interface PropsCT {
 const TokenTable: FC<PropsCT> = ({ tokens }): ReactElement => {
   const classes = useStyles();
 
-  const [isModalTokenVisible, setIsModalTokenVisible] = useState(false);
+  const [isModalAddTokenVisible, setIsModalAddTokenVisible] = useState(false);
 
-  const toggleTokenModal = () => {
-    setIsModalTokenVisible((wasModalVisible) => !wasModalVisible);
+  const toggleAddTokenModal = () => {
+    setIsModalAddTokenVisible((wasModalVisible) => !wasModalVisible);
+  };
+
+  const [isModalUpdateTokenVisible, setIsModalUpdateTokenVisible] =
+    useState(false);
+
+  const toggleUpdateTokenModal = () => {
+    setIsModalUpdateTokenVisible((wasModalVisible) => !wasModalVisible);
   };
 
   const [isModalDeleteVisible, setIsModalDeleteVisible] = useState(false);
@@ -67,19 +74,19 @@ const TokenTable: FC<PropsCT> = ({ tokens }): ReactElement => {
               <Button
                 variant='contained'
                 color='primary'
-                onClick={toggleTokenModal}
+                onClick={toggleAddTokenModal}
                 disabled={!user.isLogin}
               >
                 Add Token
               </Button>
               <TokenModal
-                isModalVisible={isModalTokenVisible}
-                onBackdropClick={toggleTokenModal}
+                isModalVisible={isModalAddTokenVisible}
+                onBackdropClick={toggleAddTokenModal}
                 aim='Add'
               />
             </TableCell>
-            <TableCell>Update</TableCell>
-            <TableCell>Delete</TableCell>
+            <TableCell></TableCell>
+            <TableCell></TableCell>
           </TableRow>
           <TableBody></TableBody>
         </Table>
@@ -95,19 +102,20 @@ const TokenTable: FC<PropsCT> = ({ tokens }): ReactElement => {
           <TableCell>Token ID</TableCell>
           <TableCell>CI ID</TableCell>
           <TableCell>User ID</TableCell>
+          <TableCell>Access</TableCell>
           <TableCell>Token</TableCell>
           <TableCell>
             <Button
               variant='contained'
               color='primary'
-              onClick={toggleTokenModal}
+              onClick={toggleAddTokenModal}
               disabled={!user.isLogin}
             >
               Add Token
             </Button>
             <TokenModal
-              isModalVisible={isModalTokenVisible}
-              onBackdropClick={toggleTokenModal}
+              isModalVisible={isModalAddTokenVisible}
+              onBackdropClick={toggleAddTokenModal}
               aim='Add'
             />
           </TableCell>
@@ -121,20 +129,21 @@ const TokenTable: FC<PropsCT> = ({ tokens }): ReactElement => {
               <TableCell>{token.id}</TableCell>
               <TableCell>{token.ci}</TableCell>
               <TableCell>{token.user}</TableCell>
+              <TableCell>{token.access}</TableCell>
               <TableCell>{token.token}</TableCell>
               <TableCell></TableCell>
               <TableCell>
                 <Button
                   variant='contained'
                   color='primary'
-                  onClick={toggleTokenModal}
+                  onClick={toggleUpdateTokenModal}
                   disabled={!user.isLogin}
                 >
                   Update
                 </Button>
                 <TokenModal
-                  isModalVisible={isModalTokenVisible}
-                  onBackdropClick={toggleTokenModal}
+                  isModalVisible={isModalUpdateTokenVisible}
+                  onBackdropClick={toggleUpdateTokenModal}
                   aim='Update'
                   token={token}
                 />

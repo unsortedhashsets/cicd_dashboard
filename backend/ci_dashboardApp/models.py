@@ -41,11 +41,12 @@ class Token(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="user")
     token = models.CharField(max_length=60)
+    access = models.CharField(max_length=7, null=True)
 
     class Meta:
         constraints = [
-            UniqueConstraint(fields=['ci', 'user'],
-                             name='oneToken_OneUser_OneCI'),
+            UniqueConstraint(fields=['ci', 'user', 'access'],
+                             name='oneToken_OneUser_OneCI_OneAccess'),
         ]
 
     def __str__(self):
