@@ -74,10 +74,25 @@ def getTravisJobStatus(url, token):
     return jobStatus
 
 
-def getCircleGitHubJobStatus(url):
+def getCircleJobStatus(url):
     response = requests.get(url,
                             verify=True,
                             timeout=10)
+    jobStatus = json.loads(response.text)
+    return jobStatus
+
+
+def getGitHubJobStatus(url, token):
+    if (token is not None):
+        response = requests.get(str(url),
+                                headers={
+                                    'Authorization': 'token ' + str(token)},
+                                verify=True,
+                                timeout=10)
+    else:
+        response = requests.get(str(url),
+                                verify=True,
+                                timeout=10)
     jobStatus = json.loads(response.text)
     return jobStatus
 
@@ -110,14 +125,14 @@ def processCI(job, token):
         elif job.ci.type == "CIRCLE":
             jobUrl = f"https://app.circleci.com/pipelines/{job.path}/{job}"
             apiurl = f"https://circleci.com/api/v1.1/project/{job.path}/{job}/tree/master?limit=2&shallow=true"
-            jobStatus = getCircleGitHubJobStatus(apiurl)
+            jobStatus = getCircleJobStatus(apiurl)
             buildResult = mapStates(jobStatus[0]['outcome'])
             last_build_number = jobStatus[0]['build_num']
             buildUrl = jobStatus[0]['build_url']
         elif job.ci.type == "GITHUB":
             jobUrl = f"https://github.com/{job.path}/{job}/actions"
             apiurl = f"https://api.github.com/repos/{job.path}/{job}/actions/runs?branch=master&per_page=2"
-            jobStatus = getCircleGitHubJobStatus(apiurl)
+            jobStatus = getGitHubJobStatus(apiurl, token)
             if (jobStatus['workflow_runs'][0]['status'] == "completed"):
                 buildResult = mapStates(
                     jobStatus['workflow_runs'][0]['conclusion'])

@@ -1,5 +1,5 @@
 FROM python:3
-MAINTAINER Mikhail Abramov
+LABEL CI_Dashboard backend
 
 RUN curl -ks 'https://password.corp.redhat.com/legacy.crt' -o '/usr/local/share/ca-certificates/legacy.crt'
 RUN curl -ks 'https://password.corp.redhat.com/RH-IT-Root-CA.crt' -o '/usr/local/share/ca-certificates/RH-IT-Root-CA.crt'
@@ -9,6 +9,7 @@ RUN /usr/sbin/update-ca-certificates
 RUN apt-get update
 RUN apt-get install python3-dev -y
 RUN apt-get install libldap2-dev libsasl2-dev libssl-dev -y
+RUN apt-get install postgresql -y
 
 
 WORKDIR /app

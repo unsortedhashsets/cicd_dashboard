@@ -41,7 +41,7 @@ class Token(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="user")
     token = models.CharField(max_length=60)
-    access = models.CharField(max_length=7, null=True)
+    access = models.CharField(max_length=7, default=None, null=True)
 
     class Meta:
         constraints = [

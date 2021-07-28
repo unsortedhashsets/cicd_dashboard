@@ -1,6 +1,5 @@
-# TMP Dockerimage for OCP3
 FROM nginx:stable-alpine
-MAINTAINER Mikhail Abramov
+LABEL CI_Dashboard frontend
 
 WORKDIR /app
 
