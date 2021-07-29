@@ -1,4 +1,4 @@
-import React, { ReactElement, useReducer, FC, useState } from 'react';
+import React, { ReactElement, FC, useState } from 'react';
 import {
   Theme,
   responsiveFontSizes,

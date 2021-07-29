@@ -24,11 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const CITools: FC<{}> = (): ReactElement => {
   const classes = useStyles();
-  const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const toggleModal = () => {
-    setIsModalVisible((wasModalVisible) => !wasModalVisible);
-  };
   const [CItoolModels, setCItoolsList] = useState<CItoolModel[]>([]);
 
   useEffect(() => {
@@ -49,19 +45,6 @@ const CITools: FC<{}> = (): ReactElement => {
         </title>
       </Helmet>
       <div className={classes.root}>
-        <Button
-          variant='contained'
-          color='secondary'
-          onClick={toggleModal}
-          disabled={!user.isLogin}
-        >
-          Add CI tool
-        </Button>
-        <CIModal
-          isModalVisible={isModalVisible}
-          onBackdropClick={toggleModal}
-          aim='Add'
-        />
         <SettingsCollapsibleTable CItools={CItoolModels} />
       </div>
     </>

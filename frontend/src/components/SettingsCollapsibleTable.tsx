@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useState } from 'react';
+import React, { FC, ReactElement, useEffect, useState } from 'react';
 import {
   Button,
   TableRow,
@@ -12,6 +12,7 @@ import {
   createStyles,
   makeStyles,
   Theme,
+  TableContainer,
 } from '@material-ui/core';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
@@ -41,12 +42,20 @@ const useStyles = makeStyles((theme: Theme) =>
 // define interface to represent component props
 interface PropsR {
   CItool: CItoolModel;
+  open: boolean | null;
 }
 
-const Row: FC<PropsR> = ({ CItool }): ReactElement => {
+const Row: FC<PropsR> = ({ CItool, open }): ReactElement => {
   const classes = useStyles();
 
   const [isTableOpen, setTableOpen] = useLocalStorage(String(CItool.id), true);
+
+  useEffect(() => {
+    if (open != null) {
+      setTableOpen(open);
+      open = null;
+    }
+  }, [open]);
 
   const toggleTable = () => {
     setTableOpen((prevValue) => !prevValue);
@@ -236,26 +245,73 @@ interface PropsCT {
 
 const StateCollapsibleTable: FC<PropsCT> = ({ CItools }): ReactElement => {
   const classes = useStyles();
+  const [state, setState] = useState<boolean | null>(null);
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setIsModalVisible((wasModalVisible) => !wasModalVisible);
+  };
+
+  const closeState = () => {
+    setState(false);
+  };
+  const openState = () => {
+    setState(true);
+  };
+
   return (
-    <Table size='small' aria-label='jobs'>
-      <TableHead>
-        <TableRow className={classes.root}>
-          <TableCell></TableCell>
-          <TableCell>ID</TableCell>
-          <TableCell>Name</TableCell>
-          <TableCell>Link</TableCell>
-          <TableCell>Access</TableCell>
-          <TableCell>Owner</TableCell>
-          <TableCell>Type</TableCell>
-          <TableCell align='center'>Commands</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {CItools.map((CItool) => (
-          <Row key={CItool.ci} CItool={CItool} />
-        ))}
-      </TableBody>
-    </Table>
+    <TableContainer>
+      <Button
+        style={{ marginBottom: '15px' }}
+        variant='contained'
+        color='secondary'
+        onClick={closeState}
+      >
+        Close All
+      </Button>
+      <Button
+        style={{ marginBottom: '15px', marginLeft: '15px' }}
+        variant='contained'
+        color='secondary'
+        onClick={openState}
+      >
+        Open All
+      </Button>
+      <Button
+        variant='contained'
+        color='secondary'
+        onClick={toggleModal}
+        disabled={!user.isLogin}
+        fullWidth
+      >
+        Add CI tool
+      </Button>
+      <CIModal
+        isModalVisible={isModalVisible}
+        onBackdropClick={toggleModal}
+        aim='Add'
+      />
+      <Table size='small' aria-label='jobs'>
+        <TableHead>
+          <TableRow className={classes.root}>
+            <TableCell></TableCell>
+            <TableCell>ID</TableCell>
+            <TableCell>Name</TableCell>
+            <TableCell>Link</TableCell>
+            <TableCell>Access</TableCell>
+            <TableCell>Owner</TableCell>
+            <TableCell>Type</TableCell>
+            <TableCell align='center'>Commands</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {CItools.map((CItool) => (
+            <Row key={CItool.ci} CItool={CItool} open={state} />
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };
 

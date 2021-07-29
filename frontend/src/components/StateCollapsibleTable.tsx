@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useState } from 'react';
+import React, { FC, ReactElement, useEffect, useState } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 import {
@@ -12,6 +12,7 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Button,
 } from '@material-ui/core/';
 import UpdateIcon from '@material-ui/icons/Update';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
@@ -20,6 +21,7 @@ import { CItoolModel, defaultCItool } from '../model/CItool.model';
 import StateRow from './StateRow';
 import axios from 'axios';
 import useLocalStorage from '../utils/useLocalStorage';
+import { FormatColorResetOutlined } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -39,13 +41,21 @@ const useStyles = makeStyles((theme: Theme) =>
 // define interface to represent component props
 interface PropsR {
   _CItool: CItoolModel;
+  open: boolean | null;
 }
 
-const Row: FC<PropsR> = ({ _CItool }): ReactElement => {
+const Row: FC<PropsR> = ({ _CItool, open }): ReactElement => {
   const classes = useStyles();
   const [CItool, setCItool] = useState<CItoolModel>(_CItool);
 
   const [isTableOpen, setTableOpen] = useLocalStorage(String(_CItool.id), true);
+
+  useEffect(() => {
+    if (open != null) {
+      setTableOpen(open);
+      open = null;
+    }
+  }, [open]);
 
   const toggleTable = () => {
     setTableOpen((prevValue) => !prevValue);
@@ -131,13 +141,38 @@ interface PropsCT {
 }
 
 const StateCollapsibleTable: FC<PropsCT> = ({ CItools }): ReactElement => {
+  const [state, setState] = useState<boolean | null>(null);
+
+  const closeState = () => {
+    setState(false);
+  };
+  const openState = () => {
+    setState(true);
+  };
+
   return (
     <TableContainer component={Paper}>
+      <Button
+        style={{ marginBottom: '15px' }}
+        variant='contained'
+        color='secondary'
+        onClick={closeState}
+      >
+        Close All
+      </Button>
+      <Button
+        style={{ marginBottom: '15px', marginLeft: '15px' }}
+        variant='contained'
+        color='secondary'
+        onClick={openState}
+      >
+        Open All
+      </Button>
       <Table aria-label='collapsible table'>
         <TableHead></TableHead>
         <TableBody>
           {CItools.map((CItool) => (
-            <Row key={CItool.ci} _CItool={CItool} />
+            <Row key={CItool.ci} _CItool={CItool} open={state} />
           ))}
         </TableBody>
       </Table>
