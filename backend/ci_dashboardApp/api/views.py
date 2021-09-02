@@ -1,3 +1,4 @@
+from django.db.models.query import Prefetch
 from django.http import Http404
 import ci_dashboardApp.api.CItools as ct
 from rest_framework.response import Response
@@ -5,13 +6,14 @@ from rest_framework import (generics,
                             mixins,
                             viewsets)
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from rest_framework.decorators import action
-from ci_dashboardApp.api.serializers import (UserSerializer,
+from ci_dashboardApp.api.serializers import (GroupSerializer,
+                                             UserSerializer,
                                              CISerializer,
                                              JobSerializer,
                                              TokenSerializer)
-from ci_dashboardApp.models import (CI,
+from ci_dashboardApp.models import (CI, Group,
                                     Job,
                                     Token)
 from django.db.models import Q
@@ -59,7 +61,18 @@ class CIViewSet(ModelViewSet):
     serializer_class = CISerializer
 
     def get_queryset(self):
-        return CI.objects.filter(Q(owner=self.request.user.id) | Q(access='Public'))
+        return CI.objects.filter(Q(owner=self.request.user.id) |
+                                 Q(access='Public'))
+
+
+class GroupViewSet(ModelViewSet):
+    queryset = Group.objects.none()
+    serializer_class = GroupSerializer
+
+    def get_queryset(self):
+        return Group.objects.prefetch_related(
+            Prefetch('ci', queryset=CI.objects.filter(Q(owner=self.request.user.id) |
+                                                      Q(access='Public'))))
 
 
 class TokenViewSet(ModelViewSet):
@@ -80,7 +93,7 @@ class JobViewSet(ModelViewSet):
                                       Q(access='Public')).values_list('id')
         return Job.objects.filter(ci__in=list(CIObjects))
 
-    @action(detail=True, methods=['GET'])
+    @ action(detail=True, methods=['GET'])
     def status(self, request, pk=None):
         try:
             CIObjects = CI.objects.filter(Q(owner=self.request.user.id) |

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ci_dashboardApp.models import CI, Job, Token
+from ci_dashboardApp.models import CI, Group, Job, Token
 
 from django.contrib.auth.models import User
 
@@ -32,6 +32,14 @@ class CISerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CI
+        fields = "__all__"
+
+
+class GroupSerializer(serializers.ModelSerializer):
+    ci = CISerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Group
         fields = "__all__"
 
 
