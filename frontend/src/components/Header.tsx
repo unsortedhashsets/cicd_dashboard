@@ -155,7 +155,7 @@ const Header: FC<Props> = ({
             )}
           </IconButton>
           {user.isLogin ? (
-            <Button onClick={handleLogout}>LOGOUT</Button>
+            <Button onClick={handleLogout}>LOGOUT ({user.username})</Button>
           ) : (
             <>
               <Button onClick={toggleModal}>LOGIN</Button>

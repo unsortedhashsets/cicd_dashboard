@@ -17,11 +17,28 @@ import {
 } from '../model/Job.model';
 import UpdateIcon from '@material-ui/icons/Update';
 
-const StateRow: FC<{ jobRow: JobModel }> = ({ jobRow }): ReactElement => {
+const StateRow: FC<{
+  jobRow: JobModel;
+  pictures: boolean;
+  update: number;
+}> = ({ jobRow, pictures, update }): ReactElement => {
   const [jobStatus, setJobStatusModel] = useState<JobStatusModel>(
     defaultJobStatusModel
   );
+
+  const [updateStatus, setUpdateStatus] = useState<number>(-1);
+
   const [time, setTime] = useState(Date.now());
+
+  var Styles = makeStyles({
+    img: {
+      minWidth: '50px',
+      maxWidth: '100%',
+      maxHeight: 'auto',
+    },
+  });
+
+  const classes = Styles();
 
   var useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -128,6 +145,11 @@ const StateRow: FC<{ jobRow: JobModel }> = ({ jobRow }): ReactElement => {
       });
   };
 
+  if (updateStatus !== update) {
+    setUpdateStatus(update);
+    handleUpdate();
+  }
+
   useEffect(() => {
     const interval = setInterval(() => setTime(Date.now()), 300000);
     setJobStatusModel(defaultJobStatusModel);
@@ -144,9 +166,23 @@ const StateRow: FC<{ jobRow: JobModel }> = ({ jobRow }): ReactElement => {
   }, [jobRow.id, time]);
 
   return (
-    <TableRow key={jobRow.ci} className={useStyles().jobRow}>
-      <TableCell component='th' scope='row'>
-        {jobStatus?.buildStatus === '' ? <CircularProgress /> : `${jobRow.id}`}
+    <TableRow key={(jobRow.ci, updateStatus)} className={useStyles().jobRow}>
+      <TableCell component='th' scope='row' width='75px'>
+        {jobStatus?.buildStatus === '' ? (
+          <CircularProgress />
+        ) : pictures ? (
+          jobRow.type === 'JENKINS' ? (
+            <img className={classes.img} src='./jenkins.png' alt='jenkins' />
+          ) : jobRow.type === 'TRAVIS' ? (
+            <img className={classes.img} src='./travis.png' alt='travis' />
+          ) : jobRow.type === 'CIRCLE' ? (
+            <img className={classes.img} src='./circle.png' alt='circle' />
+          ) : (
+            <img className={classes.img} src='./github.png' alt='github' />
+          )
+        ) : (
+          `${jobRow.id}`
+        )}
       </TableCell>
       <TableCell>{jobStatus?.name}</TableCell>
       <TableCell>

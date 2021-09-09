@@ -50,6 +50,7 @@ python3 backend/manage.py migrate
 ### 5. Upload fixtures
 
 ```
+python3 backend/manage.py loaddata backend/ci_dashboardApp/fixtures/group.yaml
 python3 backend/manage.py loaddata backend/ci_dashboardApp/fixtures/ci.yaml
 python3 backend/manage.py loaddata backend/ci_dashboardApp/fixtures/job.yaml
 ```

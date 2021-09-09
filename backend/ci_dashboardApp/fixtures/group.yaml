@@ -1,0 +1,11 @@
+- model: ci_dashboardApp.Group
+  pk: 1
+  fields:
+    group: A
+    owner: null
+
+- model: ci_dashboardApp.Group
+  pk: 2
+  fields:
+    group: B
+    owner: null

@@ -1,4 +1,4 @@
-import React, { ReactElement, FC, useState } from 'react';
+import React, { ReactElement, FC } from 'react';
 import {
   Theme,
   responsiveFontSizes,
@@ -42,8 +42,6 @@ if (process.env['REACT_APP_LOCAL'] === '1') {
 }
 
 function App() {
-  const [isLoading, setLoading] = useState(true);
-
   axios.defaults.withCredentials = true;
   axios.defaults.xsrfCookieName = 'csrftoken';
   axios.defaults.xsrfHeaderName = 'X-CSRFToken';
@@ -56,11 +54,9 @@ function App() {
     .then((response) => {
       setUserModel(response.data[0]);
       user.isLogin = true;
-      setLoading(false);
     })
     .catch(() => {
       user.isLogin = false;
-      setLoading(false);
     });
 
   const [isDarkTheme, setDarkTheme] = useLocalStorage('darkTheme', true);
@@ -72,10 +68,6 @@ function App() {
   // define custom theme
   let theme: Theme = createTheme(isDarkTheme ? darkTheme : lightTheme);
   theme = responsiveFontSizes(theme);
-
-  if (isLoading) {
-    return <div className='App'>Loading...</div>;
-  }
 
   return (
     <>

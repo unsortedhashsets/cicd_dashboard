@@ -8,6 +8,9 @@ export interface CItoolModel {
   ci: string;
   link: string;
   owner: number | null;
+  group: number | null;
+  owner_name: string | null;
+  group_name: string | null;
 }
 
 export const defaultCItool: CItoolModel = {
@@ -18,4 +21,7 @@ export const defaultCItool: CItoolModel = {
   ci: '',
   link: '',
   owner: null,
+  group: null,
+  owner_name: null,
+  group_name: null,
 };

@@ -1,154 +1,116 @@
-import React, { FC, ReactElement, useEffect, useState } from 'react';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import React, { FC, ReactElement, useState } from 'react';
 
 import {
-  Box,
-  Collapse,
-  IconButton,
   Table,
   TableBody,
-  TableCell,
   TableContainer,
   TableHead,
-  TableRow,
   Paper,
   Button,
+  FormControlLabel,
+  Switch,
 } from '@material-ui/core/';
-import UpdateIcon from '@material-ui/icons/Update';
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import { CItoolModel, defaultCItool } from '../model/CItool.model';
-import StateRow from './StateRow';
-import axios from 'axios';
+import { CItoolModel } from '../model/CItool.model';
 import useLocalStorage from '../utils/useLocalStorage';
-import { FormatColorResetOutlined } from '@material-ui/icons';
+import { GroupModel } from '../model/Group.model';
+import { user } from '../model/User.model';
+import StateCollapsibleTableCIRow from './StateCollapsibleTableCIRow';
+import StateCollapsibleTableGroupRow from './StateCollapsibleTableGroupRow';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      '& > *': {
-        background: `${theme.palette.primary.dark}`,
-      },
-    },
-    content: {
-      '& > *': {
-        background: `${theme.palette.primary.light}`,
-      },
-    },
-  })
-);
-
-// define interface to represent component props
-interface PropsR {
-  _CItool: CItoolModel;
-  open: boolean | null;
-}
-
-const Row: FC<PropsR> = ({ _CItool, open }): ReactElement => {
-  const classes = useStyles();
-  const [CItool, setCItool] = useState<CItoolModel>(_CItool);
-
-  const [isTableOpen, setTableOpen] = useLocalStorage(String(_CItool.id), true);
-
-  useEffect(() => {
-    if (open != null) {
-      setTableOpen(open);
-      open = null;
+const SortGroups = (CIs: CItoolModel[], Groups: GroupModel[]) => {
+  for (let ci of CIs) {
+    for (let job of ci.jobs) {
+      job.access = ci.access;
+      job.type = ci.type;
+      job.link = ci.link;
+      job.ci_name = ci.ci;
+      if (job.access === 'Private') {
+        job.group = -1;
+        job.group_name = 'Private';
+        if (!Groups.find((i) => i.id === -1)) {
+          Groups.push({
+            id: -1,
+            group: 'Private',
+            owner: user.id,
+            owner_name: user.username,
+            jobs: [],
+          });
+        }
+      } else {
+        job.group = ci.group;
+        if (job.group === null) {
+          job.group = 0;
+          job.group_name = 'Undefined';
+          if (!Groups.find((i) => i.id === 0)) {
+            Groups.push({
+              id: 0,
+              group: 'Undefined',
+              owner: null,
+              owner_name: '',
+              jobs: [],
+            });
+          }
+        } else {
+          job.group_name = ci.group_name;
+        }
+      }
+      let x = Groups.find((i) => i.id === job.group);
+      if (x) {
+        if (!x.jobs) {
+          x.jobs = [];
+        }
+        if (!x.jobs.find((i) => i.id === job.id)) {
+          x.jobs.push(job);
+        }
+      }
     }
-  }, [open]);
-
-  const toggleTable = () => {
-    setTableOpen((prevValue) => !prevValue);
-  };
-
-  const handleUpdate = (): void => {
-    axios
-      .get<CItoolModel>(`/api/ci/${CItool.id}/`, {
-        withCredentials: true,
-      })
-      .then((response) => {
-        setCItool(defaultCItool);
-        setCItool(response.data);
-      });
-  };
-
-  if (CItool.jobs.length === 0) {
-    return (
-      <React.Fragment>
-        <TableRow className={classes.root}>
-          <TableCell style={{ width: '62px' }} />
-          <TableCell style={{ color: 'white' }}>{CItool.ci}</TableCell>
-          <TableCell></TableCell>
-        </TableRow>
-        <TableBody />
-      </React.Fragment>
-    );
   }
-
-  return (
-    <React.Fragment>
-      <TableRow className={classes.root}>
-        <TableCell style={{ width: '62px' }}>
-          <IconButton
-            aria-label='expand row'
-            size='small'
-            onClick={toggleTable}
-            style={{ color: 'white' }}
-          >
-            {isTableOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          </IconButton>
-        </TableCell>
-        <TableCell style={{ color: 'white' }}>{CItool.ci}</TableCell>
-        <TableCell align='right'>
-          <IconButton>
-            <UpdateIcon onClick={handleUpdate} />
-          </IconButton>
-        </TableCell>
-      </TableRow>
-      <TableRow className={classes.content}>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={isTableOpen} timeout='auto' unmountOnExit>
-            <Box margin={1}>
-              <Table size='small' aria-label='jobs'>
-                <TableHead>
-                  <TableRow>
-                    <TableCell style={{ width: 50 }}></TableCell>
-                    <TableCell style={{ width: 350 }}>Job name</TableCell>
-                    <TableCell>Job link</TableCell>
-                    <TableCell>Last build link</TableCell>
-                    <TableCell>Last build number</TableCell>
-                    <TableCell>Commands</TableCell>
-                    <TableCell>Last build status</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {CItool.jobs.map((childrenRow) => (
-                    <StateRow jobRow={childrenRow} />
-                  ))}
-                </TableBody>
-              </Table>
-            </Box>
-          </Collapse>
-        </TableCell>
-      </TableRow>
-    </React.Fragment>
-  );
 };
 
 // define interface to represent component props
 interface PropsCT {
   CItools: CItoolModel[];
+  Groups: GroupModel[];
 }
 
-const StateCollapsibleTable: FC<PropsCT> = ({ CItools }): ReactElement => {
-  const [state, setState] = useState<boolean | null>(null);
+const StateCollapsibleTable: FC<PropsCT> = ({
+  CItools,
+  Groups,
+}): ReactElement => {
+  const [switchState, setSwitchState] = useLocalStorage('GroupView', {
+    checked: true,
+  });
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSwitchState({
+      ...switchState,
+      [event.target.name]: event.target.checked,
+    });
+    window.location.reload();
+  };
+
+  const [state_c, setCState] = useState<boolean | null>(null);
+  const [state_g, setGState] = useState<boolean | null>(null);
 
   const closeState = () => {
-    setState(false);
+    if (switchState.checked) {
+      setGState(false);
+    } else {
+      setCState(false);
+    }
   };
+
   const openState = () => {
-    setState(true);
+    if (switchState.checked) {
+      setGState(true);
+    } else {
+      setCState(true);
+    }
   };
+
+  if (switchState.checked) {
+    SortGroups(CItools, Groups);
+  }
 
   return (
     <TableContainer component={Paper}>
@@ -168,12 +130,39 @@ const StateCollapsibleTable: FC<PropsCT> = ({ CItools }): ReactElement => {
       >
         Open All
       </Button>
+
+      <FormControlLabel
+        style={{ marginBottom: '15px', marginLeft: '15px' }}
+        control={
+          <Switch
+            checked={switchState.checked}
+            onChange={handleChange}
+            name='checked'
+            color='secondary'
+          />
+        }
+        label='Group View'
+      />
+
       <Table aria-label='collapsible table'>
         <TableHead></TableHead>
+
         <TableBody>
-          {CItools.map((CItool) => (
-            <Row key={CItool.ci} _CItool={CItool} open={state} />
-          ))}
+          {switchState.checked
+            ? Groups.map((Group) => (
+                <StateCollapsibleTableGroupRow
+                  key={Group.id}
+                  _Group={Group}
+                  open_g={state_g}
+                />
+              ))
+            : CItools.map((CItool) => (
+                <StateCollapsibleTableCIRow
+                  key={CItool.ci}
+                  _CItool={CItool}
+                  open_c={state_c}
+                />
+              ))}
         </TableBody>
       </Table>
     </TableContainer>

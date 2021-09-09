@@ -2,15 +2,11 @@ import { FC, ReactElement, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
-// axios
-
-import { CItoolModel } from '../model/CItool.model';
-
 // constants
-import { APP_TITLE, PAGE_TITLE_DASHBOARD } from '../utils/constants';
-import axios from 'axios';
-import StateCollapsibleTable from '../components/StateCollapsibleTable';
+import { APP_TITLE, PAGE_TITLE_TOKENS } from '../utils/constants';
 import { GroupModel } from '../model/Group.model';
+import axios from 'axios';
+import GroupTable from '../components/GroupTable';
 
 // define css-in-js
 const useStyles = makeStyles((theme: Theme) =>
@@ -24,22 +20,9 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Dashboard: FC<{}> = (): ReactElement => {
+const Groups: FC<{}> = (): ReactElement => {
   const classes = useStyles();
-
-  const [CItoolModels, setCItoolsList] = useState<CItoolModel[]>([]);
-  const [GroupsModels, setGroupsList] = useState<GroupModel[]>([]);
-
-  useEffect(() => {
-    axios
-      .get<CItoolModel[]>(`/api/ci/`, {
-        withCredentials: true,
-      })
-      .then((response) => {
-        setCItoolsList(response.data);
-      });
-    return () => {};
-  }, []);
+  const [groupModels, setGroupsList] = useState<GroupModel[]>([]);
 
   useEffect(() => {
     axios
@@ -56,14 +39,14 @@ const Dashboard: FC<{}> = (): ReactElement => {
     <>
       <Helmet>
         <title>
-          {PAGE_TITLE_DASHBOARD} | {APP_TITLE}
+          {PAGE_TITLE_TOKENS} | {APP_TITLE}
         </title>
       </Helmet>
       <div className={classes.root}>
-        <StateCollapsibleTable CItools={CItoolModels} Groups={GroupsModels} />
+        <GroupTable groups={groupModels} />
       </div>
     </>
   );
 };
 
-export default Dashboard;
+export default Groups;

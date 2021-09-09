@@ -5,6 +5,7 @@ export const FOOTER_TEXT = `${new Date().getFullYear()} CI Dashboard`;
 export const PAGE_TITLE_DASHBOARD = 'Dashboard';
 export const PAGE_TITLE_CI_TOOLS = 'CI Tools';
 export const PAGE_TITLE_TOKENS = 'Tokens';
+export const PAGE_TITLE_GROUPS = 'Groups';
 // UI CONSTANTS
 export const FOOTER_HEIGHT = 30;
 export const FOOTER_INDENT_RIGHT = 30;

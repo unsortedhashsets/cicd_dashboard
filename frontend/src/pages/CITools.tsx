@@ -6,9 +6,7 @@ import { APP_TITLE, PAGE_TITLE_CI_TOOLS } from '../utils/constants';
 import { CItoolModel } from '../model/CItool.model';
 import axios from 'axios';
 import SettingsCollapsibleTable from '../components/SettingsCollapsibleTable';
-import { Button, makeStyles, createStyles, Theme } from '@material-ui/core';
-import { CIModal } from '../components/Modals/CIModal';
-import { user } from '../model/User.model';
+import { makeStyles, createStyles, Theme } from '@material-ui/core';
 
 // define css-in-js
 const useStyles = makeStyles((theme: Theme) =>

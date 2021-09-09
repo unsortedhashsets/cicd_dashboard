@@ -3,6 +3,13 @@ export interface JobModel {
   job: string;
   path: string;
   ci: number;
+  // Special properties for group view
+  type: string;
+  access: string;
+  ci_name: string;
+  link: string;
+  group: number | null;
+  group_name: string | null;
 }
 
 export interface JobStatusModel {
