@@ -26,6 +26,8 @@ class JobSerializer(serializers.ModelSerializer):
 
 class CISerializer(serializers.ModelSerializer):
     jobs = JobSerializer(many=True, read_only=True)
+    group_name = serializers.StringRelatedField(source='group', read_only=True)
+    owner_name = serializers.StringRelatedField(source='owner', read_only=True)
     type = serializers.ChoiceField(
         choices=['JENKINS', 'TRAVIS', 'CIRCLE', 'GITHUB'])
     access = serializers.ChoiceField(choices=['Private', 'Public'])
@@ -36,7 +38,7 @@ class CISerializer(serializers.ModelSerializer):
 
 
 class GroupSerializer(serializers.ModelSerializer):
-    ci = CISerializer(many=True, read_only=True)
+    owner_name = serializers.StringRelatedField(source='owner', read_only=True)
 
     class Meta:
         model = Group

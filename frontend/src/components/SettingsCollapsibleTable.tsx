@@ -48,12 +48,14 @@ interface PropsR {
 const Row: FC<PropsR> = ({ CItool, open }): ReactElement => {
   const classes = useStyles();
 
-  const [isTableOpen, setTableOpen] = useLocalStorage(String(CItool.id), true);
+  const [isTableOpen, setTableOpen] = useLocalStorage(
+    'CI_' + String(CItool.id),
+    true
+  );
 
   useEffect(() => {
     if (open != null) {
       setTableOpen(open);
-      open = null;
     }
   }, [open]);
 
@@ -86,8 +88,9 @@ const Row: FC<PropsR> = ({ CItool, open }): ReactElement => {
           <TableCell>{CItool.ci}</TableCell>
           <TableCell>{CItool.link}</TableCell>
           <TableCell>{CItool.access}</TableCell>
-          <TableCell>{CItool.owner || 'undefined'}</TableCell>
+          <TableCell>{CItool.owner_name || 'undefined'}</TableCell>
           <TableCell>{CItool.type}</TableCell>
+          <TableCell>{CItool.group_name}</TableCell>
           <TableCell align='center'>
             <Button
               variant='contained'
@@ -156,8 +159,9 @@ const Row: FC<PropsR> = ({ CItool, open }): ReactElement => {
         <TableCell>{CItool.ci}</TableCell>
         <TableCell>{CItool.link}</TableCell>
         <TableCell>{CItool.access}</TableCell>
-        <TableCell>{CItool.owner || 'undefined'}</TableCell>
+        <TableCell>{CItool.owner_name || 'undefined'}</TableCell>
         <TableCell>{CItool.type}</TableCell>
+        <TableCell>{CItool.group_name}</TableCell>
         <TableCell align='center'>
           <Button
             style={{ marginLeft: '15px' }}
@@ -207,7 +211,7 @@ const Row: FC<PropsR> = ({ CItool, open }): ReactElement => {
         </TableCell>
       </TableRow>
       <TableRow className={classes.content}>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={8}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={9}>
           <Collapse in={isTableOpen} timeout='auto' unmountOnExit>
             <Box margin={1}>
               <Table size='small' aria-label='jobs'>
@@ -217,6 +221,7 @@ const Row: FC<PropsR> = ({ CItool, open }): ReactElement => {
                     <TableCell style={{ width: 350 }}>Name</TableCell>
                     <TableCell style={{ width: 500 }}>Path</TableCell>
                     <TableCell>CI ID</TableCell>
+                    <TableCell></TableCell>
                     <TableCell></TableCell>
                     <TableCell></TableCell>
                     <TableCell></TableCell>
@@ -302,6 +307,7 @@ const StateCollapsibleTable: FC<PropsCT> = ({ CItools }): ReactElement => {
             <TableCell>Access</TableCell>
             <TableCell>Owner</TableCell>
             <TableCell>Type</TableCell>
+            <TableCell>Group</TableCell>
             <TableCell align='center'>Commands</TableCell>
           </TableRow>
         </TableHead>

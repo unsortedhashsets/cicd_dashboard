@@ -1,35 +1,32 @@
 import { Button, TableCell, TableRow } from '@material-ui/core';
-import React, { FC, ReactElement, useState } from 'react';
-import { JobModel } from '../model/Job.model';
+import { FC, ReactElement, useState } from 'react';
+import { GroupModel } from '../model/Group.model';
 import { user } from '../model/User.model';
 import { DeleteModal } from './Modals/DeleteModal';
-import { JobModal } from './Modals/JobModal';
+import { GroupModal } from './Modals/GroupModal';
 
 interface Props {
-  jobRow: JobModel;
+  groupRow: GroupModel;
 }
 
-const SettingsRow: FC<Props> = ({ jobRow }): ReactElement => {
-  const [isJobModalVisible, setIsJobModalVisible] = useState(false);
+const GroupRow: FC<Props> = ({ groupRow }): ReactElement => {
+  const [isModalUpdateGroupVisible, setIsModalUpdateGroupVisible] =
+    useState(false);
   const [isModalDeleteVisible, setIsModalDeleteVisible] = useState(false);
 
   const toggleDeleteModal = () => {
     setIsModalDeleteVisible((wasModalVisible) => !wasModalVisible);
   };
-  const toggleJobModal = () => {
-    setIsJobModalVisible((wasModalVisible) => !wasModalVisible);
+  const toggleUpdateGroupModal = () => {
+    setIsModalUpdateGroupVisible((wasModalVisible) => !wasModalVisible);
   };
 
   return (
-    <TableRow key={jobRow.ci}>
-      <TableCell component='th' scope='row'>
-        {jobRow.id}
-      </TableCell>
-      <TableCell>{jobRow.job}</TableCell>
-      <TableCell>{jobRow.path}</TableCell>
-      <TableCell>{jobRow.ci}</TableCell>
-      <TableCell></TableCell>
-      <TableCell></TableCell>
+    <TableRow key={groupRow.id}>
+      <TableCell style={{ width: '62px' }} />
+      <TableCell>{groupRow.id}</TableCell>
+      <TableCell>{groupRow.group}</TableCell>
+      <TableCell>{groupRow.owner_name || 'undefined'}</TableCell>
       <TableCell></TableCell>
       <TableCell></TableCell>
       <TableCell></TableCell>
@@ -37,16 +34,16 @@ const SettingsRow: FC<Props> = ({ jobRow }): ReactElement => {
         <Button
           variant='contained'
           color='primary'
-          onClick={toggleJobModal}
+          onClick={toggleUpdateGroupModal}
           disabled={!user.isLogin}
         >
           Update
         </Button>
-        <JobModal
-          isModalVisible={isJobModalVisible}
-          onBackdropClick={toggleJobModal}
+        <GroupModal
+          isModalVisible={isModalUpdateGroupVisible}
+          onBackdropClick={toggleUpdateGroupModal}
           aim='Update'
-          job={jobRow}
+          group={groupRow}
         />
         <Button
           style={{ marginLeft: '15px' }}
@@ -60,12 +57,12 @@ const SettingsRow: FC<Props> = ({ jobRow }): ReactElement => {
         <DeleteModal
           isModalVisible={isModalDeleteVisible}
           onBackdropClick={toggleDeleteModal}
-          aim='job'
-          id={jobRow.id}
+          aim='group'
+          id={groupRow.id}
         />
       </TableCell>
     </TableRow>
   );
 };
 
-export default SettingsRow;
+export default GroupRow;

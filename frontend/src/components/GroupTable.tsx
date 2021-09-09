@@ -12,10 +12,10 @@ import {
   makeStyles,
   Theme,
 } from '@material-ui/core';
-import { TokenModal } from './Modals/TokenModal';
-import { TokenModel } from '../model/Token.model';
+import { GroupModal } from './Modals/GroupModal';
+import { GroupModel } from '../model/Group.model';
 import { user } from '../model/User.model';
-import TokenRow from './TokenRow';
+import GroupRow from './GroupRow';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,41 +34,41 @@ const useStyles = makeStyles((theme: Theme) =>
 
 // define interface to represent component props
 interface PropsCT {
-  tokens: TokenModel[];
+  groups: GroupModel[];
 }
 
-const TokenTable: FC<PropsCT> = ({ tokens }): ReactElement => {
+const GroupTable: FC<PropsCT> = ({ groups }): ReactElement => {
   const classes = useStyles();
 
-  const [isModalAddTokenVisible, setIsModalAddTokenVisible] = useState(false);
+  const [isModalAddGroupVisible, setIsModalAddGroupVisible] = useState(false);
 
-  const toggleAddTokenModal = () => {
-    setIsModalAddTokenVisible((wasModalVisible) => !wasModalVisible);
+  const toggleAddGroupModal = () => {
+    setIsModalAddGroupVisible((wasModalVisible) => !wasModalVisible);
   };
 
-  if (tokens.length === 0) {
+  if (groups.length === 0) {
     return (
       <TableContainer component={Paper}>
         <Table aria-label='collapsible table'>
           <TableHead></TableHead>
           <TableRow className={classes.root}>
             <TableCell style={{ width: '62px' }} />
-            <TableCell>Token ID</TableCell>
+            <TableCell>Group ID</TableCell>
             <TableCell>CI ID</TableCell>
             <TableCell>User ID</TableCell>
-            <TableCell>Token</TableCell>
+            <TableCell>Group</TableCell>
             <TableCell>
               <Button
                 variant='contained'
                 color='primary'
-                onClick={toggleAddTokenModal}
+                onClick={toggleAddGroupModal}
                 disabled={!user.isLogin}
               >
-                Add Token
+                Add Group
               </Button>
-              <TokenModal
-                isModalVisible={isModalAddTokenVisible}
-                onBackdropClick={toggleAddTokenModal}
+              <GroupModal
+                isModalVisible={isModalAddGroupVisible}
+                onBackdropClick={toggleAddGroupModal}
                 aim='Add'
               />
             </TableCell>
@@ -86,32 +86,31 @@ const TokenTable: FC<PropsCT> = ({ tokens }): ReactElement => {
         <TableHead></TableHead>
         <TableRow className={classes.root}>
           <TableCell style={{ width: '62px' }} />
-          <TableCell>Token ID</TableCell>
-          <TableCell>CI ID</TableCell>
-          <TableCell>User ID</TableCell>
-          <TableCell>Access</TableCell>
-          <TableCell>Token</TableCell>
+          <TableCell>Group ID</TableCell>
+          <TableCell>Group Name</TableCell>
+          <TableCell>owner</TableCell>
+          <TableCell></TableCell>
+          <TableCell></TableCell>
           <TableCell>
             <Button
               variant='contained'
               color='primary'
-              onClick={toggleAddTokenModal}
+              onClick={toggleAddGroupModal}
               disabled={!user.isLogin}
             >
-              Add Token
+              Add Group
             </Button>
-            <TokenModal
-              isModalVisible={isModalAddTokenVisible}
-              onBackdropClick={toggleAddTokenModal}
+            <GroupModal
+              isModalVisible={isModalAddGroupVisible}
+              onBackdropClick={toggleAddGroupModal}
               aim='Add'
             />
           </TableCell>
-          <TableCell>Update</TableCell>
-          <TableCell>Delete</TableCell>
+          <TableCell align='center'>Commands</TableCell>
         </TableRow>
         <TableBody className={classes.content}>
-          {tokens.map((childrenRow) => (
-            <TokenRow tokenRow={childrenRow} />
+          {groups.map((childrenRow) => (
+            <GroupRow groupRow={childrenRow} />
           ))}
         </TableBody>
       </Table>
@@ -119,4 +118,4 @@ const TokenTable: FC<PropsCT> = ({ tokens }): ReactElement => {
   );
 };
 
-export default TokenTable;
+export default GroupTable;
