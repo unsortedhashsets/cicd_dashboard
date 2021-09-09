@@ -48,6 +48,7 @@ type State = {
   type: string;
   access: string;
   link: string;
+  group: string;
   isButtonDisabled: boolean;
   helperText: string;
   isError: boolean;
@@ -58,6 +59,7 @@ type Action =
   | { type: 'setType'; payload: string }
   | { type: 'setAccess'; payload: string }
   | { type: 'setLink'; payload: string }
+  | { type: 'setGroup'; payload: string }
   | { type: 'setIsButtonDisabled'; payload: boolean }
   | { type: 'ChangeSuccess'; payload: string }
   | { type: 'ChangeFailed'; payload: string }
@@ -84,6 +86,11 @@ const reducer = (state: State, action: Action): State => {
       return {
         ...state,
         link: action.payload,
+      };
+    case 'setGroup':
+      return {
+        ...state,
+        group: action.payload,
       };
     case 'setIsButtonDisabled':
       return {
@@ -129,6 +136,7 @@ export const CIModal: React.FC<CIModalProps> = ({
     type: ci?.type || 'JENKINS',
     access: ci?.access || 'Public',
     link: ci?.link || 'link',
+    group: ci?.group?.toString() || '0',
     isButtonDisabled: false,
     helperText: '',
     isError: false,
@@ -144,6 +152,7 @@ export const CIModal: React.FC<CIModalProps> = ({
           access: state.access,
           link: state.link,
           owner: user.id,
+          group: state.group,
         })
         .then(() => {
           dispatch({
@@ -168,6 +177,7 @@ export const CIModal: React.FC<CIModalProps> = ({
           access: state.access,
           link: state.link,
           owner: user.id,
+          group: state.group,
         })
         .then(() => {
           dispatch({
@@ -214,6 +224,15 @@ export const CIModal: React.FC<CIModalProps> = ({
   ) => {
     dispatch({
       type: 'setLink',
+      payload: event.target.value,
+    });
+  };
+
+  const handleGroupChange: React.ChangeEventHandler<HTMLInputElement> = (
+    event
+  ) => {
+    dispatch({
+      type: 'setGroup',
       payload: event.target.value,
     });
   };
@@ -312,6 +331,17 @@ export const CIModal: React.FC<CIModalProps> = ({
                     </>
                   )}
                 </Select>
+                <TextField
+                  error={state.isError}
+                  fullWidth
+                  id='ci_group'
+                  label='CI Group ID (number)'
+                  placeholder={state.group?.toString() || '0'}
+                  defaultValue={state.group?.toString()}
+                  margin='normal'
+                  onChange={handleGroupChange}
+                  helperText={state.helperText}
+                />
               </div>
             </CardContent>
             <CardActions>

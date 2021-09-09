@@ -90,7 +90,7 @@ const Row: FC<PropsR> = ({ CItool, open }): ReactElement => {
           <TableCell>{CItool.access}</TableCell>
           <TableCell>{CItool.owner_name || 'undefined'}</TableCell>
           <TableCell>{CItool.type}</TableCell>
-          <TableCell>{CItool.group_name}</TableCell>
+          <TableCell>{CItool.group_name || 'undefined'}</TableCell>
           <TableCell align='center'>
             <Button
               variant='contained'
