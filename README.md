@@ -7,8 +7,8 @@
 * [Frontend standalone demo](frontend/StandAloneDemo.md)
 * [Containerized demo](frontend/ContainerizedDemo.md)
 
-## OCP Deployment: (OCP 3.11, planed migration to OCP 4):
+## OCP Deployment: 
 
-* Login to https://paas.psi.redhat.com/console/project/fusetools-dashboard/overview
-* Rebuild dashboard-frontend in case frontend changes
+* Login to https://console-openshift-console.apps.ocp4.prod.psi.redhat.com/topology/ns/fusetools-dashboard
 * Rebuild dashboard-backend in case backend changes
+* Rebuild dashboard-frontend in case frontend changes
