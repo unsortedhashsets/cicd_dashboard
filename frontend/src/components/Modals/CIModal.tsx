@@ -262,8 +262,8 @@ export const CIModal: React.FC<CIModalProps> = ({
                   error={state.isError}
                   fullWidth
                   id='ci_link'
-                  label='CI Link (https://master...com)'
-                  placeholder={state.link || 'https://master...com'}
+                  label='CI Link (https://ci...com)'
+                  placeholder={state.link || 'https://ci...com'}
                   defaultValue={state.link}
                   margin='normal'
                   onChange={handleLinkChange}

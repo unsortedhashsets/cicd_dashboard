@@ -110,7 +110,7 @@ def processCI(job, token):
     try:
         if job.ci.type == "TRAVIS":
             jobUrl = f"https://travis-ci.com/{job.path}/{job}/builds/"
-            apiurl = f"https://api.travis-ci.com/repo/{job.path}%2F{job}/builds?limit=1&branch.name=master"
+            apiurl = f"https://api.travis-ci.com/repo/{job.path}%2F{job}/builds?limit=1&branch.name=main"
             jobStatus = getTravisJobStatus(apiurl, token)["builds"][0]
             buildResult = mapStates(jobStatus['state'])
             last_build_number = jobStatus['number']
@@ -124,14 +124,14 @@ def processCI(job, token):
             buildUrl = jobStatus['url']
         elif job.ci.type == "CIRCLE":
             jobUrl = f"https://app.circleci.com/pipelines/{job.path}/{job}"
-            apiurl = f"https://circleci.com/api/v1.1/project/{job.path}/{job}/tree/master?limit=2&shallow=true"
+            apiurl = f"https://circleci.com/api/v1.1/project/{job.path}/{job}/tree/main?limit=2&shallow=true"
             jobStatus = getCircleJobStatus(apiurl)
             buildResult = mapStates(jobStatus[0]['outcome'])
             last_build_number = jobStatus[0]['build_num']
             buildUrl = jobStatus[0]['build_url']
         elif job.ci.type == "GITHUB":
             jobUrl = f"https://github.com/{job.path}/{job}/actions"
-            apiurl = f"https://api.github.com/repos/{job.path}/{job}/actions/runs?branch=master&per_page=2"
+            apiurl = f"https://api.github.com/repos/{job.path}/{job}/actions/runs?branch=main&per_page=2"
             jobStatus = getGitHubJobStatus(apiurl, token)
             if (jobStatus['workflow_runs'][0]['status'] == "completed"):
                 buildResult = mapStates(
