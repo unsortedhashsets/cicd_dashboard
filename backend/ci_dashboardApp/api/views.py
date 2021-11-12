@@ -22,6 +22,9 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.http import JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework import status
+from django.conf import settings
 
 
 @ensure_csrf_cookie
@@ -32,10 +35,16 @@ def set_csrf_token(request):
 class LDAPLogin(APIView):
 
     def post(self, request):
+
         user_obj = authenticate(username=request.data['username'],
                                 password=request.data['password'])
-        login(request, user_obj)
-        return Response({'detail': 'User logged in successfully'}, status=200)
+        if request.data['username'] in settings.STAFF_LIST or request.data['username'] in settings.ADMINS_LIST:
+            login(request, user_obj)
+            return Response({'detail': 'User logged in successfully'}, status=200)
+        else:
+            content = {
+                'Forbidden': 'You do not have permission to open the application'}
+            return Response(content, status=status.HTTP_403_FORBIDDEN)
 
 
 class LDAPLogout(APIView):
@@ -57,6 +66,7 @@ class UserViewSet(mixins.ListModelMixin,
 
 
 class CIViewSet(ModelViewSet):
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = CI.objects.none()
     serializer_class = CISerializer
 
@@ -66,6 +76,7 @@ class CIViewSet(ModelViewSet):
 
 
 class GroupViewSet(ModelViewSet):
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = Group.objects.none()
     serializer_class = GroupSerializer
 
@@ -76,15 +87,16 @@ class GroupViewSet(ModelViewSet):
 
 
 class TokenViewSet(ModelViewSet):
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = Token.objects.none()
     serializer_class = TokenSerializer
-    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         return Token.objects.filter(user=self.request.user.id)
 
 
 class JobViewSet(ModelViewSet):
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = Job.objects.none()
     serializer_class = JobSerializer
 

@@ -10,9 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+from corsheaders.defaults import default_headers
 from dotenv import load_dotenv
 from pathlib import Path
-import os, json, ldap, logging
+import os
+import json
+import ldap
+import logging
 from django_auth_ldap.config import LDAPSearch
 
 load_dotenv()
@@ -29,11 +33,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = str(os.getenv('SECRET_KEY'))
 # Admin level users
 ADMINS_LIST = json.loads(os.environ['ADMINS_LIST'])
+STAFF_LIST = json.loads(os.environ['STAFF_LIST'])
 # DB ENVS
 if os.getenv("BACKEND_LOCAL") is None:
-    POSTGRES_DB=str(os.getenv('POSTGRES_DB'))
-    POSTGRES_USER=str(os.getenv('POSTGRES_USER'))
-    POSTGRES_PASSWORD=str(os.getenv('POSTGRES_PASSWORD'))
+    POSTGRES_DB = str(os.getenv('POSTGRES_DB'))
+    POSTGRES_USER = str(os.getenv('POSTGRES_USER'))
+    POSTGRES_PASSWORD = str(os.getenv('POSTGRES_PASSWORD'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -68,12 +73,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-from corsheaders.defaults import default_headers
 
 CORS_ALLOW_HEADERS = list(default_headers) + [
     'X-CSRFTOKEN',
 ]
-ALLOWED_HOSTS=['*']
+ALLOWED_HOSTS = ['*']
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 CSRF_COOKIE_NAME = "csrftoken"
@@ -162,10 +166,11 @@ STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = '/api/'
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-SESSION_COOKIE_AGE = 60 * 60 
+SESSION_COOKIE_AGE = 60 * 60
 
 AUTH_LDAP_SERVER_URI = "ldap://ldap.corp.redhat.com:389"
-AUTH_LDAP_USER_SEARCH = LDAPSearch("DC=redhat,DC=com", ldap.SCOPE_SUBTREE, "(uid=%(user)s)")
+AUTH_LDAP_USER_SEARCH = LDAPSearch(
+    "DC=redhat,DC=com", ldap.SCOPE_SUBTREE, "(uid=%(user)s)")
 AUTH_LDAP_START_TLS = True
 
 AUTHENTICATION_BACKENDS = (
