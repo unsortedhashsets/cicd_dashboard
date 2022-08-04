@@ -17,6 +17,7 @@ jobs:
         uses: saadmk11/comment-webpage-screenshot@main
         with:
           upload_to: github_branch
+          capture_changed_html_files: no
           capture_urls: "http://0.0.0.0:8080/"
       - name: Docker-compose down
         run: docker-compose -f docker-compose-test.yml down
