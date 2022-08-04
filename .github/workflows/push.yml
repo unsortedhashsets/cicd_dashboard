@@ -1,0 +1,20 @@
+name: docker-compose-actions-workflow
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build the stack
+        run: docker-compose -f docker-compose-test.yml up --build  --detach
+      - name: Check containers
+        run: docker ps
+      - name: Print docker-compose logs
+        run: docker-compose logs
+      - name: Docker-compose down
+        run: docker-compose down

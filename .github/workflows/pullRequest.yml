@@ -12,7 +12,13 @@ jobs:
         uses: actions/checkout@v2
       - name: Build the stack
         run: docker-compose -f docker-compose-test.yml up --build --detach
+      - name: Check containers
+        run: docker ps
+      - name: Print docker-compose logs
+        run: docker-compose logs
       - name: Take web page screenshots
         uses: saadmk11/comment-webpage-screenshot@main
         with:
           capture_urls: "http://0.0.0.0:8080/"
+      - name: Docker-compose down
+        run: docker-compose down
