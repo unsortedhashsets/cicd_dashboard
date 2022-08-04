@@ -18,3 +18,10 @@
     job: camel-lsp-client-vscode
     path: camel-tooling
     ci: 3
+
+- model: ci_dashboardApp.Job
+  pk: 4
+  fields:
+    job: VUT-ITT-IBT
+    path: unsortedhashsets
+    ci: 4

@@ -27,3 +27,13 @@
     access: Public
     group: 2
     owner: null
+
+- model: ci_dashboardApp.CI
+  pk: 4
+  fields:
+    ci: CI_Dashboard (GitHub Actions)
+    link: https://github.com/
+    type: GITHUB
+    access: Public
+    group: 1
+    owner: null
