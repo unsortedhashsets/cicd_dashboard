@@ -25,7 +25,7 @@ services:
       - .env.test
     build:
       context: ./backend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.test
     entrypoint: ./wsgi-entrypoint.sh
     expose:
       - 8000
