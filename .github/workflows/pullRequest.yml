@@ -16,6 +16,7 @@ jobs:
       - name: Take web page screenshots
         uses: saadmk11/comment-webpage-screenshot@main
         with:
+          upload_to: github_branch
           capture_urls: "http://0.0.0.0:8080/"
       - name: Docker-compose down
         run: docker-compose -f docker-compose-test.yml down
