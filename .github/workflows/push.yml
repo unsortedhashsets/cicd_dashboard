@@ -1,9 +1,10 @@
 name: docker-compose-actions-workflow
 on: push
-env: SECRET_KEY=omgItIsNotASuperSecretKey
-  POSTGRES_DB=postgres
-  POSTGRES_USER=postgres
-  POSTGRES_PASSWORD=postgres
+env:
+  SECRET_KEY: omgItIsNotASuperSecretKey
+  POSTGRES_DB: postgres
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
 jobs:
   test:
     runs-on: ubuntu-latest
