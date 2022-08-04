@@ -26,7 +26,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile.test
-    entrypoint: ./wsgi-entrypoint.sh
+    entrypoint: ./wsgi-entrypoint.sh test
     expose:
       - 8000
     depends_on:
