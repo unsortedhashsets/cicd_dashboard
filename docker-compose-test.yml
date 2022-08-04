@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  dashboard-database:
+    image: postgres
+    container_name: dashboard-database
+    env_file:
+      - .env.test
+
+  dashboard-frontend:
+    container_name: dashboard-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    expose:
+      - 8080
+    ports:
+      - 8080:8080
+    depends_on:
+      - dashboard-backend
+
+  dashboard-backend:
+    container_name: dashboard-backend
+    env_file:
+      - .env.test
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    entrypoint: ./wsgi-entrypoint.sh
+    expose:
+      - 8000
+    depends_on:
+      - dashboard-database
