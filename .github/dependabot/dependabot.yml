@@ -1,0 +1,31 @@
+version: 2
+updates:
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+
+  # Maintain dependencies for npm
+  - package-ecosystem: "npm"
+    directory: "/frontend/"
+    schedule:
+      interval: "weekly"
+
+  # Maintain dependencies for frontend Docker
+  - package-ecosystem: "docker"
+    directory: "/frontend/"
+    schedule:
+      interval: "weekly"
+
+  # Maintain dependencies for python
+  - package-ecosystem: "pip"
+    directory: "/backend/"
+    schedule:
+      interval: "weekly"
+
+  # Maintain dependencies for backend Docker
+  - package-ecosystem: "docker"
+    directory: "/backend/"
+    schedule:
+      interval: "weekly"
