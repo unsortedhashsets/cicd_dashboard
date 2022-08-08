@@ -14,7 +14,7 @@ python-dotenv==0.15.0
 python-ldap==3.4.0
 pytz==2021.1
 PyYAML==5.4.1
-requests==2.25.1
+requests==2.28.1
 six==1.15.0
 sqlparse==0.4.2
 urllib3>=1.26.5
