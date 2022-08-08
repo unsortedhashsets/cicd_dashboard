@@ -1,6 +1,7 @@
 name: docker-compose-actions-workflow
 on: pull_request
 permissions:
+  contents: write
   pull-requests: write
 jobs:
   test:
@@ -8,17 +9,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Build the stack
-        run: docker-compose -f docker-compose-test.yml up --build --detach
-      - name: Check containers
-        run: docker ps
-      - name: Print docker-compose logs
-        run: docker-compose -f docker-compose-test.yml logs
+      #- name: Build the stack
+      #  run: docker-compose -f docker-compose-test.yml up --build --detach
+      #- name: Check containers
+      #  run: docker ps
+      #- name: Print docker-compose logs
+      #  run: docker-compose -f docker-compose-test.yml logs
       - name: Take web page screenshots
         uses: saadmk11/comment-webpage-screenshot@main
         with:
           upload_to: github_branch
           capture_changed_html_files: no
-          capture_urls: "http://172.17.0.1:80"
-      - name: Docker-compose down
-        run: docker-compose -f docker-compose-test.yml down
+          capture_urls: "https://www.google.com/" #http://172.17.0.1:80"
+      #- name: Docker-compose down
+      #  run: docker-compose -f docker-compose-test.yml down
