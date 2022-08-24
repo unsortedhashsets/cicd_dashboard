@@ -6,7 +6,7 @@ django-auth-ldap==2.3.0
 django-cors-headers==3.7.0
 django-rest-auth==0.9.5
 djangorestframework==3.13.1
-idna==2.10
+idna==3.3
 psycopg2-binary
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
