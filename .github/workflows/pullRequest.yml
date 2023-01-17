@@ -23,6 +23,6 @@ jobs:
         with:
           upload_to: github_branch
           capture_changed_html_files: no
-          capture_urls: "http://172.17.0.1:8080"
+          capture_urls: "http://172.17.0.1:80"
       - name: Docker-compose down
         run: docker-compose -f docker-compose-test.yml down
