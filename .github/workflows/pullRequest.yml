@@ -18,10 +18,11 @@ jobs:
         run: docker ps
       - name: Print docker-compose logs
         run: docker-compose -f docker-compose-test.yml logs
-      - name: Screenshot Website
-        uses: swinton/screenshot-website@v1.x
+      - name: Take web page screenshots
+        uses: saadmk11/comment-webpage-screenshot@main
         with:
-          source: "http://172.17.0.1:80"
-          destination: screenshot.png
+          upload_to: github_branch
+          capture_changed_html_files: no
+          capture_urls: "http://172.17.0.1:8080"
       - name: Docker-compose down
         run: docker-compose -f docker-compose-test.yml down
