@@ -18,6 +18,8 @@ jobs:
         run: docker ps
       - name: Print docker-compose logs
         run: docker-compose -f docker-compose-test.yml logs
+      - name: "Fix issue: Error: Could not find Chromium (rev. 1069273). This can occur if either"
+        run: node node_modules/puppeteer/install.js
       - name: Take web page screenshots
         uses: saadmk11/comment-webpage-screenshot@main
         with:
