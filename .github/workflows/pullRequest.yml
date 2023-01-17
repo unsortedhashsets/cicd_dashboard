@@ -18,13 +18,10 @@ jobs:
         run: docker ps
       - name: Print docker-compose logs
         run: docker-compose -f docker-compose-test.yml logs
-      - name: "Fix issue: Error: Could not find Chromium (rev. 1069273). This can occur if either"
-        run: node node_modules/puppeteer/install.js
-      - name: Take web page screenshots
-        uses: saadmk11/comment-webpage-screenshot@main
+      - name: Screenshot Website
+        uses: swinton/screenshot-website@v1.x
         with:
-          upload_to: github_branch
-          capture_changed_html_files: no
-          capture_urls: "http://172.17.0.1:80"
+          source: "http://172.17.0.1:80"
+          destination: screenshot.png
       - name: Docker-compose down
         run: docker-compose -f docker-compose-test.yml down
