@@ -19,10 +19,10 @@ jobs:
       - name: Print docker-compose logs
         run: docker-compose -f docker-compose-test.yml logs
       - name: Take web page screenshots
-        uses: unsortedhashsets/comment-webpage-screenshot@main
+        uses: saadmk11/comment-webpage-screenshot@main
         with:
           upload_to: github_branch
           capture_changed_html_files: no
-          capture_urls: "http://172.17.0.1:80"
+          capture_urls: "http://172.17.0.1:8080"
       - name: Docker-compose down
         run: docker-compose -f docker-compose-test.yml down
