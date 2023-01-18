@@ -30,5 +30,11 @@ jobs:
         shell: bash
         run: capture-website http://172.17.0.1:80 --output ./screenshot.png --full-page
 
+      - name: Upload screenshot
+        uses: actions/upload-artifact@latest
+        with:
+          name: dashboard-home
+          path: ./screenshot.png
+
       - name: Docker-compose down
         run: docker-compose -f docker-compose-test.yml down
