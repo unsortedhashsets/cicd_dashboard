@@ -1,5 +1,5 @@
 asgiref==3.7.2
-certifi==2023.5.7
+certifi==2023.7.22
 chardet==5.1.0
 Django>=3.1.12
 django-auth-ldap==4.3.0
