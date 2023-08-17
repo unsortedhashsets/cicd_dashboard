@@ -1,15 +1,14 @@
 #!/bin/sh
-
 until python3 manage.py makemigrations
 do
-    echo "Waiting for migrations to be ready..."
-    sleep 2
+echo "Waiting for migrations to be ready..."
+sleep 2
 done
 
 until python3 manage.py migrate
 do
-    echo "Waiting for db to be ready..."
-    sleep 2
+echo "Waiting for db to be ready..."
+sleep 2
 done
 
 #####################################################################################
@@ -18,25 +17,27 @@ done
 
 if [ $1 = "test" ]; then
 
-    until python3 manage.py loaddata ci_dashboardApp/fixtures/group.yaml
-    do
-        echo "Waiting for /fixtures/ci.yaml to be ready..."
-        sleep 2
-    done
+until python3 manage.py loaddata ci_dashboardApp/fixtures/group.yaml
+do
+    echo "Waiting for /fixtures/ci.yaml to be ready..."
+    sleep 2
+done
 
-    until python3 manage.py loaddata ci_dashboardApp/fixtures/ci.yaml
-    do
-        echo "Waiting for /fixtures/ci.yaml to be ready..."
-        sleep 2
-    done
+until python3 manage.py loaddata ci_dashboardApp/fixtures/ci.yaml
+do
+    echo "Waiting for /fixtures/ci.yaml to be ready..."
+    sleep 2
+done
 
-    until python3 manage.py loaddata ci_dashboardApp/fixtures/job.yaml
-    do
-        echo "Waiting for /fixtures/job.yaml to be ready..."
-        sleep 2
-    done
+until python3 manage.py loaddata ci_dashboardApp/fixtures/job.yaml
+do
+    echo "Waiting for /fixtures/job.yaml to be ready..."
+    sleep 2
+done
 
 fi
+
+python3 manage.py shell < create_service_account.py
 
 gunicorn ci_dashboardSite.wsgi --bind 0.0.0.0:8000 --workers 4 --threads 4
 

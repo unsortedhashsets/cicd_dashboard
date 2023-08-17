@@ -32,22 +32,33 @@ def set_csrf_token(request):
     return JsonResponse({"details": "CSRF cookie set"})
 
 
-class LDAPLogin(APIView):
+class Login(APIView):
 
     def post(self, request):
-
-        user_obj = authenticate(username=request.data['username'],
-                                password=request.data['password'])
-        if request.data['username'] in settings.STAFF_LIST or request.data['username'] in settings.ADMINS_LIST:
-            login(request, user_obj)
-            return Response({'detail': 'User logged in successfully'}, status=200)
-        else:
+        username = request.data["username"]
+        password = request.data["password"]
+        try:
+            user = User.objects.get(username=username)
+        except:
             content = {
-                'Forbidden': 'You do not have permission to open the application'}
+                'Forbidden': 'Username does not exist!'}
             return Response(content, status=status.HTTP_403_FORBIDDEN)
 
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            if username in settings.STAFF_LIST or username in settings.ADMINS_LIST:
+                login(request, user)
+                return Response({'detail': 'User logged in successfully'}, status=200)
+            else:
+                content = {
+                    'Forbidden': 'You do not have permission to open the application'}
+                return Response(content, status=status.HTTP_403_FORBIDDEN)
+        else:
+            content = {
+                'Forbidden': 'Username or password is incorrect!'}
+            return Response(content, status=status.HTTP_403_FORBIDDEN)
 
-class LDAPLogout(APIView):
+class Logout(APIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request):
