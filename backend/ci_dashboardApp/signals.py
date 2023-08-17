@@ -14,15 +14,11 @@ def post_login(sender, user, request, **kwargs):
 
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
-    if instance.password != 'MASKED':
-        instance.password = 'MASKED'
-
-        if instance.username in settings.STAFF_LIST:
+    if (instance.username in settings.STAFF_LIST or instance.username in settings.ADMINS_LIST):
+        if (not instance.is_staff):
+            if instance.username in settings.ADMINS_LIST:
+                instance.is_admin = True
+                instance.is_superuser = True
+            
             instance.is_staff = True
-
-        elif instance.username in settings.ADMINS_LIST:
-            instance.is_staff = True
-            instance.is_admin = True
-            instance.is_superuser = True
-
-        instance.save()
+            instance.save()

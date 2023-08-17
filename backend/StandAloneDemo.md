@@ -2,9 +2,7 @@
 
 ### **!!!** IMPORTANT **!!!**:
 
-Authentication is possible only through the RH LDAP server.
-Kerberos password will be immediately mask with signal function:
-ci_dashboardApp/signals.py `create_profile` with string 'MASKED'
+Authentication is possible only through service_user
 
 Without authentication is possible to communicate with CI instances predefined as PUBLIC.
 
@@ -14,11 +12,12 @@ In project home directory create .env file with variables:
 
 ```
 SECRET_KEY=*SomeSuperSecretKey*
-ADMINS_LIST='["RHlogin"]'
+ADMINS_LIST='["admin"]'
+STAFF_LIST='["admin"]'
+DJANGO_SERVICE_USERNAME="admin"
+DJANGO_SERVICE_PASSWORD="admin"
 BACKEND_LOCAL=1
 ```
-
-User defined in admin list will be promoted as staff/admin/superuser after LDAP authentication
 
 ### 1. Create virtual environment
 
@@ -64,7 +63,7 @@ python3 backend/manage.py runserver
 Possible APIs:
 
 | API                | Description                                                                                                                        |
-| ------------------ |------------------------------------------------------------------------------------------------------------------------------------|
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------- |
 | /admin             | dashboard (RH user verified with LDAP and mentioned in .env - ADMIN_LIST)                                                          |
 | /api               | base directory                                                                                                                     |
 | /api/user/         | information about actual RH user verified with LDAP                                                                                |
