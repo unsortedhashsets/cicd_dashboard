@@ -1,8 +1,7 @@
 FROM python:3
 LABEL CI_Dashboard backend
 
-RUN curl -ks 'https://password.corp.redhat.com/legacy.crt' -o '/usr/local/share/ca-certificates/legacy.crt'
-RUN curl -ks 'https://password.corp.redhat.com/RH-IT-Root-CA.crt' -o '/usr/local/share/ca-certificates/RH-IT-Root-CA.crt'
+RUN curl -ks 'https://certs.corp.redhat.com/certs/2015-IT-Root-CA.pem' -o '/usr/local/share/ca-certificates/RH-IT-Root-CA.crt'
 
 RUN /usr/sbin/update-ca-certificates
 
