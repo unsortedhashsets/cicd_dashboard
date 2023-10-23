@@ -7,7 +7,7 @@
     "@material-ui/icons": "^4.11.3",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^18.2.7",
-    "@types/react-responsive": "^8.0.5",
+    "@types/react-responsive": "^8.0.7",
     "axios": "^1.4.0",
     "clsx": "^2.0.0",
     "eslint-config-react-app": "^7.0.1",
