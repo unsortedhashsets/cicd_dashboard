@@ -2,7 +2,7 @@
   pk: 1
   fields:
     job: fuse-smoke
-    path: /view/Fuse%20Tooling%20-%20Weekly/job/
+    path: /view/Fuse%20Tooling/job/
     ci: 1
 
 - model: ci_dashboardApp.Job
