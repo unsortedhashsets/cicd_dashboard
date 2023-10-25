@@ -77,6 +77,9 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
 ]
 ALLOWED_HOSTS = ['*']
 CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_ORIGINS = [
+    "https://fusetools-dashboard.apps.ocp4.prod.psi.redhat.com",
+]
 CORS_ALLOW_CREDENTIALS = True
 CSRF_COOKIE_NAME = "csrftoken"
 ROOT_URLCONF = 'ci_dashboardSite.urls'
