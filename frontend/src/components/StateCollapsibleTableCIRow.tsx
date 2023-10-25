@@ -1,5 +1,5 @@
-import React, { FC, ReactElement, useEffect, useReducer } from 'react';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import React, { FC, ReactElement, useEffect, useReducer } from "react";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 
 import {
   Box,
@@ -10,23 +10,23 @@ import {
   TableCell,
   TableHead,
   TableRow,
-} from '@material-ui/core/';
-import UpdateIcon from '@material-ui/icons/Update';
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import { CItoolModel } from '../model/CItool.model';
-import StateRow from './StateRow';
-import useLocalStorage from '../utils/useLocalStorage';
+} from "@material-ui/core/";
+import UpdateIcon from "@material-ui/icons/Update";
+import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
+import { CItoolModel } from "../model/CItool.model";
+import StateRow from "./StateRow";
+import useLocalStorage from "../utils/useLocalStorage";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      '& > *': {
+      "& > *": {
         background: `${theme.palette.primary.dark}`,
       },
     },
     content: {
-      '& > *': {
+      "& > *": {
         background: `${theme.palette.primary.light}`,
       },
     },
@@ -46,7 +46,7 @@ const StateCollapsibleTableCIRow: FC<PropsR> = ({
   const classes = useStyles();
 
   const [isTableOpen, setTableOpen] = useLocalStorage(
-    'CI_' + String(_CItool.id),
+    "CI_" + String(_CItool.id),
     true
   );
 
@@ -66,8 +66,8 @@ const StateCollapsibleTableCIRow: FC<PropsR> = ({
     return (
       <React.Fragment>
         <TableRow className={classes.root}>
-          <TableCell style={{ width: '62px' }} />
-          <TableCell style={{ color: 'white' }}>{_CItool.ci}</TableCell>
+          <TableCell style={{ width: "62px" }} />
+          <TableCell style={{ color: "white" }}>{_CItool.ci}</TableCell>
           <TableCell></TableCell>
         </TableRow>
         <TableBody />
@@ -78,18 +78,18 @@ const StateCollapsibleTableCIRow: FC<PropsR> = ({
   return (
     <React.Fragment>
       <TableRow className={classes.root}>
-        <TableCell style={{ width: '62px' }}>
+        <TableCell style={{ width: "62px" }}>
           <IconButton
-            aria-label='expand row'
-            size='small'
+            aria-label="expand row"
+            size="small"
             onClick={toggleTable}
-            style={{ color: 'white' }}
+            style={{ color: "white" }}
           >
             {isTableOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell style={{ color: 'white' }}>{_CItool.ci}</TableCell>
-        <TableCell align='right'>
+        <TableCell style={{ color: "white" }}>{_CItool.ci}</TableCell>
+        <TableCell align="right">
           <IconButton>
             <UpdateIcon onClick={forceUpdate} />
           </IconButton>
@@ -97,13 +97,14 @@ const StateCollapsibleTableCIRow: FC<PropsR> = ({
       </TableRow>
       <TableRow className={classes.content}>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={isTableOpen} timeout='auto' unmountOnExit>
+          <Collapse in={isTableOpen} timeout="auto" unmountOnExit>
             <Box margin={1}>
-              <Table size='small' aria-label='jobs'>
+              <Table size="small" aria-label="jobs">
                 <TableHead>
                   <TableRow>
                     <TableCell style={{ width: 50 }}></TableCell>
-                    <TableCell style={{ width: 350 }}>Job name</TableCell>
+                    <TableCell style={{ width: 400 }}>Job name</TableCell>
+                    <TableCell style={{ width: 100 }}>Branch</TableCell>
                     <TableCell>Job link</TableCell>
                     <TableCell>Last build link</TableCell>
                     <TableCell>Last build number</TableCell>

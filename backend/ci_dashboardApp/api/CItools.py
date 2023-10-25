@@ -1,5 +1,6 @@
 import requests
 import json
+import urllib
 
 passedStatuses = (
     'passed',           # TravisCI
@@ -98,7 +99,7 @@ def getGitHubJobStatus(url, token):
 
 
 def getJenkinsJobStatus(url):
-    response = requests.get(url,
+    response = requests.get(urllib.parse.quote_plus(url),
                             headers={'Accept': 'application/json'},
                             verify=False,
                             timeout=10)
@@ -110,7 +111,7 @@ def processCI(job, token):
     try:
         if job.ci.type == "TRAVIS":
             jobUrl = f"https://travis-ci.com/{job.path}/{job}/builds/"
-            apiurl = f"https://api.travis-ci.com/repo/{job.path}%2F{job}/builds?limit=1&branch.name=main"
+            apiurl = f"https://api.travis-ci.com/repo/{job.path}%2F{job}/builds?limit=1&branch.name={job.branch}"
             jobStatus = getTravisJobStatus(apiurl, token)["builds"][0]
             buildResult = mapStates(jobStatus['state'])
             last_build_number = jobStatus['number']
@@ -124,22 +125,29 @@ def processCI(job, token):
             buildUrl = jobStatus['url']
         elif job.ci.type == "CIRCLE":
             jobUrl = f"https://app.circleci.com/pipelines/{job.path}/{job}"
-            apiurl = f"https://circleci.com/api/v1.1/project/{job.path}/{job}/tree/main?limit=2&shallow=true"
+            apiurl = f"https://circleci.com/api/v1.1/project/{job.path}/{job}/tree/{job.branch}?limit=2&shallow=true"
             jobStatus = getCircleJobStatus(apiurl)
             buildResult = mapStates(jobStatus[0]['outcome'])
             last_build_number = jobStatus[0]['build_num']
             buildUrl = jobStatus[0]['build_url']
         elif job.ci.type == "GITHUB":
             jobUrl = f"https://github.com/{job.path}/{job}/actions"
-            apiurl = f"https://api.github.com/repos/{job.path}/{job}/actions/runs?branch=main&per_page=2"
+            apiurl = f"https://api.github.com/repos/{job.path}/{job}/actions/runs?branch={job.branch}&per_page=2"
             jobStatus = getGitHubJobStatus(apiurl, token)
-            if (jobStatus['workflow_runs'][0]['status'] == "completed"):
-                buildResult = mapStates(
-                    jobStatus['workflow_runs'][0]['conclusion'])
-            else:
-                buildResult = 'RUNNING'
-            last_build_number = jobStatus['workflow_runs'][0]['run_number']
-            buildUrl = jobStatus['workflow_runs'][0]['html_url']
+            for wr in jobStatus['workflow_runs']:
+                if wr['name'] == job.workflow:
+                    if (wr['status'] == "completed"):
+                        buildResult = mapStates(
+                            wr['conclusion'])
+                    else:
+                        buildResult = 'RUNNING'
+                    last_build_number = wr['run_number']
+                    buildUrl = wr['html_url']
+                    break
+                else:
+                    buildResult = 'UNKNOWN'
+                    last_build_number = 'UNKNOWN'
+                    buildUrl = 'UNKNOWN'
 
         if buildResult == 'RUNNING':
             if job.ci.type == "TRAVIS":
