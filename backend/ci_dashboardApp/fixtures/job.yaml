@@ -17,7 +17,6 @@
   fields:
     job: camel-lsp-client-vscode
     path: camel-tooling
-    workflow: Main CI
     ci: 3
 
 - model: ci_dashboardApp.Job
@@ -25,5 +24,4 @@
   fields:
     job: VUT-ITT-IBT
     path: unsortedhashsets
-    workflow: docker-compose-actions-workflow
     ci: 4

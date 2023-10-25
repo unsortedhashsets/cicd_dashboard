@@ -36,8 +36,6 @@ class Job(models.Model):
     job = models.CharField(max_length=60)
     path = models.CharField(max_length=60)
     ci = models.ForeignKey(CI, on_delete=models.CASCADE, related_name="jobs")
-    branch = models.CharField(max_length=60, default="main")
-    workflow = models.CharField(max_length=60, null=True)
 
     class Meta:
         constraints = [

@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useEffect, useState } from "react";
+import React, { FC, ReactElement, useEffect, useState } from 'react';
 import {
   Button,
   TableRow,
@@ -13,26 +13,26 @@ import {
   makeStyles,
   Theme,
   TableContainer,
-} from "@material-ui/core";
-import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
-import SettingsRow from "./SettingsRow";
-import { CIModal } from "./Modals/CIModal";
-import { JobModal } from "./Modals/JobModal";
-import { DeleteModal } from "./Modals/DeleteModal";
-import { CItoolModel } from "../model/CItool.model";
-import { user } from "../model/User.model";
-import useLocalStorage from "../utils/useLocalStorage";
+} from '@material-ui/core';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import SettingsRow from './SettingsRow';
+import { CIModal } from './Modals/CIModal';
+import { JobModal } from './Modals/JobModal';
+import { DeleteModal } from './Modals/DeleteModal';
+import { CItoolModel } from '../model/CItool.model';
+import { user } from '../model/User.model';
+import useLocalStorage from '../utils/useLocalStorage';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      "& > *": {
+      '& > *': {
         background: `${theme.palette.primary.dark}`,
       },
     },
     content: {
-      "& > *": {
+      '& > *': {
         background: `${theme.palette.primary.light}`,
       },
     },
@@ -49,7 +49,7 @@ const Row: FC<PropsR> = ({ CItool, open }): ReactElement => {
   const classes = useStyles();
 
   const [isTableOpen, setTableOpen] = useLocalStorage(
-    "CI_" + String(CItool.id),
+    'CI_' + String(CItool.id),
     true
   );
 
@@ -83,18 +83,18 @@ const Row: FC<PropsR> = ({ CItool, open }): ReactElement => {
     return (
       <React.Fragment>
         <TableRow className={classes.root}>
-          <TableCell style={{ width: "62px" }}></TableCell>
+          <TableCell style={{ width: '62px' }}></TableCell>
           <TableCell>{CItool.id}</TableCell>
           <TableCell>{CItool.ci}</TableCell>
           <TableCell>{CItool.link}</TableCell>
           <TableCell>{CItool.access}</TableCell>
-          <TableCell>{CItool.owner_name || "undefined"}</TableCell>
+          <TableCell>{CItool.owner_name || 'undefined'}</TableCell>
           <TableCell>{CItool.type}</TableCell>
-          <TableCell>{CItool.group_name || "undefined"}</TableCell>
-          <TableCell align="center">
+          <TableCell>{CItool.group_name || 'undefined'}</TableCell>
+          <TableCell align='center'>
             <Button
-              variant="contained"
-              color="primary"
+              variant='contained'
+              color='primary'
               onClick={toggleJobModal}
               disabled={!user.isLogin}
             >
@@ -103,12 +103,12 @@ const Row: FC<PropsR> = ({ CItool, open }): ReactElement => {
             <JobModal
               isModalVisible={isJobModalVisible}
               onBackdropClick={toggleJobModal}
-              aim="Add"
+              aim='Add'
               ci={CItool}
             />
             <Button
-              variant="contained"
-              color="primary"
+              variant='contained'
+              color='primary'
               onClick={toggleCIModal}
               disabled={!user.isLogin}
             >
@@ -117,13 +117,13 @@ const Row: FC<PropsR> = ({ CItool, open }): ReactElement => {
             <CIModal
               isModalVisible={isCIModalVisible}
               onBackdropClick={toggleCIModal}
-              aim="Update"
+              aim='Update'
               ci={CItool}
             />
             <Button
-              style={{ marginLeft: "15px" }}
-              variant="contained"
-              color="secondary"
+              style={{ marginLeft: '15px' }}
+              variant='contained'
+              color='secondary'
               onClick={toggleDeleteModal}
               disabled={!user.isLogin}
             >
@@ -132,7 +132,7 @@ const Row: FC<PropsR> = ({ CItool, open }): ReactElement => {
             <DeleteModal
               isModalVisible={isModalDeleteVisible}
               onBackdropClick={toggleDeleteModal}
-              aim="ci"
+              aim='ci'
               id={CItool.id}
             />
           </TableCell>
@@ -145,12 +145,12 @@ const Row: FC<PropsR> = ({ CItool, open }): ReactElement => {
   return (
     <React.Fragment>
       <TableRow className={classes.root}>
-        <TableCell style={{ width: "62px" }}>
+        <TableCell style={{ width: '62px' }}>
           <IconButton
-            aria-label="expand row"
-            size="small"
+            aria-label='expand row'
+            size='small'
             onClick={toggleTable}
-            style={{ color: "white" }}
+            style={{ color: 'white' }}
           >
             {isTableOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
@@ -159,14 +159,14 @@ const Row: FC<PropsR> = ({ CItool, open }): ReactElement => {
         <TableCell>{CItool.ci}</TableCell>
         <TableCell>{CItool.link}</TableCell>
         <TableCell>{CItool.access}</TableCell>
-        <TableCell>{CItool.owner_name || "undefined"}</TableCell>
+        <TableCell>{CItool.owner_name || 'undefined'}</TableCell>
         <TableCell>{CItool.type}</TableCell>
         <TableCell>{CItool.group_name}</TableCell>
-        <TableCell align="center">
+        <TableCell align='center'>
           <Button
-            style={{ marginLeft: "15px" }}
-            variant="contained"
-            color="primary"
+            style={{ marginLeft: '15px' }}
+            variant='contained'
+            color='primary'
             onClick={toggleJobModal}
             disabled={!user.isLogin}
           >
@@ -175,13 +175,13 @@ const Row: FC<PropsR> = ({ CItool, open }): ReactElement => {
           <JobModal
             isModalVisible={isJobModalVisible}
             onBackdropClick={toggleJobModal}
-            aim="Add"
+            aim='Add'
             ci={CItool}
           />
           <Button
-            style={{ marginLeft: "15px" }}
-            variant="contained"
-            color="primary"
+            style={{ marginLeft: '15px' }}
+            variant='contained'
+            color='primary'
             onClick={toggleCIModal}
             disabled={!user.isLogin}
           >
@@ -190,13 +190,13 @@ const Row: FC<PropsR> = ({ CItool, open }): ReactElement => {
           <CIModal
             isModalVisible={isCIModalVisible}
             onBackdropClick={toggleCIModal}
-            aim="Update"
+            aim='Update'
             ci={CItool}
           />
           <Button
-            style={{ marginLeft: "15px" }}
-            variant="contained"
-            color="secondary"
+            style={{ marginLeft: '15px' }}
+            variant='contained'
+            color='secondary'
             onClick={toggleDeleteModal}
             disabled={!user.isLogin}
           >
@@ -205,28 +205,28 @@ const Row: FC<PropsR> = ({ CItool, open }): ReactElement => {
           <DeleteModal
             isModalVisible={isModalDeleteVisible}
             onBackdropClick={toggleDeleteModal}
-            aim="ci"
+            aim='ci'
             id={CItool.id}
           />
         </TableCell>
       </TableRow>
       <TableRow className={classes.content}>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={9}>
-          <Collapse in={isTableOpen} timeout="auto" unmountOnExit>
+          <Collapse in={isTableOpen} timeout='auto' unmountOnExit>
             <Box margin={1}>
-              <Table size="small" aria-label="jobs">
+              <Table size='small' aria-label='jobs'>
                 <TableHead>
                   <TableRow>
                     <TableCell style={{ width: 50 }}></TableCell>
                     <TableCell style={{ width: 350 }}>Name</TableCell>
                     <TableCell style={{ width: 500 }}>Path</TableCell>
-                    <TableCell style={{ width: 100 }}>CI ID</TableCell>
-                    <TableCell style={{ width: 150 }}>Branch</TableCell>
-                    <TableCell style={{ width: 200 }}>Workflow (GH)</TableCell>
+                    <TableCell>CI ID</TableCell>
                     <TableCell></TableCell>
                     <TableCell></TableCell>
                     <TableCell></TableCell>
-                    <TableCell align="center">Commands</TableCell>
+                    <TableCell></TableCell>
+                    <TableCell></TableCell>
+                    <TableCell align='center'>Commands</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -268,24 +268,24 @@ const StateCollapsibleTable: FC<PropsCT> = ({ CItools }): ReactElement => {
   return (
     <TableContainer>
       <Button
-        style={{ marginBottom: "15px" }}
-        variant="contained"
-        color="secondary"
+        style={{ marginBottom: '15px' }}
+        variant='contained'
+        color='secondary'
         onClick={closeState}
       >
         Close All
       </Button>
       <Button
-        style={{ marginBottom: "15px", marginLeft: "15px" }}
-        variant="contained"
-        color="secondary"
+        style={{ marginBottom: '15px', marginLeft: '15px' }}
+        variant='contained'
+        color='secondary'
         onClick={openState}
       >
         Open All
       </Button>
       <Button
-        variant="contained"
-        color="secondary"
+        variant='contained'
+        color='secondary'
         onClick={toggleModal}
         disabled={!user.isLogin}
         fullWidth
@@ -295,9 +295,9 @@ const StateCollapsibleTable: FC<PropsCT> = ({ CItools }): ReactElement => {
       <CIModal
         isModalVisible={isModalVisible}
         onBackdropClick={toggleModal}
-        aim="Add"
+        aim='Add'
       />
-      <Table size="small" aria-label="jobs">
+      <Table size='small' aria-label='jobs'>
         <TableHead>
           <TableRow className={classes.root}>
             <TableCell></TableCell>
@@ -308,7 +308,7 @@ const StateCollapsibleTable: FC<PropsCT> = ({ CItools }): ReactElement => {
             <TableCell>Owner</TableCell>
             <TableCell>Type</TableCell>
             <TableCell>Group</TableCell>
-            <TableCell align="center">Commands</TableCell>
+            <TableCell align='center'>Commands</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
