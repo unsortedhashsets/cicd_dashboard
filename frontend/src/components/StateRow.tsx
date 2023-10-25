@@ -7,15 +7,15 @@ import {
   TableRow,
   Theme,
   CircularProgress,
-} from '@material-ui/core';
-import axios from 'axios';
-import { FC, ReactElement, useEffect, useState } from 'react';
+} from "@material-ui/core";
+import axios from "axios";
+import { FC, ReactElement, useEffect, useState } from "react";
 import {
   JobStatusModel,
   JobModel,
   defaultJobStatusModel,
-} from '../model/Job.model';
-import UpdateIcon from '@material-ui/icons/Update';
+} from "../model/Job.model";
+import UpdateIcon from "@material-ui/icons/Update";
 
 const StateRow: FC<{
   jobRow: JobModel;
@@ -32,9 +32,9 @@ const StateRow: FC<{
 
   var Styles = makeStyles({
     img: {
-      minWidth: '50px',
-      maxWidth: '100%',
-      maxHeight: 'auto',
+      minWidth: "50px",
+      maxWidth: "100%",
+      maxHeight: "auto",
     },
   });
 
@@ -43,89 +43,89 @@ const StateRow: FC<{
   var useStyles = makeStyles((theme: Theme) =>
     createStyles({
       jobRow: {
-        '& > *': {},
+        "& > *": {},
       },
     })
   );
 
-  if (jobStatus?.buildStatus === 'FAILURE') {
+  if (jobStatus?.buildStatus === "FAILURE") {
     useStyles = makeStyles((theme: Theme) =>
       createStyles({
         jobRow: {
-          '& > *': {
+          "& > *": {
             background: `${theme.palette.error.light}`,
           },
         },
       })
     );
-  } else if (jobStatus?.buildStatus === 'SUCCESS') {
+  } else if (jobStatus?.buildStatus === "SUCCESS") {
     useStyles = makeStyles((theme: Theme) =>
       createStyles({
         jobRow: {
-          '& > *': {
+          "& > *": {
             background: `${theme.palette.success.light}`,
           },
         },
       })
     );
-  } else if (jobStatus?.buildStatus === 'UNSTABLE') {
+  } else if (jobStatus?.buildStatus === "UNSTABLE") {
     useStyles = makeStyles((theme: Theme) =>
       createStyles({
         jobRow: {
-          '& > *': {
+          "& > *": {
             background: `${theme.palette.warning.light}`,
           },
         },
       })
     );
-  } else if (jobStatus?.buildStatus === 'ABORTED') {
+  } else if (jobStatus?.buildStatus === "ABORTED") {
     useStyles = makeStyles((theme: Theme) =>
       createStyles({
         jobRow: {
-          '& > *': {
+          "& > *": {
             background: `#AAAAAA`,
           },
         },
       })
     );
-  } else if (jobStatus?.buildStatus === 'FAILURE/RUNNING') {
+  } else if (jobStatus?.buildStatus === "FAILURE/RUNNING") {
     useStyles = makeStyles((theme: Theme) =>
       createStyles({
         jobRow: {
-          '& > *': {
+          "& > *": {
             background: `linear-gradient(90deg, ${theme.palette.error.light}, ${theme.palette.primary.light} 100%);`,
             backgroundAttachment: `fixed;`,
           },
         },
       })
     );
-  } else if (jobStatus?.buildStatus === 'SUCCESS/RUNNING') {
+  } else if (jobStatus?.buildStatus === "SUCCESS/RUNNING") {
     useStyles = makeStyles((theme: Theme) =>
       createStyles({
         jobRow: {
-          '& > *': {
+          "& > *": {
             background: `linear-gradient(90deg, ${theme.palette.success.light}, ${theme.palette.primary.light} 100%);`,
             backgroundAttachment: `fixed;`,
           },
         },
       })
     );
-  } else if (jobStatus?.buildStatus === 'ABORTED/RUNNING') {
+  } else if (jobStatus?.buildStatus === "ABORTED/RUNNING") {
     useStyles = makeStyles((theme: Theme) =>
       createStyles({
         jobRow: {
-          '& > *': {
+          "& > *": {
             background: `linear-gradient(90deg, #AAAAAA, ${theme.palette.primary.light} 100%);`,
             backgroundAttachment: `fixed;`,
           },
         },
       })
     );
-  } else if (jobStatus?.buildStatus === 'UNSTABLE/RUNNING') {
+  } else if (jobStatus?.buildStatus === "UNSTABLE/RUNNING") {
     useStyles = makeStyles((theme: Theme) =>
       createStyles({
         jobRow: {
-          '& > *': {
+          "& > *": {
             background: `linear-gradient(90deg, ${theme.palette.warning.light}, ${theme.palette.primary.light} 100%);`,
             backgroundAttachment: `fixed;`,
           },
@@ -167,48 +167,52 @@ const StateRow: FC<{
 
   return (
     <TableRow key={(jobRow.ci, updateStatus)} className={useStyles().jobRow}>
-      <TableCell component='th' scope='row' width='75px'>
-        {jobStatus?.buildStatus === '' ? (
+      <TableCell component="th" scope="row" width="75px">
+        {jobStatus?.buildStatus === "" ? (
           <CircularProgress />
         ) : pictures ? (
-          jobRow.type === 'JENKINS' ? (
-            <img className={classes.img} src='./jenkins.png' alt='jenkins' />
-          ) : jobRow.type === 'TRAVIS' ? (
-            <img className={classes.img} src='./travis.png' alt='travis' />
-          ) : jobRow.type === 'CIRCLE' ? (
-            <img className={classes.img} src='./circle.png' alt='circle' />
+          jobRow.type === "JENKINS" ? (
+            <img className={classes.img} src="./jenkins.png" alt="jenkins" />
+          ) : jobRow.type === "TRAVIS" ? (
+            <img className={classes.img} src="./travis.png" alt="travis" />
+          ) : jobRow.type === "CIRCLE" ? (
+            <img className={classes.img} src="./circle.png" alt="circle" />
           ) : (
-            <img className={classes.img} src='./github.png' alt='github' />
+            <img className={classes.img} src="./github.png" alt="github" />
           )
         ) : (
           `${jobRow.id}`
         )}
       </TableCell>
-      <TableCell>{jobStatus?.name}</TableCell>
+      <TableCell>
+        {jobStatus?.name}
+        {jobRow?.workflow !== null ? " (" + jobRow?.workflow + ")" : ""}
+      </TableCell>
+      <TableCell>{jobRow?.branch}</TableCell>
       <TableCell>
         <Link
-          color='inherit'
-          href={jobStatus?.jobUrl || '/'}
-          target='_blank'
-          rel='noreferrer'
+          color="inherit"
+          href={jobStatus?.jobUrl || "/"}
+          target="_blank"
+          rel="noreferrer"
         >
-          {jobStatus?.jobUrl === '' ? '' : 'Job'}
+          {jobStatus?.jobUrl === "" ? "" : "Job"}
         </Link>
       </TableCell>
       <TableCell>
         <Link
-          color='inherit'
-          href={jobStatus?.buildUrl || '/'}
-          target='blank'
-          rel='noreferrer'
+          color="inherit"
+          href={jobStatus?.buildUrl || "/"}
+          target="blank"
+          rel="noreferrer"
         >
-          {jobStatus?.buildUrl === '' ? '' : 'Build'}
+          {jobStatus?.buildUrl === "" ? "" : "Build"}
         </Link>
       </TableCell>
       <TableCell>{jobStatus?.buildNumber}</TableCell>
       <TableCell>
-        {jobStatus?.buildStatus === '' ? (
-          ''
+        {jobStatus?.buildStatus === "" ? (
+          ""
         ) : (
           <IconButton>
             <UpdateIcon onClick={handleUpdate} />

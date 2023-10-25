@@ -1,9 +1,9 @@
-import { Button, TableCell, TableRow } from '@material-ui/core';
-import React, { FC, ReactElement, useState } from 'react';
-import { JobModel } from '../model/Job.model';
-import { user } from '../model/User.model';
-import { DeleteModal } from './Modals/DeleteModal';
-import { JobModal } from './Modals/JobModal';
+import { Button, TableCell, TableRow } from "@material-ui/core";
+import React, { FC, ReactElement, useState } from "react";
+import { JobModel } from "../model/Job.model";
+import { user } from "../model/User.model";
+import { DeleteModal } from "./Modals/DeleteModal";
+import { JobModal } from "./Modals/JobModal";
 
 interface Props {
   jobRow: JobModel;
@@ -22,21 +22,21 @@ const SettingsRow: FC<Props> = ({ jobRow }): ReactElement => {
 
   return (
     <TableRow key={jobRow.ci}>
-      <TableCell component='th' scope='row'>
+      <TableCell component="th" scope="row">
         {jobRow.id}
       </TableCell>
       <TableCell>{jobRow.job}</TableCell>
       <TableCell>{jobRow.path}</TableCell>
       <TableCell>{jobRow.ci}</TableCell>
+      <TableCell>{jobRow.branch}</TableCell>
+      <TableCell>{jobRow.workflow}</TableCell>
       <TableCell></TableCell>
       <TableCell></TableCell>
       <TableCell></TableCell>
-      <TableCell></TableCell>
-      <TableCell></TableCell>
-      <TableCell align='center'>
+      <TableCell align="center">
         <Button
-          variant='contained'
-          color='primary'
+          variant="contained"
+          color="primary"
           onClick={toggleJobModal}
           disabled={!user.isLogin}
         >
@@ -45,13 +45,13 @@ const SettingsRow: FC<Props> = ({ jobRow }): ReactElement => {
         <JobModal
           isModalVisible={isJobModalVisible}
           onBackdropClick={toggleJobModal}
-          aim='Update'
+          aim="Update"
           job={jobRow}
         />
         <Button
-          style={{ marginLeft: '15px' }}
-          variant='contained'
-          color='secondary'
+          style={{ marginLeft: "15px" }}
+          variant="contained"
+          color="secondary"
           onClick={toggleDeleteModal}
           disabled={!user.isLogin}
         >
@@ -60,7 +60,7 @@ const SettingsRow: FC<Props> = ({ jobRow }): ReactElement => {
         <DeleteModal
           isModalVisible={isModalDeleteVisible}
           onBackdropClick={toggleDeleteModal}
-          aim='job'
+          aim="job"
           id={jobRow.id}
         />
       </TableCell>
