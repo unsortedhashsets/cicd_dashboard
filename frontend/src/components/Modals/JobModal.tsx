@@ -149,8 +149,8 @@ export const JobModal: React.FC<JobModalProps> = ({
           job: state.job,
           ci: state.ci,
           path: state.path,
-          branch: state.branch,
-          workflow: state.workflow,
+          branch: state.branch || null,
+          workflow: state.workflow || null,
         })
         .then(() => {
           dispatch({
@@ -266,7 +266,7 @@ export const JobModal: React.FC<JobModalProps> = ({
                   fullWidth
                   id="job_branch"
                   label="Job branch for Travis,Circle and GH (By default main)"
-                  placeholder={state.branch || "main"}
+                  placeholder={state.branch}
                   defaultValue={state.branch}
                   margin="normal"
                   onChange={handleBranchChange}

@@ -1,6 +1,5 @@
 import requests
 import json
-import urllib
 
 passedStatuses = (
     'passed',           # TravisCI
@@ -99,7 +98,7 @@ def getGitHubJobStatus(url, token):
 
 
 def getJenkinsJobStatus(url):
-    response = requests.get(urllib.parse.quote_plus(url),
+    response = requests.get(url.replace(' ', '%20'),
                             headers={'Accept': 'application/json'},
                             verify=False,
                             timeout=10)
@@ -132,7 +131,7 @@ def processCI(job, token):
             buildUrl = jobStatus[0]['build_url']
         elif job.ci.type == "GITHUB":
             jobUrl = f"https://github.com/{job.path}/{job}/actions"
-            apiurl = f"https://api.github.com/repos/{job.path}/{job}/actions/runs?branch={job.branch}&per_page=2"
+            apiurl = f"https://api.github.com/repos/{job.path}/{job}/actions/runs?branch={job.branch}&per_page=10"
             jobStatus = getGitHubJobStatus(apiurl, token)
             for wr in jobStatus['workflow_runs']:
                 if wr['name'] == job.workflow:
