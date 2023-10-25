@@ -133,7 +133,7 @@ export const JobModal: React.FC<JobModalProps> = ({
   const [state, dispatch] = useReducer(reducer, {
     job: job?.job || "name",
     path: job?.path || "path",
-    branch: job?.branch || "branch",
+    branch: job?.branch || "",
     workflow: job?.workflow || "",
     ci: job?.ci.toString() || ci?.id.toString() || "0",
     isButtonDisabled: false,
