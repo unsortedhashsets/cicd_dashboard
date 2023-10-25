@@ -3,8 +3,8 @@ export interface JobModel {
   job: string;
   path: string;
   ci: number;
-  branch: string;
-  workflow: string;
+  branch: string | null;
+  workflow: string | null;
   // Special properties for group view
   type: string;
   access: string;

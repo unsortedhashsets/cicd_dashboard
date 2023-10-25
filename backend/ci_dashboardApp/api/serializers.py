@@ -18,6 +18,8 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class JobSerializer(serializers.ModelSerializer):
+    branch = serializers.CharField(allow_blank=True, required=False)
+    workflow = serializers.CharField(allow_blank=True, required=False)
 
     class Meta:
         model = Job
