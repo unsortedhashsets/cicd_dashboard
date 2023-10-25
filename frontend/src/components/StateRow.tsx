@@ -186,7 +186,9 @@ const StateRow: FC<{
       </TableCell>
       <TableCell>
         {jobStatus?.name}
-        {jobRow?.workflow !== null ? " (" + jobRow?.workflow + ")" : ""}
+        {jobRow?.workflow !== null && jobRow?.workflow !== ""
+          ? " (" + jobRow?.workflow + ")"
+          : ""}
       </TableCell>
       <TableCell>{jobRow?.branch}</TableCell>
       <TableCell>
