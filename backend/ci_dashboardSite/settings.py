@@ -32,6 +32,7 @@ SECRET_KEY = str(os.getenv('SECRET_KEY'))
 # Admin level users
 ADMINS_LIST = json.loads(os.environ['ADMINS_LIST'])
 STAFF_LIST = json.loads(os.environ['STAFF_LIST'])
+
 # DB ENVS
 if os.getenv("BACKEND_LOCAL") is None:
     POSTGRES_DB = str(os.getenv('POSTGRES_DB'))
@@ -77,9 +78,11 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
 ]
 ALLOWED_HOSTS = ['*']
 CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_ORIGINS = [
-    "https://fusetools-dashboard.apps.ocp4.prod.psi.redhat.com",
-]
+ROUTE_FQDN = str(os.getenv('ROUTE_FQDN'))
+if ROUTE_FQDN is not None:
+    CSRF_TRUSTED_ORIGINS = [
+        ROUTE_FQDN,
+    ]
 CORS_ALLOW_CREDENTIALS = True
 CSRF_COOKIE_NAME = "csrftoken"
 ROOT_URLCONF = 'ci_dashboardSite.urls'
